@@ -1,0 +1,2441 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Builder — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0a0c0a; --panel:#111511; --panel2:#161a16; --panel3:#1c221c;
+  --border:#2a3a2a; --border2:#3a4e3a; --dim:#4a6a4a; --mid:#7a9a7a;
+  --text:#ddeedd; --cream:#c8dcc8; --faint:#8aaa8a;
+  --green:#00b86a; --green2:#00e87a; --green3:#44ff88;
+  --amber:#cc8800; --amber2:#ffaa00; --red:#cc2200; --red2:#ff4422;
+  --blue:#2266aa; --blue2:#4488cc;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.5;min-height:100vh;}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:var(--dim);}
+
+.topnav{position:sticky;top:0;z-index:600;height:54px;background:rgba(10,12,10,.98);border-bottom:1px solid var(--border2);display:flex;align-items:center;padding:0 20px;gap:0;}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:var(--green2);margin-right:32px;white-space:nowrap;}
+.nav-logo em{color:var(--amber2);font-style:normal;}
+.nav-tabs{display:flex;flex:1;}
+.ntab{height:54px;padding:0 20px;background:none;border:none;border-bottom:2px solid transparent;color:var(--mid);font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;cursor:pointer;transition:all .18s;white-space:nowrap;}
+.ntab:hover{color:var(--text);}
+.ntab.active{color:var(--green2);border-bottom-color:var(--green2);}
+.nav-right{display:flex;gap:8px;margin-left:auto;}
+
+.btn-primary{background:var(--green);color:#000;border:none;padding:8px 22px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.btn-primary:hover{background:var(--green2);transform:translateY(-1px);}
+.btn-ghost{background:none;border:1px solid var(--border2);color:var(--mid);padding:8px 16px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;cursor:pointer;transition:all .15s;}
+.btn-ghost:hover{border-color:var(--amber2);color:var(--amber2);}
+
+.app{display:flex;min-height:calc(100vh - 54px);}
+
+.sidebar{width:210px;flex-shrink:0;background:var(--panel);border-right:1px solid var(--border);padding:16px 0;position:sticky;top:54px;height:calc(100vh - 54px);overflow-y:auto;}
+.sb-group{margin-bottom:20px;}
+.sb-label{display:block;padding:0 14px;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:4px;color:var(--dim);margin-bottom:4px;text-transform:uppercase;}
+.sb-link{display:block;padding:9px 14px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--faint);cursor:pointer;transition:all .15s;border-left:2px solid transparent;text-decoration:none;}
+.sb-link:hover{color:var(--text);background:var(--panel2);}
+.sb-link.active{color:var(--green2);border-left-color:var(--green2);background:rgba(0,232,122,.04);}
+.sb-stat{padding:8px 14px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--amber2);line-height:1.6;}
+.sb-phrase{padding:4px 14px 12px;font-family:'Bebas Neue',sans-serif;font-size:13px;color:var(--green3);letter-spacing:2px;word-break:break-all;line-height:1.4;}
+
+.main{flex:1;padding:28px 36px;overflow-y:auto;max-width:940px;}
+.tpanel{display:none;} .tpanel.active{display:block;}
+
+.card{background:var(--panel);border:1px solid var(--border);margin-bottom:22px;}
+.card-head{padding:12px 18px;background:var(--panel2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.card-title{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:4px;color:var(--amber2);}
+.card-body{padding:18px;}
+
+.badge{padding:2px 8px;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;border:1px solid;}
+.badge-green{border-color:var(--green);color:var(--green2);background:rgba(0,184,106,.08);}
+.badge-amber{border-color:var(--amber);color:var(--amber2);background:rgba(204,136,0,.08);}
+.badge-red{border-color:var(--red);color:var(--red2);background:rgba(204,34,0,.08);}
+.badge-blue{border-color:var(--blue);color:var(--blue2);background:rgba(34,102,170,.08);}
+
+.frow{display:flex;gap:14px;margin-bottom:14px;flex-wrap:wrap;}
+.fg{display:flex;flex-direction:column;flex:1;min-width:180px;}
+.fg.full{flex:100%;min-width:100%;}
+.fg.half{flex:0 0 calc(50% - 7px);min-width:160px;}
+label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--mid);margin-bottom:5px;text-transform:uppercase;}
+.hint{font-size:12px;color:var(--dim);margin-top:5px;line-height:1.6;}
+.hint strong{color:var(--cream);}
+
+input[type="text"],input[type="number"],textarea,select{background:var(--panel3);border:1px solid var(--border2);color:var(--text);padding:9px 12px;font-family:'IBM Plex Mono',monospace;font-size:13px;outline:none;transition:border-color .18s;width:100%;}
+input:focus,textarea:focus,select:focus{border-color:var(--green);box-shadow:0 0 0 2px rgba(0,184,106,.12);}
+textarea{resize:vertical;min-height:80px;line-height:1.6;}
+select{cursor:pointer;}
+select option{background:var(--panel2);}
+input[type="color"]{width:48px;height:38px;padding:2px;background:var(--panel3);border:1px solid var(--border2);cursor:pointer;}
+input[type="color"]:focus{border-color:var(--green);}
+.divider{height:1px;background:var(--border);margin:16px 0;}
+
+/* phrase hero */
+.phrase-hero{background:var(--panel2);border:1px solid var(--border2);padding:20px;margin-bottom:16px;display:flex;flex-direction:column;gap:10px;}
+.phrase-input-row{display:flex;gap:10px;align-items:flex-end;}
+.phrase-input-row input{flex:1;font-size:16px!important;letter-spacing:2px;padding:12px 14px!important;border-color:var(--green)!important;color:var(--green3)!important;}
+.phrase-stats{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:4px;}
+.stat-pill{background:rgba(0,184,106,.1);border:1px solid var(--green);padding:3px 10px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--green2);letter-spacing:2px;}
+.stat-warn{background:rgba(204,136,0,.1);border:1px solid var(--amber);padding:3px 10px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--amber2);letter-spacing:2px;}
+.phrase-words{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+.phrase-word-chip{display:flex;align-items:center;gap:6px;background:var(--panel3);border:1px solid var(--border2);padding:4px 10px 4px 8px;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;color:var(--text);}
+.chip-swatch{width:16px;height:16px;border-radius:2px;border:1px solid rgba(255,255,255,.2);cursor:pointer;flex-shrink:0;}
+.chip-len{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);margin-left:2px;}
+
+/* word color table */
+.wct{display:flex;flex-direction:column;gap:6px;}
+.wct-row{display:flex;align-items:center;gap:10px;background:var(--panel3);border:1px solid var(--border);padding:8px 12px;}
+.wct-word{font-family:'Bebas Neue',sans-serif;font-size:20px;min-width:140px;}
+.wct-len{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim);}
+.wct-empty{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);padding:12px 0;}
+
+/* emoji picker */
+.emoji-area{border:1px solid var(--border2);background:var(--panel3);padding:12px;min-height:48px;cursor:text;font-size:24px;line-height:1.5;letter-spacing:3px;outline:none;}
+.emoji-area:focus{border-color:var(--green);}
+.emoji-grid{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px;max-height:160px;overflow-y:auto;}
+.emoji-btn{background:var(--panel3);border:1px solid var(--border);font-size:20px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .12s;border-radius:2px;}
+.emoji-btn:hover{background:var(--panel2);border-color:var(--green);transform:scale(1.15);}
+.emoji-cats{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;}
+.emoji-cat-btn{background:none;border:1px solid var(--border2);color:var(--mid);padding:4px 10px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;cursor:pointer;transition:all .15s;}
+.emoji-cat-btn:hover,.emoji-cat-btn.active{border-color:var(--amber2);color:var(--amber2);background:rgba(255,170,0,.06);}
+
+/* question editor */
+.qe-controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+.qe-header{display:grid;grid-template-columns:18px 32px 1fr 1fr 1fr 32px 28px;gap:6px;padding:4px 0;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--dim);}
+.q-list{display:flex;flex-direction:column;gap:6px;}
+.q-row{display:grid;grid-template-columns:18px 32px 1fr 1fr 1fr 32px 28px;gap:6px;align-items:start;background:var(--panel3);border:1px solid var(--border);padding:8px 10px;transition:border-color .15s,opacity .15s,transform .15s;cursor:default;}
+.q-row:hover{border-color:var(--border2);}
+.q-row.dragging{opacity:.4;border:1px dashed var(--green);background:var(--panel2);}
+.q-row.drag-over{border-top:2px solid var(--green);background:rgba(0,255,65,.04);}
+.q-drag-handle{display:flex;flex-direction:column;gap:3px;justify-content:center;align-items:center;padding-top:8px;cursor:grab;opacity:.3;transition:opacity .15s;flex-shrink:0;}
+.q-drag-handle:hover{opacity:1;}
+.q-drag-handle:active{cursor:grabbing;}
+.q-drag-handle span{display:block;width:14px;height:2px;background:var(--green2);}
+.q-num{font-family:'Bebas Neue',sans-serif;font-size:17px;color:var(--dim);text-align:center;padding-top:6px;}
+.q-letter-box{width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:22px;border:1px solid var(--border2);color:var(--green3);background:rgba(0,255,65,.06);flex-shrink:0;margin-top:2px;}
+.q-row input,.q-row textarea{background:#080a08;border:1px solid #1a2a1a;color:var(--text);padding:7px 9px;font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none;width:100%;transition:border-color .15s;}
+.q-row input{height:32px;}
+.q-row input:focus,.q-row textarea:focus{border-color:var(--green);}
+.btn-del{background:none;border:1px solid #1a0808;color:#441818;width:26px;height:26px;font-size:13px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;margin-top:3px;flex-shrink:0;}
+.btn-del:hover{border-color:var(--red2);color:var(--red2);background:#1a0000;}
+
+.color-grid{display:flex;gap:10px;flex-wrap:wrap;}
+.color-chip{display:flex;flex-direction:column;align-items:center;gap:5px;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--dim);white-space:nowrap;}
+
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:2000;align-items:center;justify-content:center;padding:20px;}
+.modal-bg.open{display:flex;}
+.modal-box{background:var(--panel);border:1px solid var(--green);max-width:640px;width:100%;}
+.modal-head{background:var(--panel2);border-bottom:1px solid var(--border);padding:12px 18px;display:flex;align-items:center;justify-content:space-between;}
+.modal-title{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:4px;color:var(--green2);}
+.modal-close{background:none;border:none;color:var(--dim);font-size:22px;cursor:pointer;}
+.modal-close:hover{color:var(--text);}
+.modal-body{padding:18px;}
+.modal-foot{padding:12px 18px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;}
+
+/* confirm dialog */
+.confirm-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:3000;align-items:center;justify-content:center;padding:20px;}
+.confirm-bg.open{display:flex;}
+.confirm-box{background:var(--panel);border:1px solid var(--amber);max-width:420px;width:100%;padding:24px;}
+.confirm-title{font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:3px;color:var(--amber2);margin-bottom:12px;}
+.confirm-msg{font-size:14px;color:var(--cream);line-height:1.7;margin-bottom:20px;}
+.confirm-btns{display:flex;gap:10px;justify-content:flex-end;}
+
+.toast{position:fixed;bottom:20px;right:20px;z-index:4000;background:var(--green);color:#000;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;padding:10px 18px;transform:translateY(70px);opacity:0;transition:all .3s cubic-bezier(.175,.885,.32,1.275);pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.err{background:var(--red2);color:#fff;}
+
+.preset-strip{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.preset-btn{background:var(--panel3);border:1px solid var(--border2);color:var(--faint);padding:6px 12px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;cursor:pointer;transition:all .15s;}
+.preset-btn:hover,.preset-btn.active{border-color:var(--amber2);color:var(--amber2);background:rgba(255,170,0,.06);}
+
+/* validation banner */
+.val-banner{background:rgba(204,34,0,.1);border:1px solid var(--red);padding:10px 14px;margin-bottom:14px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--red2);line-height:1.7;display:none;}
+.val-banner.show{display:block;}
+
+/* ── AI modal tabs ── */
+.ai-tab{background:none;border:none;border-bottom:2px solid transparent;color:var(--mid);font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;padding:8px 16px;cursor:pointer;transition:all .15s;}
+.ai-tab:hover{color:var(--text);}
+.ai-tab.active{color:var(--amber2);border-bottom-color:var(--amber2);}
+
+/* ── Rich text toolbar ── */
+.rt-wrap{position:relative;display:flex;flex-direction:column;gap:0;width:100%;}
+.rt-toolbar{display:flex;align-items:center;gap:3px;background:var(--panel2);border:1px solid var(--border2);border-bottom:none;padding:4px 6px;flex-wrap:wrap;opacity:0;pointer-events:none;transition:opacity .15s;}
+.rt-wrap:focus-within .rt-toolbar{opacity:1;pointer-events:all;}
+.rt-toolbar button,.rt-toolbar select{background:none;border:1px solid transparent;color:var(--mid);font-family:'Share Tech Mono',monospace;font-size:10px;padding:2px 6px;cursor:pointer;transition:all .12s;height:22px;line-height:1;}
+.rt-toolbar button:hover{border-color:var(--border2);color:var(--text);background:var(--panel3);}
+.rt-toolbar button.rt-active{border-color:var(--green);color:var(--green2);background:rgba(0,184,106,.1);}
+.rt-toolbar select{padding:1px 4px;font-size:10px;height:22px;color:var(--mid);}
+.rt-toolbar select:focus{border-color:var(--green);}
+.rt-sep{width:1px;height:16px;background:var(--border);margin:0 3px;flex-shrink:0;}
+.rt-colorpop{position:absolute;top:calc(100% + 4px);left:0;z-index:500;background:var(--panel2);border:1px solid var(--border2);padding:8px;display:none;flex-wrap:wrap;gap:4px;width:200px;box-shadow:0 4px 16px rgba(0,0,0,.6);}
+.rt-colorpop.open{display:flex;}
+.rt-swatch{width:20px;height:20px;border:1px solid rgba(255,255,255,.1);cursor:pointer;border-radius:2px;transition:transform .1s;}
+.rt-swatch:hover{transform:scale(1.25);border-color:#fff;}
+.rt-colorpop input[type=color]{width:28px;height:20px;padding:1px;cursor:pointer;}
+.rt-wrap textarea,.rt-wrap input{border-radius:0;}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="nav-logo">QUIZ <em>BUILDER</em></div>
+  <div class="nav-tabs">
+    <button class="ntab active" onclick="tab('inhoud')">INHOUD</button>
+    <button class="ntab" onclick="tab('startpagina')" style="color:var(--amber2)">🖥 STARTPAGINA</button>
+    <button class="ntab" onclick="tab('layout')">LAYOUT</button>
+    <button class="ntab" onclick="tab('vragen')">VRAGEN</button>
+    <button class="ntab" onclick="tab('eindscherm')">EINDSCHERM</button>
+    <button class="ntab" onclick="tab('preview')" style="color:var(--amber2)">👁 PREVIEW</button>
+  </div>
+  <div class="nav-right">
+    <button class="btn-ghost" onclick="confirmReset()">↺ RESET</button>
+    <button class="btn-primary" onclick="generate()">⬇ GENEREER HTML</button>
+  </div>
+</nav>
+
+<div class="app">
+<aside class="sidebar">
+  <div class="sb-group">
+    <span class="sb-label">TABBLADEN</span>
+    <a class="sb-link active" onclick="tab('inhoud')">Inhoud & teksten</a>
+    <a class="sb-link" onclick="tab('layout')">Kleuren & stijl</a>
+    <a class="sb-link" onclick="tab('vragen')">Vragen editor</a>
+    <a class="sb-link" onclick="tab('eindscherm')">Eindscherm</a>
+    <a class="sb-link" onclick="tab('preview')" style="color:var(--amber2)">👁 Preview eindscherm</a>
+  </div>
+  <div class="sb-group">
+    <span class="sb-label">ACTIES</span>
+    <a class="sb-link" onclick="generate()">⬇ Genereer HTML</a>
+    <a class="sb-link" onclick="openImport()">↑ Importeer vragen</a>
+    <a class="sb-link" onclick="confirmReset()">↺ Reset demo</a>
+  </div>
+  <div class="sb-group">
+    <span class="sb-label">STATUS</span>
+    <div class="sb-stat" id="sbStat">– letters / – vragen</div>
+    <div class="sb-phrase" id="sbPhrase">—</div>
+  </div>
+</aside>
+
+<main class="main">
+
+<!-- TAB INHOUD -->
+<div class="tpanel active" id="tab-inhoud">
+
+  <div class="card">
+    <div class="card-head">
+      <div class="card-title">// GEHEIME ZIN — BASIS VAN DE QUIZ</div>
+      <span class="badge badge-red">STAP 1 — BEGIN HIER</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-hero">
+        <div class="frow">
+          <div class="fg full">
+            <label>De geheime zin die de speler moet reconstrueren</label>
+            <div class="phrase-input-row">
+              <input type="text" id="p_phrase"
+                placeholder="Typ hier je geheime zin, bijv: HET GEHEIME WOORD"
+                onchange="onPhraseCommit()" onblur="onPhraseCommit()">
+            </div>
+            <div class="hint">Druk <strong>Enter</strong> of klik buiten het vak om de zin te bevestigen. Elke letter (geen spaties) = één vraag.</div>
+          </div>
+        </div>
+        <div class="phrase-stats" id="phraseStats" style="display:none">
+          <span class="stat-pill" id="statLetters">0 letters</span>
+          <span class="stat-pill" id="statWords">0 woorden</span>
+          <span class="stat-pill" id="statVragen">0 vragen nodig</span>
+          <span class="stat-warn" id="statWarn" style="display:none">⚠ vragen komen niet overeen</span>
+        </div>
+        <div class="phrase-words" id="phraseWords"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-title">// INTRO SCHERM (STARTPAGINA)</div><span class="badge badge-green">EERSTE INDRUK</span></div>
+    <div class="card-body">
+      <div class="frow">
+        <div class="fg full">
+          <label>Bovenstempel — korte waarschuwingstekst</label>
+          <input type="text" id="c_stamp" placeholder="bijv. QUIZ // TOP GEHEIM — of laat leeg">
+          <div class="hint">Kleine tekst bovenaan, in rood. Laat leeg om te verbergen.</div>
+        </div>
+      </div>
+      <div class="frow">
+        <div class="fg half"><label>Grote titel — regel 1</label><input type="text" id="c_t1" placeholder="bijv. GELUKKIGE of WELKOM BIJ"></div>
+        <div class="fg half"><label>Grote titel — regel 2 (accentkleur)</label><input type="text" id="c_t2" placeholder="bijv. VERJAARDAG of DE QUIZ"></div>
+      </div>
+      <div class="frow">
+        <div class="fg full"><label>Subtitel / tagline</label><input type="text" id="c_name" placeholder="bijv. GEEN CADEAU. EEN UITDAGING. of RAAD DE GEHEIME BESTEMMING"></div>
+      </div>
+      <div class="frow">
+        <div class="fg full"><label>Intro-beschrijving (bodytekst op startpagina)</label><textarea id="c_desc" placeholder="bijv. Beantwoord alle vragen. Elke vraag levert een letter op. Sorteer de letters aan het einde tot de geheime boodschap.&#10;&#10;Succes!"></textarea></div>
+      </div>
+      <div class="frow">
+        <div class="fg half"><label>Start-knop tekst</label><input type="text" id="c_btn" placeholder="bijv. ▶ START DE QUIZ"></div>
+        <div class="fg half"><label>Quiz-logo tekst (topbalk)</label><input type="text" id="c_logo" placeholder="bijv. QUIZ 2025 of jouw naam"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-title">// BOOT-SCHERM TEKSTEN</div><span class="badge badge-amber">OPSTARTANIMATIE</span></div>
+    <div class="card-body">
+      <div class="hint" style="margin-bottom:12px;">Deze teksten verschijnen één voor één tijdens de typewriter boot-animatie (alleen zichtbaar als boot-animatie <strong>AAN</strong> staat).</div>
+      <div class="frow">
+        <div class="fg half"><label>Regel 1 (grijs)</label><input type="text" id="b_r1" placeholder="INITIALISEREN..."></div>
+        <div class="fg half"><label>Regel 2 (grijs)</label><input type="text" id="b_r2" placeholder="VERBINDING BEVEILIGD"></div>
+      </div>
+      <div class="frow">
+        <div class="fg half"><label>Regel 3 — rood/waarschuwing</label><input type="text" id="b_r3" placeholder="CLASSIFICATIE: STRIKT GEHEIM"></div>
+        <div class="fg half"><label>Briefing-knop tekst</label><input type="text" id="b_btn" placeholder="▶ &nbsp; INITIALISEER"></div>
+      </div>
+      <div class="frow">
+        <div class="fg full"><label>Briefing-tekst (blok onder boot)</label><textarea id="b_brief" style="min-height:80px" placeholder="Je ontvangt 15 vragen. Elke vraag levert één letter op.&#10;&#10;Ontcijfer aan het einde de geheime boodschap door de letters op de juiste plek te schuiven."></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-title">// QUIZ — LABELS EN KNOPPEN</div><span class="badge badge-amber">TIJDENS HET SPEL</span></div>
+    <div class="card-body">
+      <div class="frow">
+        <div class="fg half"><label>Label boven letterbalk</label><input type="text" id="c_strip" placeholder="bijv. JOUW LETTERS"></div>
+        <div class="fg half"><label>Bevestig-knop</label><input type="text" id="c_ok" placeholder="bijv. OK"></div>
+      </div>
+      <div class="frow">
+        <div class="fg half"><label>Volgende vraag knop</label><input type="text" id="c_next" placeholder="bijv. VOLGENDE VRAAG ▶"></div>
+        <div class="fg half"><label>Naar sorteer-scherm (laatste vraag)</label><input type="text" id="c_tosort" placeholder="bijv. 🔀 SORTEER DE LETTERS ▶"></div>
+      </div>
+      <div class="frow">
+        <div class="fg full"><label>Hint-knop tekst</label><input type="text" id="c_hint" placeholder="bijv. ▾ Hint tonen"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-title">// SORTEER-SCHERM — LABELS</div><span class="badge badge-amber">LETTER SORTERING</span></div>
+    <div class="card-body">
+      <div class="frow"><div class="fg full"><label>Titel sorteer-scherm</label><input type="text" id="c_scrt" placeholder="bijv. ZET DE LETTERS OP DE JUISTE PLEK"></div></div>
+      <div class="frow"><div class="fg full"><label>Uitleg-tekst (ook in regels-blok op intro)</label><textarea id="c_scri" style="min-height:60px" placeholder="bijv. Eerst alle klinkers (A, E, I, O) op de juiste plek. Daarna worden medeklinkers ontgrendeld."></textarea></div></div>
+      <div class="frow">
+        <div class="fg half"><label>Fase 1 badge</label><input type="text" id="c_f1" placeholder="bijv. FASE 1 — KLINKERS"></div>
+        <div class="fg half"><label>Fase 1 instructietekst</label><input type="text" id="c_f1t" placeholder="bijv. Zet eerst alle klinkers op de juiste plek."></div>
+      </div>
+      <div class="frow">
+        <div class="fg half"><label>Fase 2 badge</label><input type="text" id="c_f2" placeholder="bijv. FASE 2 — MEDEKLINKERS"></div>
+        <div class="fg half"><label>Fase 2 instructietekst</label><input type="text" id="c_f2t" placeholder="bijv. Goed! Medeklinkers zijn nu ontgrendeld."></div>
+      </div>
+      <div class="frow">
+        <div class="fg half"><label>Reset-knop</label><input type="text" id="c_rst" placeholder="bijv. ↺ ALLES TERUGGOOIEN"></div>
+        <div class="fg half"><label>"Woord voltooid" tekst</label><input type="text" id="c_wdone" placeholder="bijv. ✓ GOED!"></div>
+      </div>
+    </div>
+  </div>
+</div><!-- /tab-inhoud -->
+
+<!-- TAB STARTPAGINA -->
+<div class="tpanel" id="tab-startpagina">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;">
+
+    <!-- LEFT: controls -->
+    <div>
+      <div class="card">
+        <div class="card-head"><div class="card-title">// BOOT-SCHERM</div><span class="badge badge-amber">OPSTARTANIMATIE</span></div>
+        <div class="card-body">
+          <div class="frow"><div class="fg full"><label>Regel 1</label><input type="text" id="sp_r1" placeholder="INITIALISEREN..." oninput="refreshStartPreview()"></div></div>
+          <div class="frow"><div class="fg full"><label>Regel 2</label><input type="text" id="sp_r2" placeholder="VERBINDING BEVEILIGD" oninput="refreshStartPreview()"></div></div>
+          <div class="frow"><div class="fg full"><label>Rode waarschuwingsregel</label><input type="text" id="sp_r3" placeholder="CLASSIFICATIE: STRIKT GEHEIM" oninput="refreshStartPreview()"></div></div>
+          <div class="frow">
+            <div class="fg half"><label>Knoptekst</label><input type="text" id="sp_btn" placeholder="▶  INITIALISEER" oninput="refreshStartPreview()"></div>
+            <div class="fg half"><label>Stempel boven knop</label>
+              <select id="sp_stamp_style" onchange="refreshStartPreview()">
+                <option value="none">— Geen stempel —</option>
+                <option value="red_border">⬜ Rood kader</option>
+                <option value="red_fill">🔴 Rood gevuld</option>
+                <option value="green_border">⬜ Groen kader</option>
+                <option value="diagonal">↗ Diagonaal stempel</option>
+              </select>
+            </div>
+          </div>
+          <div class="frow"><div class="fg full"><label>Stempel tekst</label><input type="text" id="sp_stamp_txt" placeholder="TOP SECRET" oninput="refreshStartPreview()"></div></div>
+          <div class="frow"><div class="fg full"><label>Briefing tekst</label><textarea id="sp_brief" style="min-height:90px" oninput="refreshStartPreview()" placeholder="Je ontvangt 15 vragen. Elke vraag levert één letter op.&#10;&#10;FOUT ANTWOORD → vraag geblokkeerd."></textarea></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><div class="card-title">// INTRO-SCHERM</div><span class="badge badge-green">NA BOOT</span></div>
+        <div class="card-body">
+          <div class="frow">
+            <div class="fg half"><label>Stempel/waarschuwing (rood klein)</label><input type="text" id="sp_istamp" placeholder="QUIZ // TOP GEHEIM" oninput="refreshStartPreview()"></div>
+            <div class="fg half"><label>Stempel stijl</label>
+              <select id="sp_istamp_style" onchange="refreshStartPreview()">
+                <option value="none">— Geen —</option>
+                <option value="outline">Kader (outline)</option>
+                <option value="filled">Gevuld blok</option>
+                <option value="diagonal">Diagonaal</option>
+              </select>
+            </div>
+          </div>
+          <div class="frow">
+            <div class="fg half"><label>Titel regel 1 (wit)</label><input type="text" id="sp_t1" placeholder="GEHEIME" oninput="refreshStartPreview()"></div>
+            <div class="fg half"><label>Titel regel 2 (accentkleur)</label><input type="text" id="sp_t2" placeholder="QUIZ" oninput="refreshStartPreview()"></div>
+          </div>
+          <div class="frow"><div class="fg full"><label>Subtitel</label><input type="text" id="sp_name" placeholder="GEEN CADEAU. EEN UITDAGING." oninput="refreshStartPreview()"></div></div>
+          <div class="frow"><div class="fg full"><label>Beschrijving</label><textarea id="sp_desc" style="min-height:70px" oninput="refreshStartPreview()" placeholder="Beantwoord alle vragen..."></textarea></div></div>
+          <div class="frow">
+            <div class="fg half"><label>Start-knop tekst</label><input type="text" id="sp_startbtn" placeholder="▶ START DE QUIZ" oninput="refreshStartPreview()"></div>
+            <div class="fg half"><label>Lettertype titels</label>
+              <select id="sp_font" onchange="refreshStartPreview()">
+                <option value="'Bebas Neue',sans-serif">Bebas Neue (militair)</option>
+                <option value="'Impact',sans-serif">Impact (vet)</option>
+                <option value="'Share Tech Mono',monospace">Share Tech Mono</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="applyStartpaginaToMain()" style="width:100%;margin-top:4px;">✔ TOEPASSEN OP QUIZ</button>
+    </div>
+
+    <!-- RIGHT: preview -->
+    <div style="position:sticky;top:70px;">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">// LIVE PREVIEW</div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn-ghost" style="font-size:10px;padding:4px 10px;" onclick="document.getElementById('spPrevBoot').style.display='flex';document.getElementById('spPrevIntro').style.display='none';">BOOT</button>
+            <button class="btn-ghost" style="font-size:10px;padding:4px 10px;" onclick="document.getElementById('spPrevBoot').style.display='none';document.getElementById('spPrevIntro').style.display='flex';">INTRO</button>
+          </div>
+        </div>
+        <div class="card-body" style="padding:0;overflow:hidden;">
+          <div id="startPreviewWrap" style="background:#030803;min-height:500px;font-family:'Share Tech Mono',monospace;position:relative;">
+            <!-- BOOT preview -->
+            <div id="spPrevBoot" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px;padding:28px 20px;text-align:center;">
+              <div id="spBootLines" style="font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px;margin-bottom:20px;width:100%;max-width:360px;text-align:left;"></div>
+              <div style="width:60%;height:1px;background:#1a2a1a;margin:16px auto;"></div>
+              <div id="spBriefBlock" style="border:1px solid #1e2e1e;background:#050805;padding:14px 16px;margin-bottom:18px;font-size:11px;color:#888;line-height:1.9;max-width:360px;text-align:left;"></div>
+              <div id="spStampWrap" style="margin-bottom:14px;"></div>
+              <button id="spBootBtn" style="background:transparent;border:1px solid #00ff41;color:#00ff41;padding:12px 36px;font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:4px;cursor:pointer;">▶ &nbsp; INITIALISEER</button>
+            </div>
+            <!-- INTRO preview -->
+            <div id="spPrevIntro" style="display:none;flex-direction:column;align-items:center;justify-content:center;min-height:500px;padding:28px 20px;text-align:center;">
+              <div id="spIStampWrap" style="margin-bottom:12px;"></div>
+              <div id="spIBig" style="font-size:clamp(28px,5vw,54px);line-height:1.05;letter-spacing:2px;margin-bottom:10px;"></div>
+              <div id="spIName" style="font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:4px;color:#888;margin-bottom:18px;"></div>
+              <div id="spIDesc" style="max-width:360px;font-family:'Share Tech Mono',monospace;font-size:12px;color:#666;line-height:1.8;margin-bottom:20px;white-space:pre-line;"></div>
+              <button id="spIBtn" style="background:#00ff41;color:#000;border:none;padding:12px 36px;font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:4px;cursor:pointer;">▶ START DE QUIZ</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /tab-startpagina -->
+
+<!-- TAB LAYOUT -->
+<div class="tpanel" id="tab-layout">
+  <div class="card">
+    <div class="card-head"><div class="card-title">// STIJL PRESET</div><span class="badge badge-green">SNEL INSTELLEN</span></div>
+    <div class="card-body">
+      <div class="preset-strip">
+        <button class="preset-btn active" onclick="applyPreset('cia',this)">Militair / CIA</button>
+        <button class="preset-btn" onclick="applyPreset('classic',this)">Classic Rood/Goud</button>
+        <button class="preset-btn" onclick="applyPreset('navy',this)">Navy Blauw</button>
+        <button class="preset-btn" onclick="applyPreset('amber',this)">Amber Terminal</button>
+        <button class="preset-btn" onclick="applyPreset('purple',this)">Purple Neon</button>
+      </div>
+      <div class="color-grid">
+        <div class="color-chip"><input type="color" id="l_bg" value="#060808"><span>Achtergrond</span></div>
+        <div class="color-chip"><input type="color" id="l_a1" value="#00ff41"><span>Primair</span></div>
+        <div class="color-chip"><input type="color" id="l_a2" value="#ff9900"><span>Secundair</span></div>
+        <div class="color-chip"><input type="color" id="l_red" value="#cc2200"><span>Rood</span></div>
+        <div class="color-chip"><input type="color" id="l_txt" value="#c8d8c0"><span>Vraagtekst</span></div>
+        <div class="color-chip"><input type="color" id="l_tile" value="#00ff41"><span>Tiles</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-title">// TYPOGRAFIE</div><span class="badge badge-amber">OPMAAK</span></div>
+    <div class="card-body">
+      <div class="frow">
+        <div class="fg half"><label>Titel/display font</label><select id="l_ft"><option value="'Bebas Neue',sans-serif">Bebas Neue (militair)</option><option value="'Impact',sans-serif">Impact (vet)</option><option value="'Share Tech Mono',monospace">Share Tech Mono</option></select></div>
+        <div class="fg half"><label>Vraag/body font</label><select id="l_fb"><option value="'IBM Plex Mono',monospace">IBM Plex Mono (tech)</option><option value="'Share Tech Mono',monospace">Share Tech Mono</option><option value="'IBM Plex Sans',sans-serif">IBM Plex Sans (clean)</option></select></div>
+      </div>
+      <div class="frow">
+        <div class="fg half"><label>Vraagtekst grootte</label><select id="l_qs"><option value="13px">Klein (13px)</option><option value="15px" selected>Normaal (15px)</option><option value="17px">Groot (17px)</option><option value="19px">Extra groot (19px)</option></select></div>
+        <div class="fg half"><label>Watermark op vragen</label><select id="l_wm"><option value="CLASSIFIED">CLASSIFIED</option><option value="TOP SECRET">TOP SECRET</option><option value="GEHEIM">GEHEIM</option><option value="">— Uitgeschakeld —</option></select></div>
+      </div>
+      <div class="frow">
+        <div class="fg half"><label>CRT scanlines</label><select id="l_sl"><option value="1">Aan</option><option value="0">Uit</option></select></div>
+        <div class="fg half"><label>Boot-animatie bij start</label><select id="l_boot"><option value="1">Aan (typewriter)</option><option value="0">Uit (direct intro)</option></select></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-title">// KLEUREN PER WOORD (EINDSCHERM)</div><span class="badge badge-blue">AUTO GEGENEREERD</span></div>
+    <div class="card-body">
+      <div class="hint" style="margin-bottom:14px;">Kleuren worden <strong>automatisch gegenereerd</strong> op basis van je geheime zin. Sla ze op per index — hernoemen van een woord heeft geen effect op de kleur.</div>
+      <div class="wct" id="wct"><div class="wct-empty">Vul eerst de geheime zin in op het INHOUD-tabblad.</div></div>
+    </div>
+  </div>
+</div><!-- /tab-layout -->
+
+<!-- TAB VRAGEN -->
+<div class="tpanel" id="tab-vragen">
+  <div class="card">
+    <div class="card-head"><div class="card-title">// VRAGEN EDITOR</div><span class="badge badge-amber" id="qBadge">0 VRAGEN</span></div>
+    <div class="card-body">
+      <div class="val-banner" id="valBanner"></div>
+      <div class="qe-controls">
+        <button class="btn-ghost" style="border-color:var(--amber);color:var(--amber2)" onclick="openImport()">↑ BULK IMPORT</button>
+        <button class="btn-ghost" onclick="addQ()">+ VRAAG TOEVOEGEN</button>
+        <button class="btn-ghost" onclick="shuffleQ()">⇄ SCHUD VOLGORDE</button>
+        <button class="btn-ghost" style="border-color:var(--green);color:var(--green2)" onclick="openAIHelp()">✨ AI HULP — GENEREER VRAGEN</button>
+      </div>
+      <div class="qe-header">
+        <div></div><div>#</div><div>VRAAG</div><div>HINT</div><div>ANTWOORD</div><div style="text-align:center">LTR</div><div></div>
+      </div>
+      <div class="q-list" id="qList"></div>
+    </div>
+  </div>
+</div><!-- /tab-vragen -->
+
+<!-- TAB EINDSCHERM -->
+<div class="tpanel" id="tab-eindscherm">
+  <div class="card">
+    <div class="card-head"><div class="card-title">// EINDSCHERM INHOUD</div><span class="badge badge-green">ONTHULLING</span></div>
+    <div class="card-body">
+      <div class="frow"><div class="fg full"><label>Tag-regel bovenaan (klein, in amber)</label><input type="text" id="e_tag" placeholder="bijv. QUIZ VOLTOOID of GEFELICITEERD!"></div></div>
+      <div class="frow"><div class="fg full"><label>Grote stempel-tekst</label><input type="text" id="e_stamp" placeholder="bijv. JE HEBT HET GEKRAAKT! of GEFELICITEERD [NAAM]!"></div></div>
+      <div class="frow"><div class="fg full"><label>Hoofdtekst (de verrassing, het cadeau, de boodschap)</label><textarea id="e_body" placeholder="bijv. Je hebt de geheime bestemming geraden!&#10;&#10;Vul hier de rest van de verrassing in — het cadeau, de details, de boodschap aan de winnaar."></textarea></div></div>
+      <div class="frow"><div class="fg full"><label>Ondertekening</label><input type="text" id="e_sig" placeholder="bijv. Van Jan, Piet en Klaas — of jouw namen hier"></div></div>
+      <div class="frow"><div class="fg half"><label>Eindstempel woord</label><input type="text" id="e_fstamp" placeholder="bijv. GOEDGEKEURD of VOLTOOID"></div></div>
+      <div class="divider"></div>
+      <div class="fg full" style="margin-bottom:12px;">
+        <label>Emoji's bovenaan eindscherm</label>
+        <div class="emoji-area" id="emojiDisplay" contenteditable="true" spellcheck="false">🎉🍾🌊☀️</div>
+        <div class="hint">Klik in het vak om te typen/verwijderen, of gebruik de knoppen hieronder.</div>
+      </div>
+      <div class="emoji-cats" id="emojiCats"></div>
+      <div class="emoji-grid" id="emojiGrid"></div>
+    </div>
+  </div>
+</div><!-- /tab-eindscherm -->
+
+<!-- TAB PREVIEW -->
+<div class="tpanel" id="tab-preview">
+  <div class="card">
+    <div class="card-head">
+      <div class="card-title">// PREVIEW — EINDSCHERM</div>
+      <span class="badge badge-amber">LIVE VOORBEELD</span>
+    </div>
+    <div class="card-body">
+      <div class="hint" style="margin-bottom:16px;">Dit is een live preview van hoe het eindscherm eruit ziet. Wijzig teksten op het <strong>Eindscherm</strong>-tabblad — klik daarna op <strong>↻ Vernieuwen</strong>.</div>
+      <button class="btn-ghost" style="border-color:var(--green);color:var(--green2);margin-bottom:16px;" onclick="refreshPreview()">↻ VERNIEUWEN</button>
+      <div id="previewFrame" style="border:1px solid var(--border2);background:#030503;position:relative;overflow:hidden;min-height:600px;border-radius:2px;">
+        <!-- Preview rendered here -->
+      </div>
+    </div>
+  </div>
+</div><!-- /tab-preview -->
+
+</main>
+</div><!-- /app -->
+
+<!-- AI HELP MODAL -->
+<div class="modal-bg" id="aiHelpModal">
+  <div class="modal-box" style="max-width:760px;border-color:var(--amber)">
+    <div class="modal-head" style="border-color:var(--amber)">
+      <div class="modal-title" style="color:var(--amber2)">// AI VRAAG-GENERATOR</div>
+      <button class="modal-close" onclick="closeAIHelp()">×</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- Shared controls: category + difficulty (used by both tabs) -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border);">
+        <div>
+          <label style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:4px;">SELECTEER DE CATEGORIE</label>
+          <select id="ai_theme_sel" onchange="syncAITheme();autoRefreshPrompt()" style="width:100%;background:#000;border:1px solid var(--border2);color:var(--green2);padding:7px 9px;font-family:'IBM Plex Mono',monospace;font-size:11px;">
+            <option value="">Alles (Random)</option>
+            <option value="Voetbal en Sport">Voetbal en Sport</option>
+            <option value="Algemene Kennis">Algemene Kennis</option>
+            <option value="Geschiedenis en Politiek">Geschiedenis en Politiek</option>
+            <option value="Films en Popcultuur">Films en Popcultuur</option>
+            <option value="Aardrijkskunde en Wetenschap">Aardrijkskunde en Wetenschap</option>
+            <option value="Muziek">Muziek</option>
+            <option value="custom">✏ Eigen thema...</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:4px;">EIGEN THEMA</label>
+          <input type="text" id="ai_theme" placeholder="bijv: 80s muziek, F1..."
+            oninput="autoRefreshPrompt()"
+            style="width:100%;background:#000;border:1px solid var(--border2);color:var(--text);padding:7px 9px;font-family:'IBM Plex Mono',monospace;font-size:11px;">
+        </div>
+        <div>
+          <label style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:4px;">MOEILIJKHEIDSGRAAD</label>
+          <select id="ai_diff" onchange="autoRefreshPrompt()" style="width:100%;background:#000;border:1px solid var(--border2);color:var(--green2);padding:7px 9px;font-family:'IBM Plex Mono',monospace;font-size:11px;">
+            <option value="easy">Easy (Toegankelijk)</option>
+            <option value="medium" selected>Medium (Uitdagend)</option>
+            <option value="expert">Expert (Extreem Moeilijk)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div style="display:flex;gap:0;margin-bottom:16px;border-bottom:1px solid var(--border2);">
+        <button class="ai-tab active" id="aitab-prompt" onclick="aiTab('prompt')">📋 KOPIEER PROMPT</button>
+        <button class="ai-tab" id="aitab-api" onclick="aiTab('api')" style="color:var(--green2)">⚡ GENEREER VIA API</button>
+      </div>
+
+      <!-- Panel: Copy prompt -->
+      <div id="aipanel-prompt">
+        <p style="font-size:12px;color:var(--cream);line-height:1.7;margin-bottom:10px;">
+          Kopieer de prompt en plak in <strong style="color:var(--amber2)">ChatGPT, Gemini of Claude</strong>.
+          Kopieer het resultaat en gebruik <strong style="color:var(--green2)">Bulk Import</strong> om in te laden.
+        </p>
+        <textarea id="aiPromptText" style="min-height:220px;width:100%;color:var(--green2);background:#000;font-size:11px;line-height:1.6;" readonly></textarea>
+        <div style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end;">
+          <button class="btn-ghost" onclick="closeAIHelp()">SLUITEN</button>
+          <button class="btn-ghost" style="border-color:var(--amber);color:var(--amber2);" onclick="buildAIPrompt(document.getElementById('p_phrase').value.trim().toUpperCase());toast('Prompt vernieuwd ✓')">↻ VERNIEUWEN</button>
+          <button class="btn-primary" style="background:var(--amber);color:#000" onclick="copyAIPrompt()">📋 KOPIEER PROMPT</button>
+        </div>
+      </div>
+
+      <!-- Panel: API call -->
+      <div id="aipanel-api" style="display:none;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+          <div>
+            <label style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:5px;">OPENAI API KEY</label>
+            <input type="password" id="ai_apikey" placeholder="sk-... (of uit .env bestand)"
+              style="width:100%;background:#000;border:1px solid var(--border2);color:var(--green2);padding:8px 10px;font-family:'IBM Plex Mono',monospace;font-size:12px;">
+            <div style="font-size:11px;color:var(--dim);margin-top:4px;">Key wordt alleen lokaal gebruikt, nooit opgeslagen of verzonden naar derden.</div>
+          </div>
+          <div>
+            <label style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:5px;">MODEL</label>
+            <select id="ai_model" style="width:100%;background:#000;border:1px solid var(--border2);color:var(--green2);padding:8px 10px;font-family:'IBM Plex Mono',monospace;font-size:12px;">
+              <option value="gpt-4o">GPT-4o (aanbevolen)</option>
+              <option value="gpt-4o-mini">GPT-4o mini (snel)</option>
+              <option value="gpt-4-turbo">GPT-4 Turbo</option>
+              <option value="gpt-3.5-turbo">GPT-3.5 Turbo (goedkoop)</option>
+            </select>
+          </div>
+        </div>
+        <div id="ai_status" style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);min-height:20px;margin-bottom:10px;"></div>
+        <div id="ai_result_wrap" style="display:none;">
+          <label style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:5px;">GEGENEREERDE VRAGEN</label>
+          <textarea id="ai_result" style="min-height:180px;width:100%;color:var(--green2);background:#000;font-size:11px;line-height:1.6;"></textarea>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end;flex-wrap:wrap;">
+          <button class="btn-ghost" onclick="closeAIHelp()">SLUITEN</button>
+          <button class="btn-ghost" id="ai_import_btn" style="display:none;border-color:var(--green);color:var(--green2);" onclick="aiImportResult()">↓ IMPORTEER VRAGEN</button>
+          <button class="btn-primary" style="background:var(--green);color:#000;min-width:160px;" onclick="callOpenAI()" id="ai_gen_btn">⚡ GENEREER VRAGEN</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- IMPORT MODAL -->
+<div class="modal-bg" id="importModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title">// BULK IMPORT VRAGEN</div>
+      <button class="modal-close" onclick="closeImport()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="frow" style="margin-bottom:12px;">
+        <div class="fg half">
+          <label>Import modus</label>
+          <select id="importMode">
+            <option value="replace">Vervang alle vragen</option>
+            <option value="append">Voeg toe aan bestaande</option>
+          </select>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--cream);line-height:1.7;margin-bottom:12px;">
+        Formaat: <code style="color:var(--green2)">LETTER | Vraag | Hint | Antwoord</code> — één per regel. (3 kolommen ook OK)
+      </p>
+      <textarea id="importTxt" style="min-height:200px;width:100%" placeholder="H | Welke Noorse spits speelt bij Man City? Pak de eerste letter. | Zoon van Alf-Inge. | Haaland&#10;E | Welke Franse spits won in 2022 de Ballon d\'Or? Pak de 2e letter. | Speelde bij Real Madrid. | Benzema"></textarea>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-ghost" onclick="closeImport()">ANNULEER</button>
+      <button class="btn-primary" onclick="doImport()">↓ IMPORTEER</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM DIALOG -->
+<div class="confirm-bg" id="confirmBg">
+  <div class="confirm-box">
+    <div class="confirm-title" id="confirmTitle">// BEVESTIG</div>
+    <div class="confirm-msg" id="confirmMsg">Weet je zeker dat je wil resetten? Alle ingevulde data gaat verloren.</div>
+    <div class="confirm-btns">
+      <button class="btn-ghost" onclick="closeConfirm()">ANNULEER</button>
+      <button class="btn-primary" id="confirmOkBtn" onclick="doConfirm()">BEVESTIG</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ════════════════════════════════════════════════
+//  HELPERS — FIX #1: kleur altijd naar 6-cijferig
+// ════════════════════════════════════════════════
+function hexTo6(hex) {
+  // Normalise any color picker value to 6-digit hex
+  hex = hex.trim();
+  if (/^#[0-9a-fA-F]{6}$/.test(hex)) return hex;
+  if (/^#[0-9a-fA-F]{3}$/.test(hex)) {
+    return '#' + hex[1]+hex[1]+hex[2]+hex[2]+hex[3]+hex[3];
+  }
+  return '#000000'; // fallback
+}
+
+function hexAlpha(hex, alpha) {
+  // Returns hex + 2-digit alpha (00-ff)
+  const h = hexTo6(hex);
+  const a = Math.round(alpha * 255).toString(16).padStart(2,'0');
+  return h + a;
+}
+
+function esc(s){ return (s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function esc2(s){ return (s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function v(id){ return document.getElementById(id)?.value||''; }
+
+// ════════════════════════════════════════════════
+//  EMOJI DATA
+// ════════════════════════════════════════════════
+const EMOJI_CATS = {
+  'Feest':   ['🎉','🎊','🎈','🎁','🎂','🥳','🍾','🥂','🍻','🎆','🎇','✨','🎀','🎗'],
+  'Reizen':  ['✈️','🌍','🌎','🗺️','🧳','🏖️','🏝️','⛱️','🌊','🏄','🤿','🛫','🛬','🗼'],
+  'Voetbal': ['⚽','🏟️','👟','🏆','🥇','🏅','🎽','📺','📣','🙌','💪','👑','🔴','⚪'],
+  'Natuur':  ['☀️','🌅','🌄','🌙','⭐','🌟','💫','🔥','💧','🌈','🌴','🌺','🌸','🍹'],
+  'Overig':  ['❤️','💛','💚','💙','💜','🖤','🤍','🇵🇹','🇧🇪','🇳🇱','🏴','🚀','💥','🎯'],
+};
+let curEmojiCat = 'Feest';
+
+function initEmoji() {
+  const cats = document.getElementById('emojiCats');
+  cats.innerHTML = '';
+  Object.keys(EMOJI_CATS).forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'emoji-cat-btn' + (cat===curEmojiCat?' active':'');
+    btn.textContent = cat;
+    btn.onclick = () => { curEmojiCat = cat; initEmoji(); };
+    cats.appendChild(btn);
+  });
+  const grid = document.getElementById('emojiGrid');
+  grid.innerHTML = '';
+  EMOJI_CATS[curEmojiCat].forEach(em => {
+    const btn = document.createElement('button');
+    btn.className = 'emoji-btn';
+    btn.textContent = em;
+    btn.onclick = () => { document.getElementById('emojiDisplay').textContent += em; };
+    grid.appendChild(btn);
+  });
+}
+
+// ════════════════════════════════════════════════
+//  WORD COLORS — FIX #8: opgeslagen op index
+// ════════════════════════════════════════════════
+const AUTO_COLORS = [
+  '#f0ebe0','#00d468','#ff4422','#d4c9aa',
+  '#f0aa30','#44aaff','#ff66aa','#aaffaa',
+  '#ffaa44','#cc88ff',
+];
+
+// wordColors stored as array by index — survives word renaming
+let wordColors = [];
+
+function getWordColors() {
+  // Always return current colors from WCT if available, else from wordColors array
+  const rows = document.querySelectorAll('.wct-row');
+  if (rows.length > 0) {
+    return Array.from(rows).map(r => r.querySelector('input[type=color]').value);
+  }
+  return wordColors;
+}
+
+function ensureWordColors(words) {
+  while (wordColors.length < words.length) {
+    wordColors.push(AUTO_COLORS[wordColors.length % AUTO_COLORS.length]);
+  }
+}
+
+// ════════════════════════════════════════════════
+//  PHRASE LOGIC — FIX #11: only on commit (blur/enter)
+// ════════════════════════════════════════════════
+function wordsFromPhrase(phrase) {
+  return phrase.trim().toUpperCase().split(/\s+/).filter(w => w.length > 0);
+}
+function lettersFromPhrase(phrase) {
+  return phrase.trim().toUpperCase().replace(/\s/g,'').split('');
+}
+
+function onPhraseCommit() {
+  const phrase = document.getElementById('p_phrase').value;
+  const words = wordsFromPhrase(phrase);
+  const letters = lettersFromPhrase(phrase);
+  const nL = letters.length, nW = words.length;
+
+  // Update stats
+  const statsEl = document.getElementById('phraseStats');
+  statsEl.style.display = nL > 0 ? 'flex' : 'none';
+  document.getElementById('statLetters').textContent = nL + ' letters';
+  document.getElementById('statWords').textContent = nW + ' woorden';
+  document.getElementById('statVragen').textContent = nL + ' vragen nodig';
+
+  // Mismatch warning
+  const warn = document.getElementById('statWarn');
+  warn.style.display = (questions.length > 0 && questions.length !== nL) ? 'inline-block' : 'none';
+
+  // Sidebar
+  document.getElementById('sbStat').textContent = nL + ' letters / ' + questions.length + ' vragen';
+  document.getElementById('sbPhrase').textContent = phrase.trim().toUpperCase() || '—';
+
+  // Ensure word colors
+  ensureWordColors(words);
+  // Sync WCT in case layout tab has been visited
+  updateWCT();
+
+  // Word chips — FIX: read colors from wordColors array (index-based)
+  const wEl = document.getElementById('phraseWords');
+  wEl.innerHTML = '';
+  words.forEach((w, i) => {
+    const col = wordColors[i] || AUTO_COLORS[i % AUTO_COLORS.length];
+    const chip = document.createElement('div');
+    chip.className = 'phrase-word-chip';
+    chip.innerHTML = `
+      <div class="chip-swatch" style="background:${col}" title="Kleur aanpassen" onclick="quickColorWord(${i})"></div>
+      <span style="color:${col}">${w}</span>
+      <span class="chip-len">${w.length}</span>`;
+    wEl.appendChild(chip);
+  });
+
+  // FIX #11: Only sync questions on commit, not on every keystroke
+  syncQuestionsToPhrase(letters, false);
+  document.getElementById('qBadge').textContent = questions.length + ' VRAGEN';
+}
+
+function quickColorWord(idx) {
+  const inp = document.createElement('input');
+  inp.type = 'color';
+  inp.value = wordColors[idx] || AUTO_COLORS[idx % AUTO_COLORS.length];
+  inp.oninput = () => {
+    wordColors[idx] = inp.value;
+    // Update WCT row if visible
+    const rows = document.querySelectorAll('.wct-row');
+    if (rows[idx]) {
+      const ci = rows[idx].querySelector('input[type=color]');
+      if (ci) ci.value = inp.value;
+      rows[idx].querySelector('.wct-word').style.color = inp.value;
+    }
+    // Redraw chips
+    onPhraseCommit();
+  };
+  inp.click();
+}
+
+// ════════════════════════════════════════════════
+//  QUESTIONS — FIX #7: preserve existing q text
+// ════════════════════════════════════════════════
+let questions = [];
+
+function syncQuestionsToPhrase(letters, forceOverwrite) {
+  if (forceOverwrite) {
+    // Full reset — used only by loadDemo
+    questions = letters.map(l => ({ letter: l, q: '', intel: '', id: Date.now()+Math.random() }));
+  } else {
+    // Grow or shrink, preserving existing question text
+    while (questions.length < letters.length) {
+      questions.push({ letter: letters[questions.length], q: '', intel: '', id: Date.now()+Math.random() });
+    }
+    if (questions.length > letters.length) questions = questions.slice(0, letters.length);
+    // Only update letters — preserve q and intel
+    questions.forEach((q, i) => q.letter = letters[i]);
+  }
+  renderQList();
+}
+
+function renderQList() {
+  const list = document.getElementById('qList');
+  list.innerHTML = '';
+  questions.forEach((q, i) => {
+    const row = document.createElement('div');
+    row.className = 'q-row';
+    // Migrate old intel field: if no separate answer yet, try to extract from (parens)
+    if(!q.answer && q.intel) {
+      const m = q.intel.match(/\(([^)]+)\)\s*$/);
+      if(m){ q.answer = m[1]; q.intel = q.intel.replace(/\s*\([^)]+\)\s*$/, '').trim(); }
+    }
+	//HdW: Aangepast om van de tekst invoer een textarea te maken, hiermee is de tekst goed en volledig leesbaar (#1)
+row.innerHTML = `
+      <div class="q-drag-handle" title="Sleep om te herordenen"><span></span><span></span><span></span></div>
+      <div class="q-num">${i+1}</div>
+      <textarea placeholder="Typ hier de vraag..." 
+        oninput="questions[${i}].q=this.value" 
+        style="width:100%;min-height:90px;resize:vertical;">${esc(q.q)}</textarea>
+      <textarea placeholder="Hint (zichtbaar na klik)..." 
+        oninput="questions[${i}].intel=this.value" 
+        style="width:100%;min-height:90px;resize:vertical;">${esc(q.intel)}</textarea>
+      <textarea placeholder="Antwoord (naam/woord)..." 
+        oninput="questions[${i}].answer=this.value" 
+        style="width:100%;min-height:90px;resize:vertical;color:var(--amber2);">${esc(q.answer||'')}</textarea>
+      <div class="q-letter-box">${q.letter}</div>
+      <button class="btn-del" onclick="delQ(${i})" title="Verwijder">×</button>`;
+    // Drag-to-reorder
+    const handle = row.querySelector('.q-drag-handle');
+    handle.addEventListener('mousedown', () => { row.draggable = true; });
+    handle.addEventListener('mouseup',   () => { row.draggable = false; });
+    row.addEventListener('dragstart', e => {
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', i);
+      setTimeout(() => row.classList.add('dragging'), 0);
+    });
+    row.addEventListener('dragend', () => {
+      row.draggable = false;
+      row.classList.remove('dragging');
+      document.querySelectorAll('.q-row').forEach(r => r.classList.remove('drag-over'));
+    });
+    row.addEventListener('dragover', e => {
+      e.preventDefault();
+      document.querySelectorAll('.q-row').forEach(r => r.classList.remove('drag-over'));
+      row.classList.add('drag-over');
+    });
+    row.addEventListener('drop', e => {
+      e.preventDefault();
+      row.classList.remove('drag-over');
+      const fromIdx = parseInt(e.dataTransfer.getData('text/plain'));
+      const toIdx = i;
+      if (fromIdx !== toIdx) {
+        const moved = questions.splice(fromIdx, 1)[0];
+        questions.splice(toIdx, 0, moved);
+        renderQList();
+      }
+    });
+    list.appendChild(row);
+//HdW (#1)
+  });
+  document.getElementById('qBadge').textContent = questions.length + ' VRAGEN';
+
+  // Mismatch warning — FIX #10
+  const nL = lettersFromPhrase(document.getElementById('p_phrase').value).length;
+  const banner = document.getElementById('valBanner');
+  if (nL > 0 && questions.length !== nL) {
+    banner.textContent = `⚠ Zin heeft ${nL} letters maar er zijn ${questions.length} vragen. Ze moeten overeenkomen om te genereren.`;
+    banner.classList.add('show');
+  } else {
+    banner.classList.remove('show');
+  }
+
+  document.getElementById('sbStat').textContent = nL + ' letters / ' + questions.length + ' vragen';
+  const warn = document.getElementById('statWarn');
+  if (warn) warn.style.display = (questions.length > 0 && questions.length !== nL) ? 'inline-block' : 'none';
+}
+
+function addQ() {
+  const letters = lettersFromPhrase(document.getElementById('p_phrase').value);
+  const letter = letters[questions.length] || '?';
+  questions.push({ letter, q: '', intel: '', id: Date.now() });
+  renderQList();
+}
+
+function delQ(i) { questions.splice(i,1); renderQList(); }
+
+// FIX #9: shuffleQ only shuffles display order, not question-letter mapping
+// The quiz itself re-shuffles at runtime. Editor shuffle is a preview feature only.
+function shuffleQ() {
+  for(let i=questions.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [questions[i],questions[j]]=[questions[j],questions[i]];
+  }
+  renderQList(); toast('Volgorde geschud (quiz shufflet ook zelf bij elke start)');
+}
+
+// ════════════════════════════════════════════════
+//  WORD COLOR TABLE — FIX #8: index-based
+// ════════════════════════════════════════════════
+function updateWCT() {
+  const phrase = document.getElementById('p_phrase').value;
+  const words = wordsFromPhrase(phrase);
+  const wct = document.getElementById('wct');
+  if (words.length === 0) {
+    wct.innerHTML = '<div class="wct-empty">Vul eerst de geheime zin in op het INHOUD-tabblad.</div>';
+    return;
+  }
+  ensureWordColors(words);
+  wct.innerHTML = '';
+  words.forEach((word, i) => {
+    const col = wordColors[i] || AUTO_COLORS[i % AUTO_COLORS.length];
+    const row = document.createElement('div');
+    row.className = 'wct-row';
+    row.dataset.idx = i;
+    row.innerHTML = `
+      <div class="wct-word" style="color:${col}">${word}</div>
+      <div class="wct-len">${word.length} letters</div>
+      <div style="flex:1"></div>
+      <div class="color-chip">
+        <input type="color" id="wcc_${i}" value="${col}" oninput="onWCCChange(${i},this.value)">
+        <span style="font-size:9px;letter-spacing:1px;color:var(--dim);font-family:'Share Tech Mono',monospace;">kleur</span>
+      </div>`;
+    wct.appendChild(row);
+  });
+}
+
+function onWCCChange(idx, val) {
+  wordColors[idx] = val;
+  const wRow = document.querySelector(`.wct-row[data-idx="${idx}"] .wct-word`);
+  if (wRow) wRow.style.color = val;
+  // Refresh chips without re-running full phrase commit
+  const chips = document.querySelectorAll('.phrase-word-chip');
+  if (chips[idx]) {
+    const swatch = chips[idx].querySelector('.chip-swatch');
+    const span = chips[idx].querySelector('span');
+    if (swatch) swatch.style.background = val;
+    if (span) span.style.color = val;
+  }
+}
+
+// ════════════════════════════════════════════════
+//  CONFIRM DIALOG — FIX #13
+// ════════════════════════════════════════════════
+let pendingConfirmAction = null;
+
+function confirmReset() {
+  pendingConfirmAction = 'reset';
+  document.getElementById('confirmTitle').textContent = '// BEVESTIG RESET';
+  document.getElementById('confirmMsg').textContent = 'Weet je zeker dat je wil resetten naar de demo? Alle ingevulde data gaat verloren.';
+  document.getElementById('confirmBg').classList.add('open');
+}
+
+function closeConfirm() {
+  document.getElementById('confirmBg').classList.remove('open');
+  pendingConfirmAction = null;
+}
+
+function doConfirm() {
+  closeConfirm();
+  if (pendingConfirmAction === 'reset') loadDemo();
+}
+
+// ════════════════════════════════════════════════
+//  PRESETS
+// ════════════════════════════════════════════════
+const PRESETS = {
+  cia:     { bg:'#060808', a1:'#00ff41', a2:'#ff9900', red:'#cc2200', txt:'#c8d8c0', tile:'#00ff41' },
+  classic: { bg:'#0a0a0a', a1:'#00d468', a2:'#c48a1e', red:'#c8001a', txt:'#f0ebe0', tile:'#c48a1e' },
+  navy:    { bg:'#030810', a1:'#4488ff', a2:'#88ccff', red:'#ff4422', txt:'#d0e0ff', tile:'#4488ff' },
+  amber:   { bg:'#080600', a1:'#ff9900', a2:'#ffcc44', red:'#cc2200', txt:'#f0d8b0', tile:'#ff9900' },
+  purple:  { bg:'#080010', a1:'#cc44ff', a2:'#ff88cc', red:'#ff2244', txt:'#e0d0ff', tile:'#cc44ff' },
+};
+
+function applyPreset(key, btn) {
+  const p = PRESETS[key];
+  document.getElementById('l_bg').value   = p.bg;
+  document.getElementById('l_a1').value   = p.a1;
+  document.getElementById('l_a2').value   = p.a2;
+  document.getElementById('l_red').value  = p.red;
+  document.getElementById('l_txt').value  = p.txt;
+  document.getElementById('l_tile').value = p.tile;
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  toast('Preset: ' + key);
+}
+
+// ════════════════════════════════════════════════
+//  TABS
+// ════════════════════════════════════════════════
+function tab(name) {
+  document.querySelectorAll('.tpanel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.ntab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.sb-link').forEach(l => l.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  const tabs = ['inhoud','startpagina','layout','vragen','eindscherm','preview'];
+  const idx = tabs.indexOf(name);
+  if (idx >= 0) {
+    document.querySelectorAll('.ntab')[idx].classList.add('active');
+    document.querySelectorAll('.sb-link')[idx].classList.add('active');
+  }
+  if (name === 'layout') updateWCT();
+  if (name === 'preview') refreshPreview();
+  if (name === 'startpagina') refreshStartPreview();
+}
+
+// ════════════════════════════════════════════════
+//  STARTPAGINA — LIVE PREVIEW
+// ════════════════════════════════════════════════
+function sv(id) { const el = document.getElementById(id); return el ? el.value : ''; }
+
+function refreshStartPreview() {
+  const a1 = hexTo6(v('l_a1')||'#00ff41');
+  const a2 = hexTo6(v('l_a2')||'#ff9900');
+  const red = hexTo6(v('l_red')||'#cc2200');
+  const ft = v('l_ft') || "'Bebas Neue',sans-serif";
+  const totalLetters = document.getElementById('phraseStats') && document.getElementById('statLetters')
+    ? (document.getElementById('statLetters').textContent.match(/\d+/)||['15'])[0] : '15';
+
+  // BOOT lines
+  const r1 = sv('sp_r1') || 'INITIALISEREN...';
+  const r2 = sv('sp_r2') || 'VERBINDING BEVEILIGD';
+  const logo = v('c_logo') || 'QUIZ';
+  const r3 = sv('sp_r3') || 'CLASSIFICATIE: STRIKT GEHEIM';
+  const brief = sv('sp_brief') || `Je ontvangt ${totalLetters} vragen. Elke vraag levert één letter op.\n\nFOUT ANTWOORD? → Geen probleem. Probeer het opnieuw.`;
+  const btnTxt = sv('sp_btn') || '▶  INITIALISEER';
+  const stampStyle = sv('sp_stamp_style');
+  const stampTxt = sv('sp_stamp_txt') || 'TOP SECRET';
+
+  // Boot lines HTML
+  const bl = document.getElementById('spBootLines');
+  if (bl) bl.innerHTML =
+    `<span style="color:#4a6a4a;display:block;margin-bottom:4px;">${r1}</span>` +
+    `<span style="color:#4a6a4a;display:block;margin-bottom:4px;">${r2}</span>` +
+    `<span style="font-family:${ft};font-size:22px;color:#${a1};display:block;margin:8px 0 4px;letter-spacing:4px;">${logo}</span>` +
+	`<span style="color:#${a1};display:block;margin-top:4px;letter-spacing:2px;">${totalLetters} VRAGEN GELADEN</span>` +
+    `<span style="font-size:10px;color:#${red};display:block;margin-bottom:4px;letter-spacing:3px;">GEHEIME OPDRACHT</span>` +
+    `<span style="color:#${red};display:block;margin-top:6px;letter-spacing:3px;">${r3}</span>` +
+    `<span style="color:#${a1};display:block;margin-top:4px;letter-spacing:2px;">${totalLetters} VRAGEN GELADEN</span>`;
+
+  // Brief block
+  const bb = document.getElementById('spBriefBlock');
+  if (bb) {
+    bb.innerHTML = '<span style="color:#'+a1+';font-size:9px;letter-spacing:3px;display:block;margin-bottom:6px;">// BRIEFING //</span>'
+      + brief.replace(/\n/g,'<br>').replace(/FOUT ANTWOORD/g,'<span style="color:#'+red+'">FOUT ANTWOORD</span>');
+  }
+
+  // Boot stamp
+  const sw = document.getElementById('spStampWrap');
+  if (sw) {
+    if (stampStyle === 'none' || !stampTxt) { sw.innerHTML = ''; }
+    else if (stampStyle === 'red_border') sw.innerHTML = `<div style="border:2px solid #${red};color:#${red};font-family:${ft};font-size:18px;letter-spacing:5px;padding:6px 18px;display:inline-block;">${stampTxt}</div>`;
+    else if (stampStyle === 'red_fill') sw.innerHTML = `<div style="background:#${red};color:#fff;font-family:${ft};font-size:18px;letter-spacing:5px;padding:6px 18px;display:inline-block;">${stampTxt}</div>`;
+    else if (stampStyle === 'green_border') sw.innerHTML = `<div style="border:2px solid #${a1};color:#${a1};font-family:${ft};font-size:18px;letter-spacing:5px;padding:6px 18px;display:inline-block;">${stampTxt}</div>`;
+    else if (stampStyle === 'diagonal') sw.innerHTML = `<div style="border:2px solid #${red};color:#${red};font-family:${ft};font-size:18px;letter-spacing:5px;padding:6px 18px;display:inline-block;transform:rotate(-8deg);">${stampTxt}</div>`;
+  }
+
+  // Boot btn
+  const btnEl = document.getElementById('spBootBtn');
+  if (btnEl) { btnEl.textContent = btnTxt; btnEl.style.borderColor = '#'+a1; btnEl.style.color = '#'+a1; }
+
+  // --- INTRO preview ---
+  const istamp = sv('sp_istamp') || v('c_stamp') || '';
+  const istampStyle = sv('sp_istamp_style');
+  const t1 = sv('sp_t1') || v('c_t1') || 'GEHEIME';
+  const t2 = sv('sp_t2') || v('c_t2') || 'QUIZ';
+  const name2 = sv('sp_name') || v('c_name') || '';
+  const desc = sv('sp_desc') || v('c_desc') || '';
+  const startbtn = sv('sp_startbtn') || v('c_btn') || '▶ START DE QUIZ';
+  const spFont = sv('sp_font') || ft;
+
+  const isw = document.getElementById('spIStampWrap');
+  if (isw) {
+    if (!istamp || istampStyle === 'none') { isw.innerHTML = ''; }
+    else if (istampStyle === 'outline') isw.innerHTML = `<div style="border:1px solid #${red};color:#${red};font-size:10px;letter-spacing:4px;padding:3px 12px;display:inline-block;margin-bottom:4px;">${istamp}</div>`;
+    else if (istampStyle === 'filled') isw.innerHTML = `<div style="background:#${red};color:#fff;font-size:10px;letter-spacing:4px;padding:3px 12px;display:inline-block;margin-bottom:4px;">${istamp}</div>`;
+    else if (istampStyle === 'diagonal') isw.innerHTML = `<div style="border:1px solid #${red};color:#${red};font-size:10px;letter-spacing:4px;padding:3px 12px;display:inline-block;margin-bottom:4px;transform:rotate(-3deg);">${istamp}</div>`;
+    else isw.innerHTML = `<div style="color:#${red};font-size:10px;letter-spacing:4px;margin-bottom:4px;">${istamp}</div>`;
+  }
+
+  const ibig = document.getElementById('spIBig');
+  if (ibig) ibig.innerHTML = `<span style="color:#e8e8d8;font-family:${spFont};">${t1}</span><br><span style="color:#${a1};font-family:${spFont};">${t2}</span>`;
+
+  const iname = document.getElementById('spIName');
+  if (iname) iname.textContent = name2;
+
+  const idesc = document.getElementById('spIDesc');
+  if (idesc) idesc.textContent = desc;
+
+  const ibtn = document.getElementById('spIBtn');
+  if (ibtn) { ibtn.textContent = startbtn; ibtn.style.background = '#'+a1; ibtn.style.color = '#000'; }
+}
+
+function applyStartpaginaToMain() {
+  // Sync startpagina fields → main inhoud fields
+  const sync = (from, to) => { const s=document.getElementById(from), d=document.getElementById(to); if(s&&d) d.value=s.value; };
+  sync('sp_r1','b_r1'); sync('sp_r2','b_r2'); sync('sp_r3','b_r3'); sync('sp_btn','b_btn'); sync('sp_brief','b_brief');
+  sync('sp_istamp','c_stamp'); sync('sp_t1','c_t1'); sync('sp_t2','c_t2'); sync('sp_name','c_name'); sync('sp_desc','c_desc'); sync('sp_startbtn','c_btn');
+  if(sv('sp_font')) document.getElementById('l_ft').value = sv('sp_font');
+  toast('Startpagina-instellingen toegepast ✓');
+}
+
+// ════════════════════════════════════════════════
+//  PREVIEW — EINDSCHERM LIVE PREVIEW
+// ════════════════════════════════════════════════
+function refreshPreview() {
+  const phrase = document.getElementById('p_phrase').value.trim().toUpperCase();
+  const words = wordsFromPhrase(phrase);
+  ensureWordColors(words);
+  const wColors = getWordColors();
+
+  const g = {
+    bg: hexTo6(v('l_bg')||'#060808'),
+    a1: hexTo6(v('l_a1')||'#00ff41'),
+    a2: hexTo6(v('l_a2')||'#ff9900'),
+    red: hexTo6(v('l_red')||'#cc2200'),
+    ft: v('l_ft')||"'Bebas Neue',sans-serif",
+    etag: v('e_tag') || 'QUIZ VOLTOOID',
+    estamp: v('e_stamp') || 'GEFELICITEERD!',
+    ebody: v('e_body') || '',
+    esig: v('e_sig') || '',
+    efstamp: v('e_fstamp') || 'GOEDGEKEURD',
+    eemoji: document.getElementById('emojiDisplay').textContent || '🎉',
+  };
+
+  const phraseHTML = words.length > 0
+    ? words.map((w,i) => `<span style="color:${wColors[i]||'#ffffff'};display:inline-block;margin:0 4px;">${w}</span>`).join(' ')
+    : '<span style="color:#444">— voer een geheime zin in —</span>';
+
+  const a1d = hexAlpha(g.a1, 0.13);
+
+  const html = `
+    <div style="min-height:600px;background:${g.bg};display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;text-align:center;font-family:'Bebas Neue',sans-serif;position:relative;overflow:hidden;">
+      <div style="font-size:48px;margin-bottom:14px;animation:pls 1.2s ease infinite alternate;">${g.eemoji}</div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:5px;color:${g.a2};margin-bottom:18px;">${g.etag}</div>
+      <div style="border:3px solid ${g.red};color:${g.red};font-family:${g.ft};font-size:clamp(16px,3.5vw,28px);letter-spacing:5px;padding:10px 28px;margin-bottom:20px;display:inline-block;transform:rotate(-2deg);">${g.estamp}</div>
+      <div style="font-family:${g.ft};font-size:clamp(22px,4vw,52px);line-height:1.1;letter-spacing:2px;margin-bottom:22px;max-width:900px;">${phraseHTML}</div>
+      <div style="width:48px;height:1px;background:#1e2e1e;margin:0 auto 18px;"></div>
+      <div style="max-width:480px;font-family:'Share Tech Mono',monospace;font-size:13px;line-height:2;color:#888;margin-bottom:10px;white-space:pre-line;">${g.ebody.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+      <div style="color:#2a3a2a;font-size:12px;font-family:'Share Tech Mono',monospace;letter-spacing:1px;margin-top:10px;">${g.esig}</div>
+      <div style="border:2px solid ${g.a1};color:${g.a1};font-family:${g.ft};font-size:20px;letter-spacing:6px;padding:8px 22px;display:inline-block;margin-top:14px;transform:rotate(-3deg);">${g.efstamp}</div>
+      <style>@keyframes pls{from{transform:scale(1)}to{transform:scale(1.08)}}</style>
+    </div>`;
+
+  document.getElementById('previewFrame').innerHTML = html;
+}
+
+// ════════════════════════════════════════════════
+//  IMPORT — FIX #12: append mode
+// ════════════════════════════════════════════════
+function openImport() { document.getElementById('importModal').classList.add('open'); }
+function closeImport() { document.getElementById('importModal').classList.remove('open'); }
+
+function doImport() {
+  const raw = document.getElementById('importTxt').value.trim();
+  const mode = document.getElementById('importMode').value;
+  const letters = lettersFromPhrase(document.getElementById('p_phrase').value);
+  const lines = raw.split('\n').filter(l=>l.trim() && !l.trim().startsWith('#'));
+  const imported = [];
+  const offset = mode === 'append' ? questions.length : 0;
+
+  lines.forEach((line, i) => {
+    const parts = line.split('|').map(p=>p.trim());
+    const idx = offset + i;
+    const fallbackLetter = letters[idx] || '?';
+    if (parts.length >= 4) {
+      // LETTER | Vraag | Hint | Antwoord  (new 4-col format)
+      imported.push({ letter:(parts[0].toUpperCase()||fallbackLetter), q:parts[1], intel:parts[2], answer:parts[3], id:Date.now()+i });
+    } else if (parts.length >= 3) {
+      // LETTER | Vraag | Hint  (old 3-col format — try to split answer from hint parens)
+      let hint = parts[2], answer = '';
+      const m = hint.match(/\(([^)]+)\)\s*$/);
+      if (m) { answer = m[1]; hint = hint.replace(/\s*\([^)]+\)\s*$/, '').trim(); }
+      imported.push({ letter:(parts[0].toUpperCase()||fallbackLetter), q:parts[1], intel:hint, answer, id:Date.now()+i });
+    } else if (parts.length >= 2) {
+      imported.push({ letter:(parts[0].toUpperCase()||fallbackLetter), q:parts[1], intel:'', answer:'', id:Date.now()+i });
+    } else if (line.trim()) {
+      imported.push({ letter:fallbackLetter, q:line.trim(), intel:'', answer:'', id:Date.now()+i });
+    }
+  });
+
+  if (mode === 'replace') {
+    questions = imported;
+  } else {
+    questions = [...questions, ...imported];
+  }
+
+  renderQList();
+  closeImport();
+  document.getElementById('importTxt').value = '';
+  toast(imported.length + ' vragen ' + (mode==='append'?'toegevoegd':'geïmporteerd'));
+}
+
+// ════════════════════════════════════════════════
+//  DEMO LOAD — FIX #13: uses forceOverwrite
+// ════════════════════════════════════════════════
+function loadDemo() {
+  document.getElementById('p_phrase').value = 'HET GEHEIME WOORD';
+  document.getElementById('c_stamp').value  = 'QUIZ is STRIKT GEHEIM';
+  document.getElementById('c_t1').value     = 'WELKOM';
+  document.getElementById('c_t2').value     = 'BIJ DE QUIZ';
+  document.getElementById('c_name').value   = 'GEEN STANDAARD CADEAU — EEN UITDAGING.';
+  document.getElementById('c_desc').value   = 'Beantwoord elke vraag. Verzamel de letters.\nSorteer ze tot de geheime boodschap.\n\nVeel succes!';
+  document.getElementById('c_btn').value    = '▶ START DE QUIZ';
+  document.getElementById('c_logo').value   = 'QUIZ';
+  document.getElementById('c_strip').value  = 'JOUW LETTERS';
+  document.getElementById('c_ok').value     = 'OK';
+  document.getElementById('c_next').value   = 'VOLGENDE VRAAG ▶';
+  document.getElementById('c_tosort').value = '🔀 SORTEER DE LETTERS ▶';
+  document.getElementById('c_hint').value   = '▾ Hint tonen';
+  document.getElementById('c_scrt').value   = 'ZET DE LETTERS OP DE JUISTE PLEK';
+  document.getElementById('c_scri').value   = 'Beantwoord alle vragen om de benodigde letters te verzamelen. Schuif eerst alle klinkers (A, E, I, O) op de juiste positie. Na validatie van de klinkers worden de medeklinkers ontsleuteld. Wannneer je alle letters op de juist eplek hebt gezet is de missuie voltooid. Succes met de missie. ';
+  document.getElementById('c_f1').value     = 'FASE 1 — KLINKERS';
+  document.getElementById('c_f1t').value    = 'Zet eerst alle klinkers (A, E, I, O) op de juiste plek.';
+  document.getElementById('c_f2').value     = 'FASE 2 — MEDEKLINKERS';
+  document.getElementById('c_f2t').value    = 'Goed! Medeklinkers zijn nu ontgrendeld!';
+  document.getElementById('c_rst').value    = '↺ ALLE LETTERS TERUGGOOIEN';
+  document.getElementById('c_wdone').value  = '✓ GOED!';
+  document.getElementById('e_tag').value    = 'QUIZ VOLTOOID';
+  document.getElementById('e_stamp').value  = 'GEFELICITEERD!';
+  document.getElementById('e_body').value   = 'Je hebt het gekraakt!\n\nVul hier je eigen eindtekst in — de verrassing, de prijs, de boodschap.\n\nbijv:Het geheime woord is "Pannenkoek"';
+  document.getElementById('e_sig').value    = 'Van de organisatoren';
+  document.getElementById('e_fstamp').value = 'GOEDGEKEURD';
+  document.getElementById('emojiDisplay').textContent = '🎉🎊✨';
+
+  // Boot screen demo values
+  const bootFields = {
+    b_r1:'INITIALISEREN...', b_r2:'VERBINDING BEVEILIGD',
+    b_r3:'CLASSIFICATIE: STRIKT GEHEIM', b_btn:'▶ \u00a0 INITIALISEER',
+    b_brief:'Je ontvangt 15 vragen. Elke vraag levert één letter op.\n\nOntcijfer aan het einde de geheime boodschap door de letters op de juiste plek te schuiven.\n\nFOUT ANTWOORD? → Geen probleem. Probeer het opnieuw.',
+    sp_r1:'INITIALISEREN...', sp_r2:'VERBINDING BEVEILIGD',
+    sp_r3:'CLASSIFICATIE: STRIKT GEHEIM', sp_btn:'▶ \u00a0 INITIALISEER',
+    sp_brief:'Je ontvangt 15 vragen. Elke vraag levert één letter op.\n\nOntcijfer aan het einde de geheime boodschap door de letters op de juiste plek te schuiven.\n\nFOUT ANTWOORD? → Geen probleem. Probeer het opnieuw.',
+    sp_istamp:'QUIZ // STRIKT GEHEIM', sp_t1:'WELKOM', sp_t2:'BIJ DE QUIZ',
+    sp_name:'GEEN STANDAARD CADEAU — EEN UITDAGING.',
+    sp_desc:'Beantwoord elke vraag. Verzamel de letters.\nSorteer ze tot de geheime boodschap.\n\nVeel succes!',
+    sp_startbtn:'▶ START DE QUIZ',
+  };
+  Object.entries(bootFields).forEach(([id,val])=>{ const el=document.getElementById(id); if(el) el.value=val; });
+
+  // Reset word colors
+  wordColors = AUTO_COLORS.slice(0, 7);
+
+  // Commit phrase first (sets letter slots), then inject demo questions in correct order
+  onPhraseCommit();
+  questions = DEMO_Q.map((q,i)=>({...q,id:Date.now()+i}));
+  renderQList();
+  toast('Demo geladen ✓');
+}
+
+// ════════════════════════════════════════════════
+//  TOAST
+// ════════════════════════════════════════════════
+let toastT;
+function toast(msg, err=false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast'+(err?' err':'');
+  clearTimeout(toastT);
+  requestAnimationFrame(()=>{ t.classList.add('show'); toastT=setTimeout(()=>t.classList.remove('show'),2800); });
+}
+
+// ════════════════════════════════════════════════
+//  GENERATE — FIX #1 #10 #14
+// ════════════════════════════════════════════════
+function generate() {
+  const phrase = document.getElementById('p_phrase').value.trim().toUpperCase();
+  const words = wordsFromPhrase(phrase);
+  const letters = lettersFromPhrase(phrase);
+
+  // FIX #10: validation before generating
+  const errors = [];
+  if (!phrase || words.length === 0) errors.push('Vul een geheime zin in op het INHOUD-tabblad.');
+  if (questions.length === 0) errors.push('Voeg vragen toe in de VRAGEN-tab.');
+  if (letters.length > 0 && questions.length !== letters.length) errors.push(`Zin heeft ${letters.length} letters maar er zijn ${questions.length} vragen. Ze moeten overeenkomen.`);
+  if (questions.some(q => !q.q.trim())) errors.push('Sommige vragen zijn nog leeg. Vul alle vraagteksten in.');
+
+  if (errors.length > 0) {
+    toast('⚠ ' + errors[0], true);
+    return;
+  }
+
+  // FIX #14: always compute colors, even if layout tab never visited
+  ensureWordColors(words);
+  const wColors = getWordColors();
+
+
+
+  const g = {
+    bg: hexTo6(v('l_bg')||'#060808'),
+    a1: hexTo6(v('l_a1')||'#00ff41'),
+    a2: hexTo6(v('l_a2')||'#ff9900'),
+    red: hexTo6(v('l_red')||'#cc2200'),
+    txt: hexTo6(v('l_txt')||'#c8d8c0'),
+    tile: hexTo6(v('l_tile')||'#00ff41'),
+    ft: v('l_ft')||"'Bebas Neue',sans-serif",
+    fb: v('l_fb')||"'IBM Plex Mono',monospace",
+    qs: v('l_qs')||'15px',
+    wm: v('l_wm')||'',
+    sl: v('l_sl')==='1',
+    boot: v('l_boot')==='1',
+    stamp: v('c_stamp'), t1: v('c_t1'), t2: v('c_t2'),
+    name: v('c_name'), desc: v('c_desc'), btn: v('c_btn'), logo: v('c_logo'),
+    strip: v('c_strip'), ok: v('c_ok'), next: v('c_next'),
+    tosort: v('c_tosort'), hint: v('c_hint'),
+    scrt: v('c_scrt'), scri: v('c_scri'),
+    f1: v('c_f1'), f1t: v('c_f1t'), f2: v('c_f2'), f2t: v('c_f2t'),
+    rst: v('c_rst'), wdone: v('c_wdone'),
+    etag: v('e_tag'), estamp: v('e_stamp'), ebody: v('e_body'),
+    esig: v('e_sig'), efstamp: v('e_fstamp'),
+    eemoji: document.getElementById('emojiDisplay').textContent || '🎉',
+    // Boot screen fields (from startpagina tab or inhoud tab)
+    br1: (v('sp_r1')||v('b_r1')||'INITIALISEREN...'),
+    br2: (v('sp_r2')||v('b_r2')||'VERBINDING BEVEILIGD'),
+    br3: (v('sp_r3')||v('b_r3')||'CLASSIFICATIE: STRIKT GEHEIM'),
+    bbtn: (v('sp_btn')||v('b_btn')||'▶ \u00a0 INITIALISEER'),
+    bbrief: (v('sp_brief')||v('b_brief')||''),
+  };
+
+  const qJSON = JSON.stringify(questions.map(q=>({letter:q.letter,q:q.q,intel:q.intel,answer:q.answer||q.letter})));
+  const wordsJSON = JSON.stringify(words);
+  const wColsJSON = JSON.stringify(wColors);
+  const totalLetters = letters.length;
+
+  const html = buildHTML(g, qJSON, wordsJSON, wColsJSON, totalLetters, words, wColors);
+  const blob = new Blob([html], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'quiz.html';
+  a.click();
+  toast('✓ quiz.html gedownload!');
+}
+
+// ════════════════════════════════════════════════
+//  AI HELP MODAL
+// ════════════════════════════════════════════════
+function openAIHelp() {
+  const phrase = document.getElementById('p_phrase').value.trim().toUpperCase();
+  if (!phrase) { toast('Vul eerst de geheime zin in op het INHOUD-tabblad!', true); return; }
+  buildAIPrompt(phrase);
+  document.getElementById('aiHelpModal').classList.add('open');
+}
+
+function aiTab(name) {
+  document.querySelectorAll('.ai-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('aitab-'+name).classList.add('active');
+  document.getElementById('aipanel-prompt').style.display = name==='prompt' ? '' : 'none';
+  document.getElementById('aipanel-api').style.display   = name==='api'    ? '' : 'none';
+}
+  // Helper: inline style from rtMeta for a field id
+  const rtS = (id) => {
+    const m = rtMeta[id]; if(!m) return '';
+    let s = '';
+    if(m.color) s += `color:${m.color};`;
+    if(m.size && m.size !== '13') s += `font-size:${m.size}px;`;
+    if(m.font && !m.font.includes('IBM Plex Mono')) s += `font-family:${m.font};`;
+    if(m.bold) s += 'font-weight:600;';
+    return s;
+  };
+function syncAITheme() {
+  const sel = document.getElementById('ai_theme_sel');
+  const inp = document.getElementById('ai_theme');
+  if (!sel || !inp) return;
+  if (sel.value === 'custom') { inp.focus(); }
+  else if (sel.value) { inp.value = sel.value; }
+  else { inp.value = ''; }
+}
+
+function autoRefreshPrompt() {
+  const phrase = document.getElementById('p_phrase') ? document.getElementById('p_phrase').value.trim().toUpperCase() : '';
+  if (phrase && document.getElementById('aiPromptText')) buildAIPrompt(phrase);
+}
+
+function buildAIPrompt(phrase) {
+  const letters = lettersFromPhrase(phrase);
+  const selEl   = document.getElementById('ai_theme_sel');
+  const themeRaw = (document.getElementById('ai_theme') ? document.getElementById('ai_theme').value.trim() : '');
+  const theme    = themeRaw || (selEl && selEl.value && selEl.value !== 'custom' ? selEl.value : '') || 'Alles (Random)';
+  const diff     = document.getElementById('ai_diff') ? document.getElementById('ai_diff').value : 'medium';
+  const diffNL   = diff==='easy' ? 'Easy (Toegankelijk)' : diff==='expert' ? 'Expert (Extreem Moeilijk)' : 'Medium (Uitdagend)';
+
+  const letterMap = letters.map((l,i) => `${i+1}=${l}`).join(', ');
+
+  const promptText =
+`JE BENT EEN ZERO-HALLUCINATION QUIZ ENGINE.
+JE MAG NIETS VERZINNEN DAT NIET VERIFIEERBAAR IS.
+JE MAG ALLEEN ANTWOORDEN GEBRUIKEN DIE:
+- voorkomen in ANW (ivdnt.nl) OF
+- verifieerbaar zijn via Wikipedia (NL/EN)
+ALS JE HET NIET WEET → NIET GEBRUIKEN.
+
+---
+DOEL:
+Genereer EXACT ${letters.length} quizvragen waarbij elke vraag exact één letter oplevert.
+
+GEHEIME ZIN: "${phrase}"
+CATEGORIE: ${theme}
+MOEILIJKHEIDSGRAAD: ${diffNL}
+
+LETTERMAP:
+${letterMap}
+
+---
+BRONREGELS:
+- ANW MODE: alleen algemene Nederlandse woorden (geen eigennamen)
+- WIKIPEDIA MODE: alleen feitelijke, bekende entiteiten (sport, wetenschap, geschiedenis)
+JE MAG NOOIT EEN ANTWOORD GEBRUIKEN ZONDER ZEKERHEID VAN BESTAAN.
+
+---
+HARD CONSTRAINTS:
+1. Elke vraag heeft EXACT 1 correct antwoord
+2. Elke LETTER moet EXACT overeenkomen met de extractie-instructie in de vraag
+3. Hint mag NOOIT het antwoord bevatten (ook niet vervoegd of vertaald)
+4. Geen verzonnen namen of feiten
+5. Geen ambiguë vragen
+6. Alleen verifieerbare kennis
+7. Diakritische tekens negeren bij tellen (é=e, ć=c) maar correct schrijven in antwoord
+8. Varieer extractie-positie (1e, 2e, laatste letter, etc.)
+9. Bij dubbele letters: gebruik VERSCHILLENDE antwoordwoorden en vraagstijlen
+10. De VOLGORDE van de output is willekeurig — NIET de volgorde van de geheime zin
+
+---
+SELF-CHECK (VERPLICHT PER VRAAG):
+STAP 1: Kies bron (ANW of Wikipedia)
+STAP 2: Bestaat dit echt? ALS unknown → VERWIJDER en kies nieuw onderwerp
+STAP 3: Check letter: extract(antwoord, positie) == doelletter? ALS FALSE → REGENEREREN
+STAP 4: Check hint: bevat hint het antwoord? → REWRITE. Te letterlijk? → REWRITE
+
+---
+SELF-HEALING REGEL:
+- letter mismatch → alleen vraag + antwoord vervangen
+- hint leak → alleen hint herschrijven
+- onbekend feit → nieuw feit kiezen
+
+---
+STRIKT PATROON PER VRAAG:
+1. VRAAG (q): inhoudelijke vraag die leidt tot één antwoordwoord. Eindigt ALTIJD met een expliciete extractie-instructie:
+   "Pak de eerste letter van zijn achternaam." / "Pak de tweede letter van de clubnaam." etc.
+2. HINT (intel): cryptische/speelse omschrijving die richting geeft maar antwoord NOOIT noemt
+3. ANTWOORDWOORD (answer): het volledige juiste antwoord (bijv. "Haaland", "Inter Milaan")
+4. LETTER: exact die ene letter uit het antwoordwoord conform de extractie-instructie
+
+---
+OUTPUT FORMAT (STRICT):
+LETTER | VRAAG | HINT | ANTWOORD
+
+Geef EXACT ${letters.length} regels.
+Geen uitleg. Geen extra tekst. Geen nummering. Geen markdown.`;
+
+  document.getElementById('aiPromptText').value = promptText;
+}
+
+function closeAIHelp() {
+  document.getElementById('aiHelpModal').classList.remove('open');
+  document.getElementById('ai_status').textContent = '';
+}
+
+function copyAIPrompt() {
+  const ta = document.getElementById('aiPromptText');
+  ta.select();
+  navigator.clipboard.writeText(ta.value).then(() => {
+    toast('Prompt gekopieerd! Plak in ChatGPT of Claude ✓');
+  }).catch(() => {
+    document.execCommand('copy');
+    toast('Prompt gekopieerd ✓');
+  });
+}
+
+// ── OpenAI API call ──
+async function callOpenAI() {
+  const phrase = document.getElementById('p_phrase').value.trim().toUpperCase();
+  if (!phrase) { toast('Vul eerst de geheime zin in!', true); return; }
+
+  let apiKey = document.getElementById('ai_apikey').value.trim();
+  if (!apiKey) { toast('Vul een OpenAI API key in', true); return; }
+
+  const model   = document.getElementById('ai_model').value;
+  const theme   = document.getElementById('ai_theme').value.trim();
+  const diff    = document.getElementById('ai_diff') ? document.getElementById('ai_diff').value : 'medium';
+  const diffLabel = diff==='easy'?'toegankelijk en bekend':diff==='expert'?'extreem moeilijk en cryptisch':'uitdagend maar oplosbaar';
+  const statusEl = document.getElementById('ai_status');
+  const genBtn   = document.getElementById('ai_gen_btn');
+  const resultWrap = document.getElementById('ai_result_wrap');
+  const importBtn  = document.getElementById('ai_import_btn');
+
+  // Build prompt
+  buildAIPrompt(phrase);
+  const prompt = document.getElementById('aiPromptText').value;
+
+  genBtn.disabled = true;
+  genBtn.textContent = '⏳ Bezig...';
+  statusEl.style.color = 'var(--amber2)';
+  statusEl.textContent = `Verbinding met OpenAI (${model})...`;
+  resultWrap.style.display = 'none';
+  importBtn.style.display = 'none';
+
+  try {
+    const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model,
+        temperature: 0.7,
+        messages: [
+          { role: 'system', content: `Je bent een ZERO-HALLUCINATION quiz engine op moeilijkheidsgraad "${diff}" (${diffLabel}). Je mag ALLEEN feiten gebruiken die verifieerbaar zijn via ANW (ivdnt.nl) of Wikipedia. Je geeft UITSLUITEND de gevraagde pipe-gescheiden lijst terug, zonder extra tekst, nummering of markdown. Je controleert elke letter met een self-check: extract(antwoord, positie) == doelletter? Zo niet → regenereer. Hint bevat antwoord? → herschrijf.` },
+          { role: 'user', content: prompt }
+        ]
+      })
+    });
+
+    if (!resp.ok) {
+      const err = await resp.json().catch(()=>({}));
+      throw new Error(err.error?.message || `HTTP ${resp.status}`);
+    }
+
+    const data = await resp.json();
+    const text = data.choices?.[0]?.message?.content || '';
+
+    // Validate: count lines with pipe format
+    const lines = text.trim().split('\n').filter(l => l.includes('|'));
+    statusEl.style.color = 'var(--green2)';
+    statusEl.textContent = `✓ ${lines.length} vragen ontvangen van OpenAI`;
+
+    document.getElementById('ai_result').value = text.trim();
+    resultWrap.style.display = '';
+    importBtn.style.display = '';
+
+  } catch(e) {
+    statusEl.style.color = 'var(--red2)';
+    statusEl.textContent = '✗ Fout: ' + e.message;
+  } finally {
+    genBtn.disabled = false;
+    genBtn.textContent = '⚡ GENEREER VRAGEN';
+  }
+}
+
+function aiImportResult() {
+  const raw = document.getElementById('ai_result').value.trim();
+  if (!raw) return;
+  // Reuse bulk import logic — inject into importTxt and run doImport
+  document.getElementById('importTxt').value = raw;
+  document.getElementById('importMode').value = 'replace';
+  closeAIHelp();
+  doImport();
+}
+
+// ════════════════════════════════════════════════
+//  BUILD HTML — FIX BLACK SCREEN + all others
+// ════════════════════════════════════════════════
+function buildHTML(g, qJSON, wordsJSON, wColsJSON, totalLetters, words, wColors) {
+  const a1d = hexAlpha(g.a1, 0.13);
+
+  // Final phrase HTML (fix #2: pre-computed, no JSON.parse at runtime)
+  const phraseHTML = words.map((w,i) =>
+    `<span style="color:${wColors[i]||'#ffffff'}">${w}</span>`
+  ).join(' ');
+
+  let html = `<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>${esc2(g.logo)||'Quiz'}</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* FIX #4: renamed class sl → strip-lbl to avoid naming conflicts */
+:root{--bg:${g.bg};--a1:${g.a1};--a1d:${a1d};--a2:${g.a2};--red:${g.red};--txt:${g.txt};--tile:${g.tile};--p:#0c0c0c;--p2:#141414;--brd:#1e2e1e;--dim:#2a3a2a;--mid:#4a5a4a;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--bg);color:var(--txt);font-family:${g.fb};min-height:100vh;overflow-x:hidden;}
+${g.sl?`body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,65,.012) 2px,rgba(0,255,65,.012) 4px);}`:``}
+body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;background:radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,.5) 100%);}
+
+/* BOOT */
+#sboot{min-height:100vh;display:${g.boot?'flex':'none'};flex-direction:column;justify-content:center;align-items:center;padding:40px 24px;}
+.bl{display:block;opacity:0;font-family:'Share Tech Mono',monospace;font-size:13px;line-height:2;color:var(--a1);transition:opacity .3s;}
+.bl.vs{opacity:1;}.bl.dim{color:var(--mid);}.bl.big{font-family:${g.ft};font-size:clamp(36px,8vw,72px);color:var(--a1);letter-spacing:4px;line-height:1;margin:14px 0 6px;}.bl.sub{font-size:11px;letter-spacing:5px;color:var(--a2);}.bl.red{color:var(--red);}
+/* FIX #3: correct IDs for boot elements */
+#bdiv{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--a1),transparent);margin:18px 0;opacity:0;transition:opacity .5s;max-width:560px;}
+#bdiv.vs{opacity:1;}
+#brules{max-width:560px;width:100%;border:1px solid var(--brd);background:var(--p);padding:18px 22px;font-size:13px;color:var(--txt);line-height:1.9;opacity:0;transition:opacity .5s;margin-bottom:28px;}
+#brules.vs{opacity:1;}.brules-tag{color:var(--a2);font-size:10px;letter-spacing:3px;display:block;margin-bottom:7px;}
+#bbtn{background:transparent;border:1px solid var(--a1);color:var(--a1);padding:14px 48px;font-family:'Share Tech Mono',monospace;font-size:16px;letter-spacing:6px;cursor:pointer;transition:all .2s;opacity:0;}
+#bbtn.vs{opacity:1;}#bbtn:hover{background:var(--a1);color:var(--bg);}
+
+/* INTRO */
+#sintro{min-height:100vh;display:${g.boot?'none':'flex'};flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center;}
+.istamp{border:2px solid var(--red);color:var(--red);font-family:${g.ft};font-size:clamp(11px,2vw,16px);letter-spacing:4px;padding:5px 14px;margin-bottom:30px;display:${g.stamp?'inline-block':'none'};}
+.ibig{font-family:${g.ft};font-size:clamp(56px,13vw,110px);line-height:.88;letter-spacing:1px;margin-bottom:8px;}
+.ibig .l2{color:var(--a2);}
+.iname{font-family:${g.ft};font-size:clamp(13px,3.5vw,20px);color:var(--a2);letter-spacing:6px;margin-bottom:28px;}
+.idesc{max-width:480px;font-size:14px;line-height:1.9;color:var(--txt);white-space:pre-line;margin-bottom:24px;text-align:left;}
+.irules{background:var(--p);border-left:3px solid var(--a2);padding:14px 18px;max-width:480px;width:100%;text-align:left;margin-bottom:28px;font-family:'Share Tech Mono',monospace;font-size:12px;color:#aaa;line-height:1.8;}
+.irules b{color:var(--a2);font-size:10px;letter-spacing:2px;display:block;margin-bottom:5px;}
+.ibtn{background:var(--red);color:#fff;border:none;padding:15px 48px;font-family:${g.ft};font-size:20px;letter-spacing:5px;cursor:pointer;transition:all .15s;}
+.ibtn:hover{opacity:.85;transform:translateY(-2px);}
+
+/* QUIZ */
+#squiz{display:none;}
+.hud{position:sticky;top:0;z-index:100;background:rgba(5,5,5,.97);border-bottom:1px solid var(--brd);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;}
+.hud-l{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--a1);letter-spacing:2px;}
+.hud-r{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim);letter-spacing:2px;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+/* FIX #4: renamed strip-lbl (was .sl) */
+.strip-wrap{background:var(--p);border-bottom:1px solid var(--brd);padding:10px 16px;}
+.strip-lbl{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--mid);margin-bottom:6px;}
+.strip{display:flex;flex-wrap:wrap;gap:3px;min-height:30px;}
+.sc{width:25px;height:30px;display:flex;align-items:center;justify-content:center;font-family:${g.ft};font-size:17px;background:var(--a1d);border:1px solid var(--a1);color:var(--a1);animation:pi .4s cubic-bezier(.175,.885,.32,1.275);}
+@keyframes pi{0%{transform:scale(.4) rotateY(90deg);opacity:0}60%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+.qw{max-width:640px;margin:0 auto;padding:18px 16px 90px;}
+.qcard{background:var(--p);border:1px solid var(--brd);border-left:3px solid var(--a1);position:relative;overflow:hidden;}
+${g.wm?`.qcard::before{content:'${g.wm}';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-25deg);font-family:${g.ft};font-size:80px;color:rgba(200,0,0,.04);pointer-events:none;white-space:nowrap;letter-spacing:8px;}`:''}
+.qtop{padding:10px 16px;background:var(--p2);border-bottom:1px solid var(--brd);display:flex;justify-content:space-between;align-items:center;}
+.qnl{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:4px;color:var(--red);}
+.qcl{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--a2);border:1px solid var(--a2);padding:2px 7px;}
+.qb{padding:16px 18px 18px;}
+.qt{font-size:${g.qs};line-height:1.75;color:var(--txt);margin-bottom:16px;font-family:${g.fb};}
+.qir{display:flex;gap:8px;}
+.qi{flex:1;max-width:110px;background:#000;border:1px solid var(--brd);color:var(--a1);padding:10px 12px;font-family:'Share Tech Mono',monospace;font-size:20px;letter-spacing:5px;outline:none;text-transform:uppercase;transition:border-color .2s;}
+.qi:focus{border-color:var(--a1);}
+.qi.shake{animation:sh .35s ease;border-color:var(--red);}
+.qi.ok{border-color:var(--a1);}
+@keyframes sh{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.bok{background:var(--a1);color:var(--bg);border:none;padding:10px 16px;font-family:'Share Tech Mono',monospace;font-size:14px;letter-spacing:3px;cursor:pointer;transition:all .15s;}
+.bok:hover{opacity:.85;}.bok:disabled{background:var(--dim);cursor:default;color:var(--mid);}
+.htog{background:none;border:none;color:#aaa;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;cursor:pointer;display:block;margin-top:12px;padding:0;}
+.htog:hover{color:var(--txt);}
+.hbox{display:none;margin-top:8px;background:#0a0a0a;border-left:2px solid var(--a2);padding:10px 12px;font-family:'Share Tech Mono',monospace;font-size:12px;color:#ccc;line-height:1.6;font-style:italic;}
+.hbox.on{display:block;}
+.fb{display:none;margin-top:12px;background:#000;border:1px solid var(--a1);padding:12px 14px;font-family:'Share Tech Mono',monospace;font-size:12px;color:#ccc;line-height:1.7;}
+.fb.on{display:block;animation:sd .3s ease;}
+@keyframes sd{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.fbtag{font-size:9px;letter-spacing:3px;color:var(--a1);display:block;margin-bottom:5px;}
+.fbl{display:inline-block;margin-top:6px;padding:2px 12px;font-family:${g.ft};font-size:24px;background:var(--a1);color:var(--bg);}
+.bnxt{display:none;margin-top:12px;width:100%;background:transparent;border:1px solid var(--brd);color:var(--mid);padding:10px 18px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:4px;cursor:pointer;transition:all .2s;}
+.bnxt.on{display:block;}.bnxt:hover{border-color:var(--a1);color:var(--a1);}
+.rail{position:fixed;bottom:0;left:0;right:0;background:rgba(5,5,5,.97);border-top:1px solid var(--brd);padding:8px 16px;display:flex;align-items:center;gap:10px;z-index:200;}
+.rl{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--mid);white-space:nowrap;}
+.rdots{display:flex;gap:3px;flex-wrap:wrap;flex:1;}
+.rd{width:6px;height:6px;border-radius:1px;background:var(--dim);transition:background .3s;}
+.rd.done{background:var(--a2);}.rd.active{background:var(--red);}
+
+/* SCRAMBLE */
+#sscr{display:none;}
+.scrhd{background:var(--p);border-bottom:1px solid var(--brd);padding:14px 18px;text-align:center;}
+.sct{font-family:${g.ft};font-size:24px;letter-spacing:3px;color:var(--txt);margin-bottom:2px;}
+.scsub{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--mid);}
+.scbody{max-width:800px;margin:0 auto;padding:18px 16px 80px;}
+.scintro{border:1px solid var(--brd);background:var(--p);padding:11px 14px;margin-bottom:14px;font-size:13px;color:#aaa;line-height:1.7;}
+.phbar{background:var(--p);border:1px solid var(--brd);padding:9px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;font-family:'Share Tech Mono',monospace;font-size:12px;}
+#phbadge{background:var(--a2);color:#000;padding:2px 8px;font-weight:bold;}
+.score{display:flex;align-items:center;gap:12px;background:var(--p);border:1px solid var(--brd);padding:9px 14px;margin-bottom:18px;}
+.slbl{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--mid);}
+.sval{font-family:${g.ft};font-size:30px;color:var(--a1);}
+.sof{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--mid);}
+
+/* Word blocks — responsive wrap */
+.swrap{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:flex-start;margin-bottom:22px;background:var(--p);border:1px solid var(--brd);padding:16px;}
+.wblk{display:flex;flex-direction:column;min-width:0;}
+.word-lbl{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--dim);margin-bottom:6px;}
+.srow{display:flex;gap:clamp(2px,1vw,5px);flex-wrap:nowrap;}
+
+/* Slot tile — responsive size with indicator dot */
+.tsl-wrap{display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:8px;}
+.tsl-led{
+  width:100%;height:5px;
+  background:#0a140a;
+  border-radius:3px;
+  transition:background .2s,box-shadow .2s,transform .2s;
+  flex-shrink:0;
+  min-width:clamp(26px,6.5vw,38px);
+  position:relative;
+}
+/* idle: barely visible dark glow so it reads as "off" LED */
+.tsl-led::after{
+  content:'';position:absolute;inset:-2px -4px;
+  border-radius:4px;
+  transition:box-shadow .2s;
+}
+
+/* GREEN — correct */
+.tsl-led.led-ok{
+  background:#00ff41;
+  box-shadow:
+    0 0 4px #00ff41,
+    0 0 10px #00ff41,
+    0 0 22px rgba(0,255,65,.8),
+    0 0 40px rgba(0,255,65,.4),
+    0 0 60px rgba(0,255,65,.15);
+  transform:scaleY(1.2);
+}
+.tsl-led.led-ok::after{
+  box-shadow:0 0 18px 6px rgba(0,255,65,.25);
+}
+
+/* RED — wrong, pulsing */
+.tsl-led.led-bad{
+  background:#ff2200;
+  box-shadow:
+    0 0 4px #ff2200,
+    0 0 10px #ff2200,
+    0 0 22px rgba(255,30,0,.8),
+    0 0 40px rgba(255,30,0,.4),
+    0 0 60px rgba(255,30,0,.15);
+  transform:scaleY(1.2);
+  animation:ledpulse .5s ease-in-out infinite alternate;
+}
+.tsl-led.led-bad::after{
+  box-shadow:0 0 18px 6px rgba(255,30,0,.25);
+  animation:ledpulse .5s ease-in-out infinite alternate;
+}
+
+/* HOVER previews */
+.tsl-led.led-hover-ok{
+  background:rgba(0,255,65,.6);
+  box-shadow:0 0 6px rgba(0,255,65,.6),0 0 16px rgba(0,255,65,.35),0 0 30px rgba(0,255,65,.15);
+  transform:scaleY(1.1);
+}
+.tsl-led.led-hover-bad{
+  background:rgba(255,40,0,.6);
+  box-shadow:0 0 6px rgba(255,40,0,.6),0 0 16px rgba(255,40,0,.35),0 0 30px rgba(255,40,0,.15);
+  transform:scaleY(1.1);
+}
+
+@keyframes ledpulse{
+  from{
+    opacity:.55;
+    box-shadow:0 0 3px #ff2200,0 0 8px rgba(255,30,0,.5),0 0 18px rgba(255,30,0,.2);
+  }
+  to{
+    opacity:1;
+    box-shadow:0 0 6px #ff2200,0 0 16px #ff2200,0 0 30px rgba(255,30,0,.7),0 0 50px rgba(255,30,0,.3);
+  }
+}
+
+.tsl{
+  width:clamp(26px,6.5vw,38px);height:clamp(31px,7.5vw,44px);
+  border:1px solid var(--a1);display:flex;align-items:center;justify-content:center;
+  font-family:${g.ft};font-size:clamp(14px,4vw,22px);
+  background:#050505;color:transparent;cursor:pointer;
+  transition:all .25s;position:relative;user-select:none;
+}
+.tsl.hl{color:var(--txt);background:var(--p);}
+.tsl.ok{
+  border-color:var(--a1)!important;
+  background:rgba(0,255,65,.1)!important;
+  color:var(--a1)!important;
+  box-shadow:0 0 8px rgba(0,255,65,.4),0 0 20px rgba(0,255,65,.2),inset 0 0 8px rgba(0,255,65,.1)!important;
+  text-shadow:0 0 8px var(--a1);
+}
+.tsl.wrong{
+  border-color:var(--red)!important;
+  background:rgba(200,30,0,.1)!important;
+  color:var(--red)!important;
+  box-shadow:0 0 6px rgba(200,30,0,.4),inset 0 0 6px rgba(200,30,0,.1)!important;
+}
+@keyframes wrong-shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.tsl.wrong{animation:wrong-shake .25s ease;}
+.tsl.dov-ok{border-color:var(--a1)!important;background:rgba(0,255,65,.15)!important;transform:scale(1.1);box-shadow:0 0 12px var(--a1),0 0 24px rgba(0,255,65,.3);}
+.tsl.dov-bad{border-color:var(--red)!important;background:rgba(200,30,0,.1)!important;transform:scale(1.04);}
+.tsl::after{content:attr(data-pos);position:absolute;bottom:1px;right:2px;font-size:6px;color:var(--dim);font-family:'Share Tech Mono',monospace;}
+.wok{display:none;margin-top:4px;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--a1);text-align:center;text-shadow:0 0 6px var(--a1);}
+.wok.on{display:block;animation:fdi .4s ease;}
+@keyframes fdi{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+
+/* Tile pool */
+.tilesec{background:var(--p);border:1px solid var(--brd);padding:14px;margin-bottom:10px;}
+.tlbl{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:4px;color:var(--a2);margin-bottom:8px;}
+.tpool{display:flex;flex-wrap:wrap;gap:clamp(3px,1vw,6px);}
+.at{
+  width:clamp(30px,7vw,42px);height:clamp(36px,8vw,48px);
+  border:1px solid var(--tile);display:flex;align-items:center;justify-content:center;
+  font-family:${g.ft};font-size:clamp(16px,4.5vw,23px);
+  background:var(--p2);color:var(--tile);cursor:grab;
+  transition:all .15s;user-select:none;-webkit-user-select:none;touch-action:none;
+}
+.at:hover{background:var(--tile);color:var(--bg);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,255,65,.2);}
+.at.used{opacity:0;pointer-events:none;width:0;border-width:0;margin:0;padding:0;overflow:hidden;}
+.at.locked{opacity:.2;cursor:not-allowed;pointer-events:none;border-color:var(--dim);color:var(--dim);background:#050505;}
+.at.drag{opacity:.3;outline:2px solid var(--red);}
+.bwipe{background:none;border:1px solid var(--red);color:var(--red);padding:9px 18px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;cursor:pointer;transition:all .2s;width:100%;}
+.bwipe:hover{background:var(--red);color:#fff;}
+#fwc{position:fixed;inset:0;pointer-events:none;z-index:8000;display:none;}
+
+@media(max-width:480px){
+  .swrap{padding:10px 8px;gap:8px 10px;}
+  .scbody{padding:12px 8px 80px;}
+  .tilesec{padding:10px 8px;}
+}
+
+/* FINAL */
+#sfin{display:none;position:fixed;inset:0;z-index:9000;background:rgba(3,5,3,.97);flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;overflow-y:auto;}
+.femi{font-size:48px;margin-bottom:14px;animation:pls 1.2s ease infinite alternate;}
+@keyframes pls{from{transform:scale(1)}to{transform:scale(1.08)}}
+.ftag{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:5px;color:var(--a2);margin-bottom:18px;}
+.fstamp{border:3px solid var(--red);color:var(--red);font-family:${g.ft};font-size:clamp(16px,3.5vw,30px);letter-spacing:5px;padding:10px 28px;margin-bottom:20px;display:inline-block;transform:rotate(-2deg);}
+.fphrase{font-family:${g.ft};font-size:clamp(22px,4.5vw,58px);line-height:1.1;letter-spacing:2px;margin-bottom:22px;max-width:900px;white-space:nowrap;width:100%;padding:0 12px;}
+.fphrase span{display:inline-block;margin:0 4px;}
+.fdiv{width:48px;height:1px;background:var(--brd);margin:0 auto 18px;}
+.fbody{max-width:480px;font-family:'Share Tech Mono',monospace;font-size:13px;line-height:2;color:#888;margin-bottom:10px;white-space:pre-line;}
+.fsig{color:var(--mid);font-size:12px;font-family:'Share Tech Mono',monospace;letter-spacing:1px;margin-top:10px;}
+.ffstamp{border:2px solid var(--a1);color:var(--a1);font-family:${g.ft};font-size:20px;letter-spacing:6px;padding:8px 22px;display:inline-block;margin-top:14px;transform:rotate(-3deg);}
+
+/* ── AI modal tabs ── */
+.ai-tab{background:none;border:none;border-bottom:2px solid transparent;color:var(--mid);font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;padding:8px 16px;cursor:pointer;transition:all .15s;}
+.ai-tab:hover{color:var(--text);}
+.ai-tab.active{color:var(--amber2);border-bottom-color:var(--amber2);}
+
+/* ── Rich text toolbar ── */
+.rt-wrap{position:relative;display:flex;flex-direction:column;gap:0;width:100%;}
+.rt-toolbar{display:flex;align-items:center;gap:3px;background:var(--panel2);border:1px solid var(--border2);border-bottom:none;padding:4px 6px;flex-wrap:wrap;opacity:0;pointer-events:none;transition:opacity .15s;}
+.rt-wrap:focus-within .rt-toolbar{opacity:1;pointer-events:all;}
+.rt-toolbar button,.rt-toolbar select{background:none;border:1px solid transparent;color:var(--mid);font-family:'Share Tech Mono',monospace;font-size:10px;padding:2px 6px;cursor:pointer;transition:all .12s;height:22px;line-height:1;}
+.rt-toolbar button:hover{border-color:var(--border2);color:var(--text);background:var(--panel3);}
+.rt-toolbar button.rt-active{border-color:var(--green);color:var(--green2);background:rgba(0,184,106,.1);}
+.rt-toolbar select{padding:1px 4px;font-size:10px;height:22px;color:var(--mid);}
+.rt-toolbar select:focus{border-color:var(--green);}
+.rt-sep{width:1px;height:16px;background:var(--border);margin:0 3px;flex-shrink:0;}
+.rt-colorpop{position:absolute;top:calc(100% + 4px);left:0;z-index:500;background:var(--panel2);border:1px solid var(--border2);padding:8px;display:none;flex-wrap:wrap;gap:4px;width:200px;box-shadow:0 4px 16px rgba(0,0,0,.6);}
+.rt-colorpop.open{display:flex;}
+.rt-swatch{width:20px;height:20px;border:1px solid rgba(255,255,255,.1);cursor:pointer;border-radius:2px;transition:transform .1s;}
+.rt-swatch:hover{transform:scale(1.25);border-color:#fff;}
+.rt-colorpop input[type=color]{width:28px;height:20px;padding:1px;cursor:pointer;}
+.rt-wrap textarea,.rt-wrap input{border-radius:0;}
+</style>
+</head>
+<body>
+<canvas id="fwc"></canvas>
+
+${g.boot ? `
+<!-- FIX #3: correct IDs: blines, bdiv, brules, bbtn -->
+<div id="sboot">
+  <div id="blines"></div>
+  <div id="bdiv"></div>
+  <div id="brules">
+    <span class="brules-tag">// BRIEFING //</span>
+    ${g.bbrief ? esc2(g.bbrief).replace(/\n/g,'<br>') : `Je ontvangt ${totalLetters} vragen. Elke vraag levert één letter op.<br><br>Ontcijfer aan het einde de geheime boodschap door de letters op de juiste plek te schuiven.<br><br><span style="color:var(--red)">FOUT ANTWOORD</span> → vraag geblokkeerd. Probeer opnieuw.`}
+  </div>
+  <button id="bbtn" onclick="goIntro()">${esc2(g.bbtn)}</button>
+</div>` : ''}
+
+<div id="sintro">
+  <div class="istamp" style="${rtS('c_stamp')}">${esc2(g.stamp)}</div>
+  <div class="ibig"><div style="${rtS('c_t1')}">${esc2(g.t1)}</div><div class="l2" style="${rtS('c_t2')}">${esc2(g.t2)}</div></div>
+  <div class="iname" style="${rtS('c_name')}">${esc2(g.name)}</div>
+  <div class="idesc" style="${rtS('c_desc')}">${esc2(g.desc)}</div>
+  <div class="irules"><b>📋 DE REGELS</b>${esc2(g.scri)}</div>
+  <button class="ibtn" style="${rtS('c_btn')}" onclick="startQuiz()">${esc2(g.btn)}</button>
+</div>
+
+<div id="squiz">
+  <div class="hud">
+    <div class="hud-l">${esc2(g.logo)}<span style="display:inline-block;width:8px;height:1em;background:var(--a1);vertical-align:text-bottom;animation:blink 1s step-end infinite;margin-left:4px;"></span></div>
+    <div id="penbar" style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--mid);letter-spacing:1px;"></div>
+    <div class="hud-r" id="hudr">VRAAG 1 / ${totalLetters}</div>
+  </div>
+  <div class="strip-wrap"><div class="strip-lbl">${esc2(g.strip)}</div><div class="strip" id="strip"></div></div>
+  <div class="qw"><div class="qcard" id="qcard"></div></div>
+  <div class="rail"><div class="rl" id="rc">0/${totalLetters}</div><div class="rdots" id="rds"></div></div>
+</div>
+
+<div id="sscr">
+  <div class="scrhd"><div class="sct">${esc2(g.scrt)}</div><div class="scsub">SLEEP · KLIK OM TERUG</div></div>
+  <div class="scbody">
+    <div class="scintro">${esc2(g.scri)}</div>
+    <div class="phbar"><span id="phbadge">${esc2(g.f1)}</span><span id="phtext">${esc2(g.f1t)}</span></div>
+    <div class="score"><div class="slbl">CORRECT</div><div><span class="sval" id="sv">0</span><span class="sof"> / ${totalLetters}</span></div></div>
+    <div class="swrap" id="swrap"></div>
+    <div class="tilesec"><div class="tlbl">▼ SLEEP NAAR EEN VAKJE</div><div class="tpool" id="tpool"></div></div>
+    <button class="bwipe" onclick="resetScr()">${esc2(g.rst)}</button>
+  </div>
+</div>
+
+<div id="sfin">
+  <div class="femi">${esc2(g.eemoji)}</div>
+  <div class="ftag" style="${rtS('e_tag')}">${esc2(g.etag)}</div>
+  <div class="fstamp" style="${rtS('e_stamp')}">${esc2(g.estamp)}</div>
+  <div class="fphrase">${phraseHTML}</div>
+  <div class="fdiv"></div>
+  <div class="fbody" style="${rtS('e_body')}">${esc2(g.ebody)}</div>
+  <div class="fsig" style="${rtS('e_sig')}">${esc2(g.esig)}</div>
+  <div class="ffstamp" style="${rtS('e_fstamp')}">${esc2(g.efstamp)}</div>
+</div>
+
+` + '<script>\n' + `
+const WORDS=${wordsJSON};
+const TARGET=WORDS.join('');
+const VOWELS=['A','E','I','O','U'];
+const F1T=${JSON.stringify(g.f1t)},F2T=${JSON.stringify(g.f2t)};
+const F1L=${JSON.stringify(g.f1)},F2L=${JSON.stringify(g.f2)};
+const WDONE=${JSON.stringify(g.wdone)};
+const NEXT_TXT=${JSON.stringify(g.next)},SORT_TXT=${JSON.stringify(g.tosort)};
+const OK_TXT=${JSON.stringify(g.ok)},HINT_TXT=${JSON.stringify(g.hint)};
+const WM=${JSON.stringify(g.wm)};
+
+let Qs=[...${qJSON}];
+let qi=0,ans=false,slots=new Array(TARGET.length).fill(null);
+let conU=false,fwD=false,finD=false,drFi=null,tClone=null;
+let hintUsed=0,answerUsed=0,wrongTotal=0,wrongQ=0; // score penalty trackers
+
+${ g.boot ? (
+  'const LOGO_TEXT=' + JSON.stringify(g.logo) + ';' +
+  'const bseq=[' +
+  '{t:' + JSON.stringify(g.br1) + ',c:"dim"},' +
+  '{t:' + JSON.stringify(g.br2) + ',c:"dim"},' +
+  '{t:LOGO_TEXT,c:"big"},' +
+  '{t:"GEHEIME OPDRACHT",c:"red"},' +
+  '{t:"",c:""},' +
+  '{t:' + JSON.stringify(g.br3) + ',c:"red2"},' +
+  '{t:TARGET.length+" VRAGEN GELADEN",c:""}' +
+  '];' +
+  'window.addEventListener("load",function(){' +
+  'var bl=document.getElementById("blines");' +
+  'var bd=document.getElementById("bdiv");' +
+  'var br=document.getElementById("brules");' +
+  'var bb=document.getElementById("bbtn");' +
+  'if(!bl||!bd||!br||!bb)return;' +
+  'bseq.forEach(function(item,i){' +
+  'setTimeout(function(){' +
+  'if(!item.t){var x=document.createElement("br");bl.appendChild(x);return;}' +
+  'var s=document.createElement("span");s.className="bl "+(item.c||"");s.textContent=item.t;bl.appendChild(s);requestAnimationFrame(function(){s.classList.add("vs");});' +
+  '},i*450);});' +
+  'setTimeout(function(){bd.classList.add("vs");},bseq.length*260+200);' +
+  'setTimeout(function(){br.classList.add("vs");},bseq.length*260+450);' +
+  'setTimeout(function(){bb.classList.add("vs");},bseq.length*260+800);' +
+  '});' +
+  'function goIntro(){document.getElementById("sboot").style.display="none";document.getElementById("sintro").style.display="flex";}'
+) : '' }
+
+function startQuiz(){
+  document.getElementById('sintro').style.display='none';
+  document.getElementById('squiz').style.display='block';
+  buildRail();renderQ();
+}
+function buildRail(){
+  const c=document.getElementById('rds');c.innerHTML='';
+  Qs.forEach((_,i)=>{const d=document.createElement('div');d.className='rd'+(i===0?' active':'');d.id='rd'+i;c.appendChild(d);});
+}
+function updRail(){
+  Qs.forEach((_,i)=>{const d=document.getElementById('rd'+i);if(d)d.className='rd'+(i<qi?' done':i===qi?' active':'');});
+  document.getElementById('rc').textContent=qi+'/'+Qs.length;
+}
+function renderQ(){
+  const q=Qs[qi]; ans=false; wrongQ=0;
+  document.getElementById('hudr').textContent='VRAAG '+(qi+1)+' / '+Qs.length;
+  const card=document.getElementById('qcard');
+  card.innerHTML='';
+
+  // Watermark
+  if(WM){const wm=document.createElement('div');wm.style.cssText='position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-25deg);font-size:80px;color:rgba(200,0,0,.04);pointer-events:none;white-space:nowrap;letter-spacing:8px;font-family:Bebas Neue,sans-serif;';wm.textContent=WM;card.appendChild(wm);}
+
+  // Header
+  const top=document.createElement('div');top.className='qtop';
+  const nl=document.createElement('div');nl.className='qnl';nl.textContent='VRAAG '+(qi+1)+' VAN '+Qs.length;
+  const cl=document.createElement('div');cl.className='qcl';cl.textContent='GEHEIM';
+  top.appendChild(nl);top.appendChild(cl);card.appendChild(top);
+
+  // Body
+  const body=document.createElement('div');body.className='qb';
+
+  const qt=document.createElement('p');qt.className='qt';qt.textContent=q.q;body.appendChild(qt);
+
+  // Input row
+  const qir=document.createElement('div');qir.className='qir';
+  const inp=document.createElement('input');
+  inp.className='qi';inp.id='qi';inp.maxLength=3;inp.placeholder='_';
+  inp.setAttribute('autocomplete','off');inp.setAttribute('autocorrect','off');inp.setAttribute('spellcheck','false');
+  inp.addEventListener('keydown',function(e){if(e.key==='Enter')chkA();});
+  const bokBtn=document.createElement('button');bokBtn.className='bok';bokBtn.id='bok';bokBtn.textContent=OK_TXT;
+  bokBtn.addEventListener('click',chkA);
+  qir.appendChild(inp);qir.appendChild(bokBtn);body.appendChild(qir);
+
+  // Hint + Answer buttons
+  const hrow=document.createElement('div');hrow.style.cssText='display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;';
+  const htog=document.createElement('button');htog.className='htog';htog.textContent=HINT_TXT;
+  htog.addEventListener('click',function(){
+    const hb=document.getElementById('hb');
+    if(!hb.classList.contains('on')){hintUsed++;updPenalty();} // -2 pts
+    hb.classList.toggle('on');
+  });
+  hrow.appendChild(htog);
+
+  // "Toon antwoord" button — only shown after first wrong attempt
+  const atog=document.createElement('button');atog.className='htog';atog.id='atog';atog.textContent='▸ Toon antwoord';
+  atog.style.cssText='color:var(--a2);display:none;';
+  atog.addEventListener('click',function(){
+    const ab=document.getElementById('ab');
+    if(!ab.classList.contains('on')){answerUsed++;updPenalty();} // -3 pts
+    ab.classList.toggle('on');
+  });
+  hrow.appendChild(atog);
+  body.appendChild(hrow);
+
+  const hbox=document.createElement('div');hbox.className='hbox';hbox.id='hb';hbox.textContent=q.intel;body.appendChild(hbox);
+
+  const abox=document.createElement('div');abox.className='hbox';abox.id='ab';
+  abox.style.cssText='border-left-color:var(--a2);color:var(--a2);';
+  abox.innerHTML='<span style="font-size:9px;letter-spacing:3px;display:block;margin-bottom:4px;">ANTWOORD</span>'+(q.answer||q.letter);
+  body.appendChild(abox);
+
+  const fb=document.createElement('div');fb.className='fb';fb.id='fb';body.appendChild(fb);
+
+  const bnxt=document.createElement('button');bnxt.className='bnxt';bnxt.id='bnxt';
+  bnxt.textContent=(qi===Qs.length-1?SORT_TXT:NEXT_TXT);
+  bnxt.addEventListener('click',nxtQ);
+  body.appendChild(bnxt);
+
+  card.appendChild(body);
+  setTimeout(function(){var i=document.getElementById('qi');if(i)i.focus();},80);
+}
+function chkA(){
+  if(ans)return;
+  const q=Qs[qi],inp=document.getElementById('qi');
+  const raw=inp.value.trim().toUpperCase();
+  const val=raw.replace(/\s/g,'');
+  if(!val)return;
+  if(val==='9'){showScr();return;}
+  if(val===q.letter){
+    ans=true;inp.classList.add('ok');inp.disabled=true;document.getElementById('bok').disabled=true;
+    addStrip(q.letter);
+    const parts=q.intel.split('\u2192');
+    const fb=document.getElementById('fb');
+    const tag=document.createElement('span');tag.className='fbtag';tag.textContent='// CORRECT //';fb.appendChild(tag);
+    const ans1=document.createElement('span');ans1.innerHTML='Antwoord: <strong style="color:var(--txt)">'+parts[0].trim()+'</strong>';fb.appendChild(ans1);
+    if(parts.length>1){const ans2=document.createElement('span');ans2.style.cssText='font-size:11px;color:#888;display:block;';ans2.textContent='\u2192 '+parts.slice(1).join('\u2192').trim();fb.appendChild(ans2);}
+    const lbl=document.createElement('br');fb.appendChild(lbl);
+    const badge=document.createElement('span');badge.className='fbl';badge.textContent=q.letter;fb.appendChild(badge);
+    fb.classList.add('on');document.getElementById('bnxt').classList.add('on');
+    // Auto-reveal hint and answer after correct
+    var hb2=document.getElementById('hb');if(hb2&&!hb2.classList.contains('on'))hb2.classList.add('on');
+    var ab2=document.getElementById('ab');if(ab2&&!ab2.classList.contains('on'))ab2.classList.add('on');
+  } else {
+    inp.classList.add('shake');setTimeout(function(){inp.classList.remove('shake');},400);inp.value='';
+    wrongQ++;wrongTotal++;updPenalty();
+    const atog=document.getElementById('atog');if(atog)atog.style.display='';
+  }
+}
+function addStrip(l){const s=document.getElementById('strip');const c=document.createElement('div');c.className='sc';c.textContent=l;s.appendChild(c);}
+function nxtQ(){qi++;if(qi>=Qs.length){showScr();return;}updRail();renderQ();document.getElementById('qcard').scrollIntoView({behavior:'smooth',block:'start'});}
+
+function showScr(){
+  document.getElementById('squiz').style.display='none';
+  document.getElementById('sscr').style.display='block';
+  slots=new Array(TARGET.length).fill(null);conU=false;buildScr();window.scrollTo(0,0);
+}
+function buildScr(){
+  const wrap=document.getElementById('swrap');wrap.innerHTML='';
+  let flat=0;
+  WORDS.forEach((word,wi)=>{
+    const blk=document.createElement('div');blk.className='wblk';
+    const lbl=document.createElement('div');lbl.className='word-lbl';lbl.textContent='W'+(wi+1);blk.appendChild(lbl);
+    const row=document.createElement('div');row.className='srow';
+    word.split('').forEach((ch,ci)=>{
+      // Wrap slot + dot in a column container
+      const wrap2=document.createElement('div');wrap2.className='tsl-wrap';
+      const dot=document.createElement('div');dot.className='tsl-led';dot.id='dot'+flat;
+      const sl=document.createElement('div');sl.className='tsl';sl.id='tsl'+flat;sl.dataset.flat=flat;sl.dataset.exp=ch;sl.dataset.pos=ci+1;
+      setupSl(sl,flat);
+      if(slots[flat]){
+        const placed=slots[flat].l;
+        sl.textContent=placed;sl.classList.add('hl');
+        if(placed===ch){sl.classList.add('ok');dot.classList.add('led-ok');}
+        else{sl.classList.add('wrong');dot.classList.add('led-bad');}
+      }
+      wrap2.appendChild(dot);
+      wrap2.appendChild(sl);
+      row.appendChild(wrap2);flat++;
+    });
+    blk.appendChild(row);
+    const wok=document.createElement('div');wok.className='wok';wok.id='wok'+wi;wok.textContent=WDONE;blk.appendChild(wok);
+    wrap.appendChild(blk);
+  });
+  buildTiles();evalPh();
+}
+function buildTiles(){
+  const pool=document.getElementById('tpool');pool.innerHTML='';
+  const idx=[...Array(TARGET.length).keys()].sort(()=>Math.random()-.5);
+  idx.forEach(fi=>{
+    const l=TARGET[fi],isV=VOWELS.includes(l);
+    const t=document.createElement('div');t.className='at';t.id='ati'+fi;t.dataset.fi=fi;t.textContent=l;
+    if(slots.some(s=>s&&s.id==='ati'+fi))t.classList.add('used');
+    if(!isV&&!conU)t.classList.add('locked');
+    setupTile(t,fi,isV);pool.appendChild(t);
+  });
+}
+function setupTile(tile,fi,isV){
+  const can=isV||conU;tile.draggable=can;if(!can)return;
+  tile.addEventListener('dragstart',e=>{drFi=fi;tile.classList.add('drag');tile.style.outline='2px solid var(--red)';e.dataTransfer.effectAllowed='move';});
+  tile.addEventListener('dragend',()=>{tile.classList.remove('drag');tile.style.outline='';});
+  tile.addEventListener('touchstart',e=>{
+    if(tile.classList.contains('used')||tile.classList.contains('locked'))return;
+    drFi=fi;const t=e.touches[0];
+    tClone=tile.cloneNode(true);
+    tClone.style.cssText='position:fixed;z-index:9999;pointer-events:none;width:38px;height:44px;opacity:.9;border:2px solid var(--red);left:'+(t.clientX-19)+'px;top:'+(t.clientY-22)+'px;';
+    document.body.appendChild(tClone);e.preventDefault();
+  },{passive:false});
+  tile.addEventListener('touchmove',e=>{if(!tClone)return;const t=e.touches[0];tClone.style.left=(t.clientX-19)+'px';tClone.style.top=(t.clientY-22)+'px';e.preventDefault();},{passive:false});
+  tile.addEventListener('touchend',e=>{
+    if(!tClone)return;const t=e.changedTouches[0];tClone.remove();tClone=null;
+    const el=document.elementFromPoint(t.clientX,t.clientY);
+    const sl=el&&(el.classList.contains('tsl')?el:el.closest&&el.closest('.tsl'));
+    if(sl)dropOn(sl,drFi);drFi=null;
+  });
+}
+function setupSl(sl,flat){
+  sl.addEventListener('dragover',e=>{
+    if(drFi===null)return;
+    const l=TARGET[drFi];
+    const canDrag=VOWELS.includes(l)||conU;
+    if(!canDrag)return;
+    const isCorrect=(l===sl.dataset.exp);
+    if(isCorrect){sl.classList.add('dov-ok');sl.classList.remove('dov-bad');}
+    else{sl.classList.add('dov-bad');sl.classList.remove('dov-ok');}
+    const dot2=document.getElementById('dot'+sl.dataset.flat);
+    if(dot2&&!dot2.classList.contains('led-ok')&&!dot2.classList.contains('led-bad')){
+      dot2.classList.add(isCorrect?'led-hover-ok':'led-hover-bad');
+    }
+    e.preventDefault();
+  });
+  sl.addEventListener('dragleave',()=>{
+    sl.classList.remove('dov-ok','dov-bad');
+    const dot2=document.getElementById('dot'+sl.dataset.flat);
+    if(dot2){dot2.classList.remove('led-hover-ok','led-hover-bad');}
+  });
+  sl.addEventListener('drop',e=>{e.preventDefault();sl.classList.remove('dov-ok','dov-bad');const dot2=document.getElementById('dot'+sl.dataset.flat);if(dot2)dot2.classList.remove('led-hover-ok','led-hover-bad');if(drFi!==null)dropOn(sl,drFi);});
+  sl.addEventListener('click',()=>{const s=slots[flat];if(s)retTile(flat,parseInt(s.id.replace('ati','')));});
+}
+function dropOn(sl,fi){
+  const l=TARGET[fi];if(!VOWELS.includes(l)&&!conU)return;
+  const flat=parseInt(sl.dataset.flat),exp=sl.dataset.exp,id='ati'+fi;
+  if(slots[flat])retTile(flat,parseInt(slots[flat].id.replace('ati','')));
+  slots[flat]={l,id};sl.textContent=l;sl.classList.add('hl');sl.classList.remove('ok','wrong');
+  const dot=document.getElementById('dot'+flat);
+  if(l===exp){
+    sl.classList.add('ok');
+    if(dot){dot.className='tsl-led led-ok';}
+  } else {
+    sl.classList.add('wrong');
+    if(dot){dot.className='tsl-led led-bad';}
+  }
+  const t=document.getElementById(id);if(t)t.classList.add('used');
+  evalPh();
+}
+function retTile(flat,fi){
+  slots[flat]=null;const sl=document.getElementById('tsl'+flat);
+  if(sl){sl.textContent='';sl.classList.remove('hl','ok','wrong');}
+  const dot=document.getElementById('dot'+flat);
+  if(dot){dot.className='tsl-led';}
+  const t=document.getElementById('ati'+fi);if(t)t.classList.remove('used');
+  evalPh();
+}
+function evalPh(){
+  let allV=true;
+  for(let i=0;i<TARGET.length;i++){if(VOWELS.includes(TARGET[i])){const s=slots[i];if(!s||s.l!==TARGET[i]){allV=false;break;}}}
+  const pb=document.getElementById('phbadge'),pt=document.getElementById('phtext');
+  if(allV&&!conU){conU=true;pb.textContent=F2L;pb.style.background='var(--a1)';pb.style.color='var(--bg)';pt.textContent=F2T;buildTiles();if(!fwD){fwD=true;launchFW();}}
+  else if(!allV&&conU){conU=false;pb.textContent=F1L;pb.style.background='var(--a2)';pb.style.color='#000';pt.textContent=F1T;buildTiles();}
+  updScore();chkWords();
+}
+function chkWords(){
+  let flat=0;WORDS.forEach((w,wi)=>{let ok=true;for(let i=0;i<w.length;i++){const s=slots[flat+i];if(!s||s.l!==w[i]){ok=false;break;}}const el=document.getElementById('wok'+wi);if(el)el.classList.toggle('on',ok);flat+=w.length;});
+}
+function updScore(){
+  let n=0;slots.forEach((s,i)=>{if(s&&s.l===TARGET[i])n++;});
+  document.getElementById('sv').textContent=n;
+  if(n===TARGET.length&&!finD){finD=true;setTimeout(showFin,1400);}
+}
+function resetScr(){
+  slots=new Array(TARGET.length).fill(null);fwD=false;conU=false;
+  document.getElementById('phbadge').textContent=F1L;document.getElementById('phbadge').style.background='var(--a2)';document.getElementById('phbadge').style.color='#000';
+  document.getElementById('phtext').textContent=F1T;buildScr();document.getElementById('sv').textContent='0';
+}
+function updPenalty(){
+  const el=document.getElementById('penbar');
+  if(el){
+    const tot=(wrongTotal*1)+(hintUsed*2)+(answerUsed*3);
+    el.innerHTML=
+      '<span style="color:var(--mid)">FOUT: -'+wrongTotal+'</span>&nbsp;&nbsp;'+
+      '<span style="color:var(--a2)">HINT: -'+(hintUsed*2)+'</span>&nbsp;&nbsp;'+
+      '<span style="color:var(--red)">ANTW: -'+(answerUsed*3)+'</span>&nbsp;&nbsp;'+
+      '<span style="color:var(--dim);border-left:1px solid var(--brd);padding-left:8px;">AFTREK: -'+tot+'</span>';
+  }
+}
+function showFin(){
+  const fin=document.getElementById('sfin');fin.style.display='flex';
+  // inject score block
+  let sb=document.getElementById('finScore');
+  if(!sb){
+    sb=document.createElement('div');sb.id='finScore';
+    sb.style.cssText='margin-top:18px;font-family:Share Tech Mono,monospace;font-size:12px;line-height:2;border:1px solid #1e2e1e;padding:12px 20px;';
+    const wc=wrongTotal===0?'var(--a1)':'var(--mid)';
+    const hc=hintUsed===0?'var(--a1)':'var(--a2)';
+    const ac=answerUsed===0?'var(--a1)':'var(--red)';
+    const tot=(wrongTotal*1)+(hintUsed*2)+(answerUsed*3);
+    const perf=tot===0?'PERFECT — GEEN HULP GEBRUIKT! 🏆':(tot<=3?'UITSTEKEND GESPEELD ⭐':tot<=8?'GOED GESPEELD':tot<=15?'REDELIJK':'VEEL HULP NODIG');
+    sb.innerHTML=
+      '<div style="font-size:9px;letter-spacing:4px;color:var(--a2);margin-bottom:8px;">// JOUW SCORE //</div>'+
+      '<div style="color:'+wc+'">FOUTE POGINGEN: '+wrongTotal+'x &nbsp;(−'+wrongTotal+' punt'+(wrongTotal!==1?'en':'')+')</div>'+
+      '<div style="color:'+hc+'">HINTS BEKEKEN: '+hintUsed+'x &nbsp;(−'+(hintUsed*2)+' punt'+(hintUsed!==1?'en':'')+')</div>'+
+      '<div style="color:'+ac+'">ANTWOORDEN BEKEKEN: '+answerUsed+'x &nbsp;(−'+(answerUsed*3)+' punt'+(answerUsed!==1?'en':'')+')</div>'+
+      '<div style="color:var(--mid);border-top:1px solid var(--brd);padding-top:6px;margin-top:8px;font-size:13px;letter-spacing:2px;">TOTALE AFTREK: −'+tot+' PUNTEN</div>'+
+      '<div style="margin-top:10px;font-size:15px;letter-spacing:3px;color:var(--a1);">'+perf+'</div>';
+    fin.appendChild(sb);
+  }
+}
+
+const fwC=document.getElementById('fwc'),fwX=fwC.getContext('2d');
+let particles=[],fwT=null;
+function launchFW(){
+  fwC.style.display='block';fwC.width=window.innerWidth;fwC.height=window.innerHeight;
+  const cols=['${g.a1}','${g.a2}','${g.red}','#ffffff','#ffcc00'];
+  function burst(){const x=Math.random()*fwC.width,y=Math.random()*fwC.height*.5;const c=cols[Math.floor(Math.random()*cols.length)];for(let i=0;i<70;i++){const a=(Math.PI*2/70)*i+(Math.random()-.5)*.3,sp=1.5+Math.random()*5;particles.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-1.5,alpha:1,color:c,size:1.5+Math.random()*3,decay:.012+Math.random()*.01});}}
+  burst();burst();burst();fwT=setInterval(()=>{burst();burst();},500);setTimeout(()=>{clearInterval(fwT);fwT=null;},8000);requestAnimationFrame(animFW);
+}
+function animFW(){fwX.clearRect(0,0,fwC.width,fwC.height);particles=particles.filter(p=>p.alpha>.02);particles.forEach(p=>{fwX.globalAlpha=p.alpha;fwX.fillStyle=p.color;fwX.beginPath();fwX.arc(p.x,p.y,p.size,0,Math.PI*2);fwX.fill();p.x+=p.vx;p.y+=p.vy;p.vy+=.07;p.vx*=.99;p.alpha-=p.decay;});fwX.globalAlpha=1;if(particles.length||fwT)requestAnimationFrame(animFW);else fwC.style.display='none';}
+window.addEventListener('resize',function(){fwC.width=window.innerWidth;fwC.height=window.innerHeight;});
+`;
+  // Safely close script tag — split avoids the string being parsed as a closing tag
+  html += '<' + '/script>\n</body>\n</html>';
+  return html;
+}
+
+// ════════════════════════════════════════════════
+//  DEMO QUESTIONS
+// ════════════════════════════════════════════════
+const DEMO_Q = [
+  // H-E-T-G-E-H-E-I-M-E-W-O-O-R-D  (= HET GEHEIME WOORD, 15 letters)
+  {letter:'H',q:"Welke Noorse doelpuntenmachine breekt record na record in de Engelse Premier League bij Manchester City? Pak de eerste letter van zijn achternaam.",intel:'Recordsplijtende spits, zoon van Alf-Inge.',answer:'Haaland'},
+  {letter:'E',q:"Welke Franse spits won in 2022 de Ballon d'Or en speelde jarenlang in de spits bij Real Madrid? Pak de tweede letter van zijn achternaam.",intel:'Franse topspits die later naar Saudi-Arabië vertrok.',answer:'Benzema'},
+  {letter:'T',q:"Welke Italiaanse 'Prins van Rome' speelde zijn gehele carrière uitsluitend voor AS Roma? Pak de vierde letter van zijn achternaam.",intel:'Clubicoon en legendarische nummer 10 van Rome.',answer:'Totti'},
+  {letter:'G',q:"Welke Spaanse succescoach won de treble met zowel Barcelona als Manchester City? Pak de eerste letter van zijn achternaam.",intel:'Tactisch genie, bekend om zijn tiki-taka filosofie.',answer:'Guardiola'},
+  {letter:'E',q:"Welke Engelse topclub uit Londen staat bekend als 'The Gunners' en speelt in het Emirates Stadium? Pak de vierde letter van de clubnaam.",intel:'De club waar Thierry Henry en Dennis Bergkamp legendes werden.',answer:'Arsenal'},
+  {letter:'H',q:"Welke Nederlandse doelman stond jarenlang onder de lat bij Ajax en een engelse club en wordt gezien als een van de beste keepers ooit? Pak de vijfde letter van deze Engelse stad.",intel:"Edwin van der Sar, winnaar van de Champions League in 2008. (Manchester United)"},
+  {letter:'E',q:"Welke legendarische Schotse manager leidde Manchester United 27 jaar lang en won 13 Premier League-titels? Pak de tweede letter van zijn achternaam.",intel:"Bekend om zijn 'Squeaky bum time' en kauwgom kauwen. (Ferguson)"},
+  {letter:'I',q:"Welke Italiaanse club won in 2010 de legendarische 'Treble' onder leiding van José Mourinho? Pak de tweede letter van de stad waarin de club gevestigd is.",intel:'Club uit Milaan met blauw-zwarte strepen.',answer:'Inter Milaan'},
+  {letter:'M',q:"Welke Kroatische middenvelder won in 2018 de Ballon d'Or nadat hij zijn land naar de WK-finale loodste? Pak de eerste letter van zijn achternaam.",intel:'De eeuwige spelmaker van Real Madrid met rugnummer 10.',answer:'Modrić'},
+  {letter:'E',q:"Welke Italiaanse topclub uit Turijn heeft als bijnaam 'De Oude Dame' en speelt in zwart-wit gestreept tenue? Pak de vierde letter van de clubnaam.",intel:'De succesvolste club in de geschiedenis van de Serie A.',answer:'Juventus'},
+  {letter:'W',q:"Welke Engelse voetbalclub uit Londen speelt in het London Stadium en heeft twee hamers in het logo? Pak de eerste letter van de clubnaam.",intel:"De club staat bekend als 'The Hammers'. (West Ham United)"},
+  {letter:'O',q:"Welke legendarische Kameroense spits speelde voor Barcelona, Inter Milan en Chelsea, en werd vier keer Afrikaans voetballer van het jaar? Pak de laatste letter van zijn achternaam.",intel:"Scoorde in meerdere Champions League-finales. (Eto'o)"},
+  {letter:'O',q:"Welke legendarische Nederlandse nummer 14 wordt wereldwijd gezien als de grondlegger van het 'Totaalvoetbal'? Pak de tweede letter van zijn voornaam.",intel:'Amsterdamse voetbalicoon, legende van Ajax en Barcelona.',answer:'Cruijff'},
+  {letter:'R',q:"Welke legendarische Braziliaanse spits, ook wel 'O Fenômeno', werd wereldkampioen in 1994 en 2002? Pak de eerste letter van zijn naam.",intel:'Iconische nummer 9 met het beroemde WK-kapsel.',answer:'Ronaldo'},
+  {letter:'D',q:"Welke legendarische Nederlandse spits scoorde de iconische 2-1 in de slotminuut tegen Argentinië op het WK 1998? Pak de eerste letter van zijn voornaam.",intel:'Technisch wonder van Ajax en Arsenal.',answer:'Dennis Bergkamp'},
+];
+
+// ════════════════════════════════════════════════
+//  RICH TEXT TOOLBAR — for all text inputs/textareas
+// ════════════════════════════════════════════════
+
+const RT_COLORS = [
+  '#ddeedd','#c8dcc8','#00e87a','#44ff88','#00b86a',
+  '#ffaa00','#cc8800','#ff4422','#cc2200',
+  '#4488cc','#2266aa','#ffffff','#888888','#444444',
+  '#ff88cc','#cc44ff','#ffff44','#44ffff',
+];
+const RT_SIZES = ['10','11','12','13','14','16','18','20','24','28','32'];
+const RT_FONTS = [
+  {v:"'IBM Plex Mono',monospace", l:'IBM Mono'},
+  {v:"'Share Tech Mono',monospace", l:'Share Tech'},
+  {v:"'Bebas Neue',sans-serif", l:'Bebas Neue'},
+  {v:"'IBM Plex Sans',sans-serif", l:'IBM Sans'},
+];
+
+// Store per-field meta: {color, size, bold, font}
+const rtMeta = {};
+
+function rtGetId(el) { return el.id || (el.dataset.rtid = 'rt_' + Math.random().toString(36).slice(2)); }
+
+function buildToolbar(el) {
+  if (el.dataset.rtBuilt) return;
+  el.dataset.rtBuilt = '1';
+  const id = rtGetId(el);
+  if (!rtMeta[id]) rtMeta[id] = {color:'', size:'13', bold:false, font:"'IBM Plex Mono',monospace"};
+
+  // Wrap
+  const wrap = document.createElement('div');
+  wrap.className = 'rt-wrap';
+  el.parentNode.insertBefore(wrap, el);
+  wrap.appendChild(el);
+
+  // Build toolbar
+  const tb = document.createElement('div');
+  tb.className = 'rt-toolbar';
+
+  // Font size
+  const szSel = document.createElement('select');
+  szSel.title = 'Tekstgrootte';
+  RT_SIZES.forEach(s => { const o = document.createElement('option'); o.value=s; o.textContent=s+'px'; if(s==='13')o.selected=true; szSel.appendChild(o); });
+  szSel.addEventListener('change', () => { rtMeta[id].size = szSel.value; applyMeta(el, id); });
+
+  // Font family
+  const ftSel = document.createElement('select');
+  ftSel.title = 'Lettertype';
+  RT_FONTS.forEach(f => { const o = document.createElement('option'); o.value=f.v; o.textContent=f.l; ftSel.appendChild(o); });
+  ftSel.addEventListener('change', () => { rtMeta[id].font = ftSel.value; applyMeta(el, id); });
+
+  // Bold
+  const bBold = document.createElement('button');
+  bBold.textContent = 'B'; bBold.title = 'Vet';
+  bBold.style.fontWeight = 'bold';
+  bBold.addEventListener('click', () => { rtMeta[id].bold = !rtMeta[id].bold; bBold.classList.toggle('rt-active', rtMeta[id].bold); applyMeta(el, id); });
+
+  // Separator
+  const sep1 = document.createElement('div'); sep1.className = 'rt-sep';
+
+  // Color button + popup
+  const colorBtn = document.createElement('button');
+  colorBtn.title = 'Tekstkleur';
+  colorBtn.style.cssText = 'width:22px;padding:0;position:relative;';
+  const colorDot = document.createElement('span');
+  colorDot.style.cssText = 'display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--text);border:1px solid rgba(255,255,255,.3);';
+  colorBtn.appendChild(colorDot);
+
+  const colorPop = document.createElement('div');
+  colorPop.className = 'rt-colorpop';
+  RT_COLORS.forEach(c => {
+    const sw = document.createElement('div');
+    sw.className = 'rt-swatch'; sw.style.background = c; sw.title = c;
+    sw.addEventListener('click', e => { e.stopPropagation(); rtMeta[id].color = c; colorDot.style.background = c; applyMeta(el, id); colorPop.classList.remove('open'); });
+    colorPop.appendChild(sw);
+  });
+  // Custom color picker
+  const custC = document.createElement('input'); custC.type = 'color'; custC.value = '#ddeedd'; custC.title = 'Eigen kleur';
+  custC.addEventListener('input', () => { rtMeta[id].color = custC.value; colorDot.style.background = custC.value; applyMeta(el, id); });
+  colorPop.appendChild(custC);
+
+  colorBtn.addEventListener('click', e => { e.stopPropagation(); colorPop.classList.toggle('open'); });
+  document.addEventListener('click', () => colorPop.classList.remove('open'), {capture:false});
+
+  // Reset
+  const sep2 = document.createElement('div'); sep2.className = 'rt-sep';
+  const bReset = document.createElement('button');
+  bReset.textContent = '↺'; bReset.title = 'Reset stijl';
+  bReset.addEventListener('click', () => {
+    rtMeta[id] = {color:'', size:'13', bold:false, font:"'IBM Plex Mono',monospace"};
+    szSel.value = '13'; ftSel.value = RT_FONTS[0].v;
+    bBold.classList.remove('rt-active'); colorDot.style.background = 'var(--text)';
+    applyMeta(el, id);
+  });
+
+  tb.appendChild(szSel); tb.appendChild(ftSel); tb.appendChild(bBold);
+  tb.appendChild(sep1); tb.appendChild(colorBtn); tb.appendChild(colorPop);
+  tb.appendChild(sep2); tb.appendChild(bReset);
+
+  // Insert toolbar BEFORE the input inside wrap
+  wrap.insertBefore(tb, el);
+}
+
+function applyMeta(el, id) {
+  const m = rtMeta[id];
+  el.style.fontSize = m.size + 'px';
+  el.style.fontFamily = m.font;
+  el.style.fontWeight = m.bold ? '600' : '';
+  el.style.color = m.color || '';
+}
+
+function initRichToolbars() {
+  // Apply to all text inputs and textareas in main content area (not search/system)
+  document.querySelectorAll('.main input[type=text], .main textarea').forEach(el => {
+    // Skip phrase input and question editor rows (those have their own style)
+    if (el.closest('.phrase-input-row') || el.closest('.q-row')) return;
+    buildToolbar(el);
+  });
+}
+
+window.addEventListener('load', () => { initEmoji(); loadDemo(); initRichToolbars(); });
+</script>
+</body>
+</html>
