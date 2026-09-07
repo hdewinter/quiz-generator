@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Quiz Builder — Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@500;700&family=Baloo+2:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg:#0a0c0a; --panel:#111511; --panel2:#161a16; --panel3:#1c221c;
@@ -447,12 +447,21 @@ input[type="color"]:focus{border-color:var(--green);}
   <div class="card">
     <div class="card-head"><div class="card-title">// STIJL PRESET</div><span class="badge badge-green">SNEL INSTELLEN</span></div>
     <div class="card-body">
+      <div class="hint" style="margin-bottom:10px;">Een thema vult kleuren, font, decoratiestijl <strong>én</strong> alle teksten (intro, knoppen, eindscherm) in één klik. Je kunt daarna nog alles handmatig aanpassen.</div>
       <div class="preset-strip">
         <button class="preset-btn active" onclick="applyPreset('cia',this)">Militair / CIA</button>
         <button class="preset-btn" onclick="applyPreset('classic',this)">Classic Rood/Goud</button>
         <button class="preset-btn" onclick="applyPreset('navy',this)">Navy Blauw</button>
         <button class="preset-btn" onclick="applyPreset('amber',this)">Amber Terminal</button>
         <button class="preset-btn" onclick="applyPreset('purple',this)">Purple Neon</button>
+        <button class="preset-btn" onclick="applyPreset('hightea',this)">☕ Hightea / Elegant</button>
+        <button class="preset-btn" onclick="applyPreset('kids',this)">🎈 Kinderfeest</button>
+        <button class="preset-btn" onclick="applyPreset('corporate',this)">💼 Bedrijfsborrel</button>
+        <button class="preset-btn" onclick="applyPreset('birthday',this)">🎉 Verjaardag</button>
+        <button class="preset-btn" onclick="applyPreset('wedding',this)">💍 Bruiloft</button>
+        <button class="preset-btn" onclick="applyPreset('christmas',this)">❄️ Kerst</button>
+        <button class="preset-btn" onclick="applyPreset('escaperoom',this)">🔒 Escape Room</button>
+        <button class="preset-btn" onclick="applyPreset('retro80',this)">📼 Retro Jaren 80</button>
       </div>
       <div class="color-grid">
         <div class="color-chip"><input type="color" id="l_bg" value="#060808"><span>Achtergrond</span></div>
@@ -469,16 +478,28 @@ input[type="color"]:focus{border-color:var(--green);}
     <div class="card-head"><div class="card-title">// TYPOGRAFIE</div><span class="badge badge-amber">OPMAAK</span></div>
     <div class="card-body">
       <div class="frow">
-        <div class="fg half"><label>Titel/display font</label><select id="l_ft"><option value="'Bebas Neue',sans-serif">Bebas Neue (militair)</option><option value="'Impact',sans-serif">Impact (vet)</option><option value="'Share Tech Mono',monospace">Share Tech Mono</option></select></div>
-        <div class="fg half"><label>Vraag/body font</label><select id="l_fb"><option value="'IBM Plex Mono',monospace">IBM Plex Mono (tech)</option><option value="'Share Tech Mono',monospace">Share Tech Mono</option><option value="'IBM Plex Sans',sans-serif">IBM Plex Sans (clean)</option></select></div>
+        <div class="fg half"><label>Titel/display font</label><select id="l_ft"><option value="'Bebas Neue',sans-serif">Bebas Neue (militair)</option><option value="'Impact',sans-serif">Impact (vet)</option><option value="'Share Tech Mono',monospace">Share Tech Mono</option><option value="'Playfair Display',serif">Playfair Display (sierlijk)</option><option value="'Baloo 2',sans-serif">Baloo 2 (speels/rond)</option><option value="'IBM Plex Sans',sans-serif">IBM Plex Sans (zakelijk)</option></select></div>
+        <div class="fg half"><label>Vraag/body font</label><select id="l_fb"><option value="'IBM Plex Mono',monospace">IBM Plex Mono (tech)</option><option value="'Share Tech Mono',monospace">Share Tech Mono</option><option value="'IBM Plex Sans',sans-serif">IBM Plex Sans (clean)</option><option value="'Baloo 2',sans-serif">Baloo 2 (speels/rond)</option></select></div>
       </div>
       <div class="frow">
         <div class="fg half"><label>Vraagtekst grootte</label><select id="l_qs"><option value="13px">Klein (13px)</option><option value="15px" selected>Normaal (15px)</option><option value="17px">Groot (17px)</option><option value="19px">Extra groot (19px)</option></select></div>
-        <div class="fg half"><label>Watermark op vragen</label><select id="l_wm"><option value="CLASSIFIED">CLASSIFIED</option><option value="TOP SECRET">TOP SECRET</option><option value="GEHEIM">GEHEIM</option><option value="">— Uitgeschakeld —</option></select></div>
+        <div class="fg half"><label>Watermark op vragen (eigen tekst)</label><input type="text" id="l_wm" placeholder="bijv. CLASSIFIED, SAVE THE DATE, of leeg laten"></div>
       </div>
       <div class="frow">
         <div class="fg half"><label>CRT scanlines</label><select id="l_sl"><option value="1">Aan</option><option value="0">Uit</option></select></div>
         <div class="fg half"><label>Boot-animatie bij start</label><select id="l_boot"><option value="1">Aan (typewriter)</option><option value="0">Uit (direct intro)</option></select></div>
+      </div>
+      <div class="frow">
+        <div class="fg full">
+          <label>Decoratie-stijl (vorm van stempel/knoppen/kaarten)</label>
+          <select id="l_decor">
+            <option value="classified">Classified — hoekig, stempel, felle rand</option>
+            <option value="elegant">Elegant — dun lijntje, sierlijk, subtiel</option>
+            <option value="badge">Badge — rond, vrolijk, vol kleur</option>
+            <option value="minimal">Minimaal — strak, geen stempel</option>
+          </select>
+          <div class="hint">Bepaalt de vorm van het stempel, de startknop en de kaartjes in de geëxporteerde quiz. Los in te stellen van de kleuren/fonts hierboven.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -1034,27 +1055,168 @@ function doConfirm() {
 }
 
 // ════════════════════════════════════════════════
-//  PRESETS
+//  THEMES — kleur + font + decoratie + teksten in één bundel
 // ════════════════════════════════════════════════
-const PRESETS = {
-  cia:     { bg:'#060808', a1:'#00ff41', a2:'#ff9900', red:'#cc2200', txt:'#c8d8c0', tile:'#00ff41' },
-  classic: { bg:'#0a0a0a', a1:'#00d468', a2:'#c48a1e', red:'#c8001a', txt:'#f0ebe0', tile:'#c48a1e' },
-  navy:    { bg:'#030810', a1:'#4488ff', a2:'#88ccff', red:'#ff4422', txt:'#d0e0ff', tile:'#4488ff' },
-  amber:   { bg:'#080600', a1:'#ff9900', a2:'#ffcc44', red:'#cc2200', txt:'#f0d8b0', tile:'#ff9900' },
-  purple:  { bg:'#080010', a1:'#cc44ff', a2:'#ff88cc', red:'#ff2244', txt:'#e0d0ff', tile:'#cc44ff' },
+const FT_MIL = "'Bebas Neue',sans-serif";
+const FT_MONO = "'Share Tech Mono',monospace";
+const FT_ELEGANT = "'Playfair Display',serif";
+const FT_PLAYFUL = "'Baloo 2',sans-serif";
+const FT_CLEAN = "'IBM Plex Sans',sans-serif";
+const FB_TECH = "'IBM Plex Mono',monospace";
+const FB_CLEAN = "'IBM Plex Sans',sans-serif";
+const FB_PLAYFUL = "'Baloo 2',sans-serif";
+
+const THEMES = {
+  cia: { bg:'#060808', a1:'#00ff41', a2:'#ff9900', red:'#cc2200', txt:'#c8d8c0', tile:'#00ff41',
+    ft:FT_MIL, fb:FB_TECH, decor:'classified', sl:'1', boot:'1', wm:'CLASSIFIED',
+    stamp:'QUIZ // TOP GEHEIM', t1:'GELUKKIGE', t2:'MISSIE', name:'GEEN CADEAU. EEN UITDAGING.',
+    desc:'Beantwoord alle vragen om de benodigde letters te verzamelen.\n\nSorteer de letters aan het einde tot de geheime boodschap.\n\nSucces met de missie.',
+    btn:'▶ START DE QUIZ', logo:'QUIZ // GEHEIM',
+    br1:'INITIALISEREN...', br2:'VERBINDING BEVEILIGD', br3:'CLASSIFICATIE: STRIKT GEHEIM',
+    bbtn:'▶ \u00a0 INITIALISEER', bbrief:'Je ontvangt vragen. Elke vraag levert één letter op.\n\nOntcijfer aan het einde de geheime boodschap door de letters op de juiste plek te schuiven.',
+    scrt:'ZET DE LETTERS OP DE JUISTE PLEK', scri:'Sleep elke letter naar de juiste plek om de geheime zin te onthullen.',
+    etag:'QUIZ VOLTOOID', estamp:'JE HEBT HET GEKRAAKT!', ebody:'Je hebt de geheime boodschap ontcijferd. Missie geslaagd.', efstamp:'GOEDGEKEURD' },
+
+  classic: { bg:'#0a0a0a', a1:'#00d468', a2:'#c48a1e', red:'#c8001a', txt:'#f0ebe0', tile:'#c48a1e',
+    ft:FT_MIL, fb:FB_TECH, decor:'classified', sl:'1', boot:'1', wm:'TOP SECRET',
+    stamp:'QUIZ // TOP SECRET', t1:'WELKOM BIJ', t2:'DE QUIZ', name:'EEN SPEL VAN KENNIS EN GELUK',
+    desc:'Beantwoord alle vragen om de benodigde letters te verzamelen.\n\nSorteer de letters aan het einde tot de geheime boodschap.',
+    btn:'▶ START DE QUIZ', logo:'QUIZ 2026',
+    br1:'INITIALISEREN...', br2:'VERBINDING BEVEILIGD', br3:'CLASSIFICATIE: TOP SECRET',
+    bbtn:'▶ \u00a0 INITIALISEER', bbrief:'Je ontvangt vragen. Elke vraag levert één letter op.\n\nOntcijfer aan het einde de geheime boodschap.',
+    scrt:'ZET DE LETTERS OP DE JUISTE PLEK', scri:'Sleep elke letter naar de juiste plek om de geheime zin te onthullen.',
+    etag:'QUIZ VOLTOOID', estamp:'GEFELICITEERD!', ebody:'Je hebt de geheime boodschap ontcijferd.', efstamp:'VOLTOOID' },
+
+  navy: { bg:'#030810', a1:'#4488ff', a2:'#88ccff', red:'#ff4422', txt:'#d0e0ff', tile:'#4488ff',
+    ft:FT_MIL, fb:FB_TECH, decor:'classified', sl:'1', boot:'1', wm:'CLASSIFIED',
+    stamp:'OPERATIE // NAVY', t1:'WELKOM AAN', t2:'BOORD', name:'EEN OPDRACHT VOOR DE BEMANNING',
+    desc:'Beantwoord alle vragen om de benodigde letters te verzamelen.\n\nSorteer de letters aan het einde tot de geheime boodschap.',
+    btn:'▶ START DE QUIZ', logo:'OPERATIE NAVY',
+    br1:'RADAR ACTIEF...', br2:'KOERS VASTGESTELD', br3:'CLASSIFICATIE: VERTROUWELIJK',
+    bbtn:'▶ \u00a0 AAN BOORD', bbrief:'Je ontvangt vragen. Elke vraag levert één letter op.\n\nOntcijfer aan het einde de geheime boodschap.',
+    scrt:'ZET DE LETTERS OP DE JUISTE PLEK', scri:'Sleep elke letter naar de juiste plek om de geheime zin te onthullen.',
+    etag:'OPDRACHT VOLTOOID', estamp:'GOED GEDAAN, BEMANNING!', ebody:'Je hebt de geheime boodschap ontcijferd.', efstamp:'VOLTOOID' },
+
+  amber: { bg:'#080600', a1:'#ff9900', a2:'#ffcc44', red:'#cc2200', txt:'#f0d8b0', tile:'#ff9900',
+    ft:FT_MIL, fb:FB_TECH, decor:'classified', sl:'1', boot:'1', wm:'GEHEIM',
+    stamp:'TERMINAL // AMBER', t1:'SYSTEEM', t2:'ONLINE', name:'LOG IN EN BEANTWOORD DE VRAGEN',
+    desc:'Beantwoord alle vragen om de benodigde letters te verzamelen.\n\nSorteer de letters aan het einde tot de geheime boodschap.',
+    btn:'▶ START DE QUIZ', logo:'TERMINAL AMBER',
+    br1:'SYSTEEM OPSTARTEN...', br2:'VERBINDING ACTIEF', br3:'STATUS: GEHEIM',
+    bbtn:'▶ \u00a0 INITIALISEER', bbrief:'Je ontvangt vragen. Elke vraag levert één letter op.\n\nOntcijfer aan het einde de geheime boodschap.',
+    scrt:'ZET DE LETTERS OP DE JUISTE PLEK', scri:'Sleep elke letter naar de juiste plek om de geheime zin te onthullen.',
+    etag:'QUIZ VOLTOOID', estamp:'GEFELICITEERD!', ebody:'Je hebt de geheime boodschap ontcijferd.', efstamp:'VOLTOOID' },
+
+  purple: { bg:'#080010', a1:'#cc44ff', a2:'#ff88cc', red:'#ff2244', txt:'#e0d0ff', tile:'#cc44ff',
+    ft:FT_MIL, fb:FB_TECH, decor:'classified', sl:'1', boot:'1', wm:'CLASSIFIED',
+    stamp:'NEON // PROTOCOL', t1:'WELKOM IN', t2:'DE NEON ZONE', name:'BEANTWOORD DE VRAGEN, KRAAK DE CODE',
+    desc:'Beantwoord alle vragen om de benodigde letters te verzamelen.\n\nSorteer de letters aan het einde tot de geheime boodschap.',
+    btn:'▶ START DE QUIZ', logo:'NEON PROTOCOL',
+    br1:'SIGNAAL ZOEKEN...', br2:'VERBINDING GEVONDEN', br3:'STATUS: GECODEERD',
+    bbtn:'▶ \u00a0 INITIALISEER', bbrief:'Je ontvangt vragen. Elke vraag levert één letter op.\n\nOntcijfer aan het einde de geheime boodschap.',
+    scrt:'ZET DE LETTERS OP DE JUISTE PLEK', scri:'Sleep elke letter naar de juiste plek om de geheime zin te onthullen.',
+    etag:'QUIZ VOLTOOID', estamp:'GEFELICITEERD!', ebody:'Je hebt de geheime boodschap ontcijferd.', efstamp:'VOLTOOID' },
+
+  hightea: { bg:'#faf5ee', a1:'#b8925a', a2:'#8a6b52', red:'#b3697e', txt:'#4a3f35', tile:'#b8925a',
+    ft:FT_ELEGANT, fb:FB_CLEAN, decor:'elegant', sl:'0', boot:'0', wm:'',
+    stamp:'☕ EEN MIDDAG VOL VERRASSINGEN', t1:'WELKOM BIJ', t2:'DE HIGH TEA QUIZ', name:'GEZELLIGHEID, THEE EN EEN BEETJE COMPETITIE',
+    desc:'Beantwoord alle vragen en verzamel letters.\n\nAan het einde ontrafel je samen de geheime boodschap.\n\nGeniet van de thee!',
+    btn:'❀ Start de quiz', logo:'High Tea Quiz',
+    br1:'', br2:'', br3:'', bbtn:'❀ Start de quiz', bbrief:'',
+    scrt:'Zet de letters op de juiste plek', scri:'Sleep elke letter naar de juiste plek om de geheime boodschap te onthullen.',
+    etag:'Quiz voltooid', estamp:'Gefeliciteerd!', ebody:'Jullie hebben de geheime boodschap ontrafeld.', efstamp:'Voltooid' },
+
+  kids: { bg:'#fff6e5', a1:'#ff6b6b', a2:'#3bb3ab', red:'#ff9f43', txt:'#3a3a3a', tile:'#ffcc33',
+    ft:FT_PLAYFUL, fb:FB_PLAYFUL, decor:'badge', sl:'0', boot:'0', wm:'',
+    stamp:'🎈 SUPERSPEURDER GEZOCHT', t1:'WELKOM BIJ', t2:'HET SPEURDERSSPEL', name:'BEANTWOORD, VERZAMEL, WIN!',
+    desc:'Beantwoord alle vragen en verdien letters!\n\nAan het einde ontdek je samen het geheime woord.\n\nVeel plezier!',
+    btn:'🚀 Laten we starten!', logo:'Speurdersspel',
+    br1:'', br2:'', br3:'', bbtn:'🚀 Laten we starten!', bbrief:'',
+    scrt:'Zet de letters op de juiste plek!', scri:'Sleep elke letter naar de juiste plek om het geheime woord te ontdekken.',
+    etag:'Gelukt!', estamp:'Supergedaan! 🎉', ebody:'Je hebt het geheime woord ontdekt!', efstamp:'Klaar' },
+
+  corporate: { bg:'#12151a', a1:'#3b82f6', a2:'#94a3b8', red:'#ef4444', txt:'#e2e8f0', tile:'#3b82f6',
+    ft:FT_CLEAN, fb:FB_CLEAN, decor:'minimal', sl:'0', boot:'0', wm:'',
+    stamp:'', t1:'WELKOM BIJ', t2:'DE TEAM QUIZ', name:'KENNIS, SAMENWERKING & EEN BEETJE RIVALITEIT',
+    desc:'Beantwoord alle vragen om letters te verzamelen.\n\nAan het einde ontcijfer je samen de boodschap.',
+    btn:'Start de quiz →', logo:'Team Quiz',
+    br1:'', br2:'', br3:'', bbtn:'Start de quiz →', bbrief:'',
+    scrt:'Zet de letters op de juiste plek', scri:'Sleep elke letter naar de juiste plek om de boodschap te onthullen.',
+    etag:'Quiz voltooid', estamp:'Goed gedaan, team!', ebody:'Jullie hebben de boodschap ontcijferd.', efstamp:'Voltooid' },
+
+  birthday: { bg:'#1a0b2e', a1:'#ff2e88', a2:'#ffd23f', red:'#00d9ff', txt:'#f2e9ff', tile:'#ff2e88',
+    ft:FT_PLAYFUL, fb:FB_CLEAN, decor:'badge', sl:'0', boot:'0', wm:'',
+    stamp:'🎉 FEEST ALERT', t1:'GEFELICITEERD', t2:'MET DEZE QUIZ!', name:'GEEN CADEAU. EEN UITDAGING.',
+    desc:'Beantwoord alle vragen en verzamel letters.\n\nAan het einde ontrafel je de geheime verrassing.',
+    btn:'🎁 Start het feest', logo:'Verjaardagsquiz',
+    br1:'', br2:'', br3:'', bbtn:'🎁 Start het feest', bbrief:'',
+    scrt:'Zet de letters op de juiste plek', scri:'Sleep elke letter naar de juiste plek om de verrassing te onthullen.',
+    etag:'Quiz voltooid', estamp:'Gefeliciteerd!', ebody:'Je hebt de geheime verrassing ontdekt!', efstamp:'Voltooid' },
+
+  wedding: { bg:'#fdf7f5', a1:'#c9a0a0', a2:'#b08d57', red:'#8b6f47', txt:'#4a3f3a', tile:'#c9a0a0',
+    ft:FT_ELEGANT, fb:FB_CLEAN, decor:'elegant', sl:'0', boot:'0', wm:'',
+    stamp:'💍 EEN SPEL VOOR DE MOOISTE DAG', t1:'SAVE THE', t2:'QUIZ', name:'VOOR HET BRUIDSPAAR EN HUN GASTEN',
+    desc:'Beantwoord alle vragen en verzamel letters.\n\nAan het einde onthullen jullie samen de geheime boodschap.',
+    btn:'💍 Start de quiz', logo:'Bruiloftsquiz',
+    br1:'', br2:'', br3:'', bbtn:'💍 Start de quiz', bbrief:'',
+    scrt:'Zet de letters op de juiste plek', scri:'Sleep elke letter naar de juiste plek om de boodschap te onthullen.',
+    etag:'Quiz voltooid', estamp:'Gefeliciteerd!', ebody:'Jullie hebben de geheime boodschap ontrafeld.', efstamp:'Voltooid' },
+
+  christmas: { bg:'#0b1f16', a1:'#e63946', a2:'#f1c40f', red:'#e63946', txt:'#eef4ee', tile:'#2ecc71',
+    ft:FT_MIL, fb:FB_CLEAN, decor:'badge', sl:'0', boot:'0', wm:'',
+    stamp:'❄️ VROLIJK KERSTFEEST', t1:'DE KERST', t2:'QUIZ', name:'EEN SPEL VOOR ONDER DE KERSTBOOM',
+    desc:'Beantwoord alle vragen en verzamel letters.\n\nAan het einde ontrafel je de geheime kerstboodschap.',
+    btn:'🎄 Start de quiz', logo:'Kerstquiz',
+    br1:'', br2:'', br3:'', bbtn:'🎄 Start de quiz', bbrief:'',
+    scrt:'Zet de letters op de juiste plek', scri:'Sleep elke letter naar de juiste plek om de kerstboodschap te onthullen.',
+    etag:'Quiz voltooid', estamp:'Vrolijk kerstfeest!', ebody:'Je hebt de geheime kerstboodschap ontrafeld.', efstamp:'Voltooid' },
+
+  escaperoom: { bg:'#0a0a12', a1:'#7c3aed', a2:'#22d3ee', red:'#dc2626', txt:'#e4e0f5', tile:'#7c3aed',
+    ft:FT_MIL, fb:FB_TECH, decor:'classified', sl:'1', boot:'1', wm:'MYSTERIE',
+    stamp:'🔒 TOEGANG VERGRENDELD', t1:'ONTSNAP UIT', t2:'DE KAMER', name:'ELKE VRAAG BRENGT JE DICHTER BIJ DE UITGANG',
+    desc:'Beantwoord alle vragen om de benodigde letters te verzamelen.\n\nOntcijfer aan het einde de code om te ontsnappen.',
+    btn:'🗝️ Start de ontsnapping', logo:'Escape Room',
+    br1:'DEUR VERGRENDELD...', br2:'SYSTEEM ONTDEKT', br3:'STATUS: MYSTERIE',
+    bbtn:'🗝️ \u00a0 START', bbrief:'Je ontvangt vragen. Elke vraag levert één letter op.\n\nOntcijfer de code om te ontsnappen.',
+    scrt:'ZET DE LETTERS OP DE JUISTE PLEK', scri:'Sleep elke letter naar de juiste plek om de code te kraken.',
+    etag:'ONTSNAPT', estamp:'JE BENT ONTSNAPT!', ebody:'Je hebt de code gekraakt en de kamer verlaten.', efstamp:'ONTSNAPT' },
+
+  retro80: { bg:'#1a0b2e', a1:'#ff2ec4', a2:'#00fff0', red:'#ffe600', txt:'#fce4ff', tile:'#00fff0',
+    ft:FT_MIL, fb:FB_CLEAN, decor:'badge', sl:'1', boot:'0', wm:'',
+    stamp:'📼 REWIND', t1:'DE RETRO', t2:'QUIZ', name:'TERUG NAAR DE JAREN 80',
+    desc:'Beantwoord alle vragen en verzamel letters.\n\nAan het einde ontcijfer je de geheime boodschap.',
+    btn:'▶ Play', logo:'Retro Quiz',
+    br1:'', br2:'', br3:'', bbtn:'▶ Play', bbrief:'',
+    scrt:'Zet de letters op de juiste plek', scri:'Sleep elke letter naar de juiste plek om de boodschap te onthullen.',
+    etag:'Quiz voltooid', estamp:'Awesome!', ebody:'Je hebt de geheime boodschap ontcijferd.', efstamp:'Voltooid' },
 };
 
+function setVal(id, val) { const el = document.getElementById(id); if (el) el.value = val; }
+
 function applyPreset(key, btn) {
-  const p = PRESETS[key];
-  document.getElementById('l_bg').value   = p.bg;
-  document.getElementById('l_a1').value   = p.a1;
-  document.getElementById('l_a2').value   = p.a2;
-  document.getElementById('l_red').value  = p.red;
-  document.getElementById('l_txt').value  = p.txt;
-  document.getElementById('l_tile').value = p.tile;
+  const p = THEMES[key];
+  if (!p) return;
+  // Kleuren
+  setVal('l_bg', p.bg); setVal('l_a1', p.a1); setVal('l_a2', p.a2);
+  setVal('l_red', p.red); setVal('l_txt', p.txt); setVal('l_tile', p.tile);
+  // Font, decoratie, effecten
+  setVal('l_ft', p.ft); setVal('l_fb', p.fb); setVal('l_decor', p.decor);
+  setVal('l_sl', p.sl); setVal('l_boot', p.boot); setVal('l_wm', p.wm);
+  // Intro-teksten
+  setVal('c_stamp', p.stamp); setVal('c_t1', p.t1); setVal('c_t2', p.t2);
+  setVal('c_name', p.name); setVal('c_desc', p.desc); setVal('c_btn', p.btn); setVal('c_logo', p.logo);
+  // Boot/briefing-teksten
+  setVal('b_r1', p.br1); setVal('b_r2', p.br2); setVal('b_r3', p.br3);
+  setVal('b_btn', p.bbtn); setVal('b_brief', p.bbrief);
+  // Sorteer-scherm
+  setVal('c_scrt', p.scrt); setVal('c_scri', p.scri);
+  // Eindscherm
+  setVal('e_tag', p.etag); setVal('e_stamp', p.estamp); setVal('e_body', p.ebody); setVal('e_fstamp', p.efstamp);
+
   document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  toast('Preset: ' + key);
+  if (btn) btn.classList.add('active');
+  if (typeof refreshStartPreview === 'function') { try { refreshStartPreview(); } catch(e) {} }
+  toast('Thema toegepast: ' + key);
 }
 
 // ════════════════════════════════════════════════
@@ -1370,6 +1532,7 @@ function generate() {
     wm: v('l_wm')||'',
     sl: v('l_sl')==='1',
     boot: v('l_boot')==='1',
+    decor: v('l_decor')||'classified',
     stamp: v('c_stamp'), t1: v('c_t1'), t2: v('c_t2'),
     name: v('c_name'), desc: v('c_desc'), btn: v('c_btn'), logo: v('c_logo'),
     strip: v('c_strip'), ok: v('c_ok'), next: v('c_next'),
@@ -1623,6 +1786,16 @@ function aiImportResult() {
 // ════════════════════════════════════════════════
 function buildHTML(g, qJSON, wordsJSON, wColsJSON, totalLetters, words, wColors) {
   const a1d = hexAlpha(g.a1, 0.13);
+  const decor = g.decor || 'classified';
+  const cardRadius = decor==='elegant' ? '6px' : decor==='badge' ? '14px' : '0px';
+  const istampCSS = decor==='minimal' ? `display:none;` :
+    decor==='elegant' ? `display:${g.stamp?'inline-block':'none'};border:none;border-top:1px solid var(--a2);border-bottom:1px solid var(--a2);color:var(--a2);font-family:${g.ft};font-size:clamp(10px,1.8vw,14px);letter-spacing:2px;text-transform:none;padding:8px 20px;margin-bottom:30px;` :
+    decor==='badge' ? `display:${g.stamp?'inline-block':'none'};border:none;background:var(--a2);color:var(--bg);font-family:${g.ft};font-size:clamp(11px,2vw,15px);letter-spacing:2px;border-radius:30px;padding:6px 20px;margin-bottom:30px;font-weight:700;` :
+    `display:${g.stamp?'inline-block':'none'};border:2px solid var(--red);color:var(--red);font-family:${g.ft};font-size:clamp(11px,2vw,16px);letter-spacing:4px;padding:5px 14px;margin-bottom:30px;`;
+  const ibtnCSS = decor==='elegant' ? `background:transparent;border:1px solid var(--a2);color:var(--a2);border-radius:2px;padding:14px 44px;font-family:${g.ft};font-size:18px;letter-spacing:3px;cursor:pointer;transition:all .15s;` :
+    decor==='badge' ? `background:var(--a1);color:#fff;border:none;border-radius:44px;padding:15px 46px;font-family:${g.ft};font-size:19px;letter-spacing:2px;cursor:pointer;transition:all .15s;font-weight:700;` :
+    decor==='minimal' ? `background:var(--a1);color:#fff;border:none;border-radius:4px;padding:14px 40px;font-family:${g.ft};font-size:17px;letter-spacing:2px;cursor:pointer;transition:all .15s;` :
+    `background:var(--red);color:#fff;border:none;padding:15px 48px;font-family:${g.ft};font-size:20px;letter-spacing:5px;cursor:pointer;transition:all .15s;`;
 
   // Final phrase HTML (fix #2: pre-computed, no JSON.parse at runtime)
   const phraseHTML = words.map((w,i) =>
@@ -1658,14 +1831,14 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;b
 
 /* INTRO */
 #sintro{min-height:100vh;display:${g.boot?'none':'flex'};flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center;}
-.istamp{border:2px solid var(--red);color:var(--red);font-family:${g.ft};font-size:clamp(11px,2vw,16px);letter-spacing:4px;padding:5px 14px;margin-bottom:30px;display:${g.stamp?'inline-block':'none'};}
+.istamp{${istampCSS}}
 .ibig{font-family:${g.ft};font-size:clamp(56px,13vw,110px);line-height:.88;letter-spacing:1px;margin-bottom:8px;}
 .ibig .l2{color:var(--a2);}
 .iname{font-family:${g.ft};font-size:clamp(13px,3.5vw,20px);color:var(--a2);letter-spacing:6px;margin-bottom:28px;}
 .idesc{max-width:480px;font-size:14px;line-height:1.9;color:var(--txt);white-space:pre-line;margin-bottom:24px;text-align:left;}
-.irules{background:var(--p);border-left:3px solid var(--a2);padding:14px 18px;max-width:480px;width:100%;text-align:left;margin-bottom:28px;font-family:'Share Tech Mono',monospace;font-size:12px;color:#aaa;line-height:1.8;}
+.irules{background:var(--p);border-left:3px solid var(--a2);border-radius:${cardRadius};padding:14px 18px;max-width:480px;width:100%;text-align:left;margin-bottom:28px;font-family:'Share Tech Mono',monospace;font-size:12px;color:#aaa;line-height:1.8;}
 .irules b{color:var(--a2);font-size:10px;letter-spacing:2px;display:block;margin-bottom:5px;}
-.ibtn{background:var(--red);color:#fff;border:none;padding:15px 48px;font-family:${g.ft};font-size:20px;letter-spacing:5px;cursor:pointer;transition:all .15s;}
+.ibtn{${ibtnCSS}}
 .ibtn:hover{opacity:.85;transform:translateY(-2px);}
 
 /* QUIZ */
@@ -1681,7 +1854,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;b
 .sc{width:25px;height:30px;display:flex;align-items:center;justify-content:center;font-family:${g.ft};font-size:17px;background:var(--a1d);border:1px solid var(--a1);color:var(--a1);animation:pi .4s cubic-bezier(.175,.885,.32,1.275);}
 @keyframes pi{0%{transform:scale(.4) rotateY(90deg);opacity:0}60%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
 .qw{max-width:640px;margin:0 auto;padding:18px 16px 90px;}
-.qcard{background:var(--p);border:1px solid var(--brd);border-left:3px solid var(--a1);position:relative;overflow:hidden;}
+.qcard{background:var(--p);border:1px solid var(--brd);border-left:3px solid var(--a1);border-radius:${cardRadius};position:relative;overflow:hidden;}
 ${g.wm?`.qcard::before{content:'${g.wm}';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-25deg);font-family:${g.ft};font-size:80px;color:rgba(200,0,0,.04);pointer-events:none;white-space:nowrap;letter-spacing:8px;}`:''}
 .qtop{padding:10px 16px;background:var(--p2);border-bottom:1px solid var(--brd);display:flex;justify-content:space-between;align-items:center;}
 .qnl{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:4px;color:var(--red);}
