@@ -7,12 +7,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@500;700&family=Baloo+2:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:#0a0c0a; --panel:#111511; --panel2:#161a16; --panel3:#1c221c;
-  --border:#2a3a2a; --border2:#3a4e3a; --dim:#4a6a4a; --mid:#7a9a7a;
-  --text:#ddeedd; --cream:#c8dcc8; --faint:#8aaa8a;
-  --green:#00b86a; --green2:#00e87a; --green3:#44ff88;
-  --amber:#cc8800; --amber2:#ffaa00; --red:#cc2200; --red2:#ff4422;
-  --blue:#2266aa; --blue2:#4488cc;
+  /* 60/30/10 palet — zwart (dominant) / grijs (secundair) / blauw + oranje (accent, 10%)
+     Var-namen (--green*) zijn historisch, staan nu voor het BLAUWE accent. */
+  --bg:#0a0a0b; --panel:#141416; --panel2:#1a1a1d; --panel3:#212124;
+  --border:#2e2e32; --border2:#42424a; --dim:#68686f; --mid:#8f8f97;
+  --text:#e9e9ec; --cream:#d6d6da; --faint:#9a9aa2;
+  --green:#2f6fed; --green2:#4c8dff; --green3:#7dabff;
+  --amber:#c2600a; --amber2:#ff8a1e; --red:#cc2200; --red2:#ff4422;
+  --blue:#2f6fed; --blue2:#4c8dff;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
@@ -87,7 +89,7 @@ input[type="color"]:focus{border-color:var(--green);}
 /* phrase hero */
 .phrase-hero{background:var(--panel2);border:1px solid var(--border2);padding:20px;margin-bottom:16px;display:flex;flex-direction:column;gap:10px;}
 .phrase-input-row{display:flex;gap:10px;align-items:flex-end;}
-.phrase-input-row input{flex:1;font-size:16px!important;letter-spacing:2px;padding:12px 14px!important;border-color:var(--green)!important;color:var(--green3)!important;}
+.phrase-input-row input{flex:1;font-size:16px!important;letter-spacing:2px;padding:12px 14px!important;border-color:var(--green)!important;color:#161618!important;font-weight:600;}
 .phrase-stats{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:4px;}
 .stat-pill{background:rgba(0,184,106,.1);border:1px solid var(--green);padding:3px 10px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--green2);letter-spacing:2px;}
 .stat-warn{background:rgba(204,136,0,.1);border:1px solid var(--amber);padding:3px 10px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--amber2);letter-spacing:2px;}
