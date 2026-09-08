@@ -50,6 +50,10 @@ body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-ser
 .main{flex:1;padding:28px 36px;overflow-y:auto;max-width:940px;}
 .tpanel{display:none;} .tpanel.active{display:block;}
 
+.grid-resp{display:grid;gap:16px;align-items:start;}
+.grid-resp-2{grid-template-columns:1fr 1fr;}
+.grid-resp-3{grid-template-columns:1fr 1fr 1fr;}
+
 .card{background:var(--panel);border:1px solid var(--border);margin-bottom:22px;}
 .card-head{padding:12px 18px;background:var(--panel2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;}
 .card-title{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:4px;color:var(--amber2);}
@@ -69,7 +73,9 @@ label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;
 .hint{font-size:12px;color:var(--dim);margin-top:5px;line-height:1.6;}
 .hint strong{color:var(--cream);}
 
-input[type="text"],input[type="number"],textarea,select{background:var(--panel3);border:1px solid var(--border2);color:var(--text);padding:9px 12px;font-family:'IBM Plex Mono',monospace;font-size:13px;outline:none;transition:border-color .18s;width:100%;}
+input[type="text"],input[type="number"],textarea,select{background:#fafcfa;border:1px solid #c8d2c8;color:#1a221a;padding:9px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;outline:none;transition:border-color .18s,box-shadow .18s;width:100%;border-radius:4px;}
+input[type="text"]:focus,input[type="number"]:focus,textarea:focus,select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,184,106,.15);}
+input[type="text"]::placeholder,textarea::placeholder{color:#8a968a;}
 input:focus,textarea:focus,select:focus{border-color:var(--green);box-shadow:0 0 0 2px rgba(0,184,106,.12);}
 textarea{resize:vertical;min-height:80px;line-height:1.6;}
 select{cursor:pointer;}
@@ -121,7 +127,9 @@ input[type="color"]:focus{border-color:var(--green);}
 .q-drag-handle span{display:block;width:14px;height:2px;background:var(--green2);}
 .q-num{font-family:'Bebas Neue',sans-serif;font-size:17px;color:var(--dim);text-align:center;padding-top:6px;}
 .q-letter-box{width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:22px;border:1px solid var(--border2);color:var(--green3);background:rgba(0,255,65,.06);flex-shrink:0;margin-top:2px;}
-.q-row input,.q-row textarea{background:#080a08;border:1px solid #1a2a1a;color:var(--text);padding:7px 9px;font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none;width:100%;transition:border-color .15s;}
+.q-row input,.q-row textarea{background:#fafcfa;border:1px solid #c8d2c8;color:#1a221a;padding:8px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;line-height:1.5;outline:none;width:100%;border-radius:4px;transition:border-color .15s,box-shadow .15s;}
+.q-row input:focus,.q-row textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,184,106,.15);}
+.q-row textarea::placeholder{color:#8a968a;}
 .q-row input{height:32px;}
 .q-row input:focus,.q-row textarea:focus{border-color:var(--green);}
 .btn-del{background:none;border:1px solid #1a0808;color:#441818;width:26px;height:26px;font-size:13px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;margin-top:3px;flex-shrink:0;}
@@ -181,6 +189,43 @@ input[type="color"]:focus{border-color:var(--green);}
 .rt-swatch:hover{transform:scale(1.25);border-color:#fff;}
 .rt-colorpop input[type=color]{width:28px;height:20px;padding:1px;cursor:pointer;}
 .rt-wrap textarea,.rt-wrap input{border-radius:0;}
+
+/* ═══════════════════════════════════════════
+   MOBIEL / TABLET — dashboard bruikbaar maken
+   op telefoon en tablet
+   ═══════════════════════════════════════════ */
+@media(max-width:860px){
+  .topnav{padding:0 10px;height:auto;min-height:50px;flex-wrap:wrap;gap:6px 0;position:sticky;}
+  .nav-logo{font-size:17px;margin-right:12px;}
+  .nav-tabs{flex:1 1 100%;order:3;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-top:1px solid var(--border);}
+  .nav-tabs::-webkit-scrollbar{display:none;}
+  .ntab{height:42px;padding:0 13px;font-size:10px;flex-shrink:0;}
+  .nav-right{gap:6px;margin-left:auto;}
+  .nav-right .btn-ghost, .nav-right .btn-primary{padding:7px 12px;font-size:10px;}
+
+  .app{flex-direction:column;min-height:auto;}
+
+  .sidebar{width:100%;position:static;height:auto;overflow-y:visible;border-right:none;border-bottom:1px solid var(--border);padding:10px 14px;display:flex;flex-wrap:wrap;gap:4px 22px;align-items:flex-start;}
+  .sb-tabs-group{display:none;} /* al bereikbaar via topnav, dubbel op mobiel */
+  .sb-group{margin-bottom:6px;}
+  .sb-label{padding:0;}
+  .sb-stat{padding:2px 0;}
+  .sb-phrase{padding:2px 0 4px;}
+
+  .main{padding:16px 14px;max-width:100%;}
+  .card-body{padding:14px;}
+
+  .grid-resp-2,.grid-resp-3{grid-template-columns:1fr;}
+
+  /* Vragen-editor: tabel wordt gestapelde kaartjes i.p.v. smalle kolommen */
+  .qe-header{display:none;}
+  .q-row{grid-template-columns:1fr;gap:6px;padding:12px 10px;}
+}
+
+@media(max-width:420px){
+  .nav-logo{display:none;}
+  .fg.half{min-width:0;}
+}
 </style>
 </head>
 <body>
@@ -203,7 +248,7 @@ input[type="color"]:focus{border-color:var(--green);}
 
 <div class="app">
 <aside class="sidebar">
-  <div class="sb-group">
+  <div class="sb-group sb-tabs-group">
     <span class="sb-label">TABBLADEN</span>
     <a class="sb-link active" onclick="tab('inhoud')">Inhoud & teksten</a>
     <a class="sb-link" onclick="tab('layout')">Kleuren & stijl</a>
@@ -231,17 +276,17 @@ input[type="color"]:focus{border-color:var(--green);}
 
   <div class="card">
     <div class="card-head">
-      <div class="card-title">// GEHEIME ZIN — BASIS VAN DE QUIZ</div>
+      <div class="card-title">// GEHEIME ZIN OF WOORD — BASIS VAN DE QUIZ</div>
       <span class="badge badge-red">STAP 1 — BEGIN HIER</span>
     </div>
     <div class="card-body">
       <div class="phrase-hero">
         <div class="frow">
           <div class="fg full">
-            <label>De geheime zin die de speler moet reconstrueren</label>
+            <label>De geheime zin of het woord die/dat de speler moet reconstrueren</label>
             <div class="phrase-input-row">
               <input type="text" id="p_phrase"
-                placeholder="Typ hier je geheime zin, bijv: HET GEHEIME WOORD"
+                placeholder="Typ hier je geheime zin of woord, bijv: HET GEHEIME WOORD"
                 onchange="onPhraseCommit()" onblur="onPhraseCommit()">
             </div>
             <div class="hint">Druk <strong>Enter</strong> of klik buiten het vak om de zin te bevestigen. Elke letter (geen spaties) = één vraag.</div>
@@ -343,7 +388,7 @@ input[type="color"]:focus{border-color:var(--green);}
 
 <!-- TAB STARTPAGINA -->
 <div class="tpanel" id="tab-startpagina">
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;">
+  <div class="grid-resp grid-resp-2">
 
     <!-- LEFT: controls -->
     <div>
@@ -507,8 +552,8 @@ input[type="color"]:focus{border-color:var(--green);}
   <div class="card">
     <div class="card-head"><div class="card-title">// KLEUREN PER WOORD (EINDSCHERM)</div><span class="badge badge-blue">AUTO GEGENEREERD</span></div>
     <div class="card-body">
-      <div class="hint" style="margin-bottom:14px;">Kleuren worden <strong>automatisch gegenereerd</strong> op basis van je geheime zin. Sla ze op per index — hernoemen van een woord heeft geen effect op de kleur.</div>
-      <div class="wct" id="wct"><div class="wct-empty">Vul eerst de geheime zin in op het INHOUD-tabblad.</div></div>
+      <div class="hint" style="margin-bottom:14px;">Kleuren worden <strong>automatisch gegenereerd</strong> op basis van je geheime zin/woord. Sla ze op per index — hernoemen heeft geen effect op de kleur.</div>
+      <div class="wct" id="wct"><div class="wct-empty">Vul eerst de geheime zin of het woord in op het INHOUD-tabblad.</div></div>
     </div>
   </div>
 </div><!-- /tab-layout -->
@@ -523,8 +568,10 @@ input[type="color"]:focus{border-color:var(--green);}
         <button class="btn-ghost" style="border-color:var(--amber);color:var(--amber2)" onclick="openImport()">↑ BULK IMPORT</button>
         <button class="btn-ghost" onclick="addQ()">+ VRAAG TOEVOEGEN</button>
         <button class="btn-ghost" onclick="shuffleQ()">⇄ SCHUD VOLGORDE</button>
+        <button class="btn-ghost" style="border-color:var(--a2);color:var(--a2)" onclick="fillFromQBank()">📚 VUL MET VRAGENBANK</button>
         <button class="btn-ghost" style="border-color:var(--green);color:var(--green2)" onclick="openAIHelp()">✨ AI HULP — GENEREER VRAGEN</button>
       </div>
+      <div class="hint" style="margin:-4px 0 12px;">De vragenbank vult automatisch een simpele vraag per letter in (bijv. "welk fruit begint met een A?" → antwoord Appel), gebaseerd op de letters van je geheime zin/woord.</div>
       <div class="qe-header">
         <div></div><div>#</div><div>VRAAG</div><div>HINT</div><div>ANTWOORD</div><div style="text-align:center">LTR</div><div></div>
       </div>
@@ -585,10 +632,10 @@ input[type="color"]:focus{border-color:var(--green);}
     <div class="modal-body">
 
       <!-- Shared controls: category + difficulty (used by both tabs) -->
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border);">
+      <div class="grid-resp grid-resp-3" style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border);">
         <div>
           <label style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:4px;">SELECTEER DE CATEGORIE</label>
-          <select id="ai_theme_sel" onchange="syncAITheme();autoRefreshPrompt()" style="width:100%;background:#000;border:1px solid var(--border2);color:var(--green2);padding:7px 9px;font-family:'IBM Plex Mono',monospace;font-size:11px;">
+          <select id="ai_theme_sel" onchange="syncAITheme();autoRefreshPrompt()" style="width:100%;background:#fafcfa;border:1px solid #c8d2c8;color:#1a221a;padding:7px 9px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;border-radius:4px;">
             <option value="">Alles (Random)</option>
             <option value="Voetbal en Sport">Voetbal en Sport</option>
             <option value="Algemene Kennis">Algemene Kennis</option>
@@ -603,11 +650,11 @@ input[type="color"]:focus{border-color:var(--green);}
           <label style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:4px;">EIGEN THEMA</label>
           <input type="text" id="ai_theme" placeholder="bijv: 80s muziek, F1..."
             oninput="autoRefreshPrompt()"
-            style="width:100%;background:#000;border:1px solid var(--border2);color:var(--text);padding:7px 9px;font-family:'IBM Plex Mono',monospace;font-size:11px;">
+            style="width:100%;background:#fafcfa;border:1px solid #c8d2c8;color:#1a221a;padding:7px 9px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;border-radius:4px;">
         </div>
         <div>
           <label style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:4px;">MOEILIJKHEIDSGRAAD</label>
-          <select id="ai_diff" onchange="autoRefreshPrompt()" style="width:100%;background:#000;border:1px solid var(--border2);color:var(--green2);padding:7px 9px;font-family:'IBM Plex Mono',monospace;font-size:11px;">
+          <select id="ai_diff" onchange="autoRefreshPrompt()" style="width:100%;background:#fafcfa;border:1px solid #c8d2c8;color:#1a221a;padding:7px 9px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;border-radius:4px;">
             <option value="easy">Easy (Toegankelijk)</option>
             <option value="medium" selected>Medium (Uitdagend)</option>
             <option value="expert">Expert (Extreem Moeilijk)</option>
@@ -627,7 +674,7 @@ input[type="color"]:focus{border-color:var(--green);}
           Kopieer de prompt en plak in <strong style="color:var(--amber2)">ChatGPT, Gemini of Claude</strong>.
           Kopieer het resultaat en gebruik <strong style="color:var(--green2)">Bulk Import</strong> om in te laden.
         </p>
-        <textarea id="aiPromptText" style="min-height:220px;width:100%;color:var(--green2);background:#000;font-size:11px;line-height:1.6;" readonly></textarea>
+        <textarea id="aiPromptText" style="min-height:220px;width:100%;color:#1a221a;background:#fafcfa;border:1px solid #c8d2c8;font-size:12px;line-height:1.6;border-radius:4px;padding:10px;" readonly></textarea>
         <div style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end;">
           <button class="btn-ghost" onclick="closeAIHelp()">SLUITEN</button>
           <button class="btn-ghost" style="border-color:var(--amber);color:var(--amber2);" onclick="buildAIPrompt(document.getElementById('p_phrase').value.trim().toUpperCase());toast('Prompt vernieuwd ✓')">↻ VERNIEUWEN</button>
@@ -637,16 +684,16 @@ input[type="color"]:focus{border-color:var(--green);}
 
       <!-- Panel: API call -->
       <div id="aipanel-api" style="display:none;">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+        <div class="grid-resp grid-resp-2" style="margin-bottom:12px;">
           <div>
             <label style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:5px;">OPENAI API KEY</label>
             <input type="password" id="ai_apikey" placeholder="sk-... (of uit .env bestand)"
-              style="width:100%;background:#000;border:1px solid var(--border2);color:var(--green2);padding:8px 10px;font-family:'IBM Plex Mono',monospace;font-size:12px;">
+              style="width:100%;background:#fafcfa;border:1px solid #c8d2c8;color:#1a221a;padding:8px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;border-radius:4px;">
             <div style="font-size:11px;color:var(--dim);margin-top:4px;">Key wordt alleen lokaal gebruikt, nooit opgeslagen of verzonden naar derden.</div>
           </div>
           <div>
             <label style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:5px;">MODEL</label>
-            <select id="ai_model" style="width:100%;background:#000;border:1px solid var(--border2);color:var(--green2);padding:8px 10px;font-family:'IBM Plex Mono',monospace;font-size:12px;">
+            <select id="ai_model" style="width:100%;background:#fafcfa;border:1px solid #c8d2c8;color:#1a221a;padding:8px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;border-radius:4px;">
               <option value="gpt-4o">GPT-4o (aanbevolen)</option>
               <option value="gpt-4o-mini">GPT-4o mini (snel)</option>
               <option value="gpt-4-turbo">GPT-4 Turbo</option>
@@ -657,7 +704,7 @@ input[type="color"]:focus{border-color:var(--green);}
         <div id="ai_status" style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);min-height:20px;margin-bottom:10px;"></div>
         <div id="ai_result_wrap" style="display:none;">
           <label style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:5px;">GEGENEREERDE VRAGEN</label>
-          <textarea id="ai_result" style="min-height:180px;width:100%;color:var(--green2);background:#000;font-size:11px;line-height:1.6;"></textarea>
+          <textarea id="ai_result" style="min-height:180px;width:100%;color:#1a221a;background:#fafcfa;border:1px solid #c8d2c8;font-size:12px;line-height:1.6;border-radius:4px;padding:10px;"></textarea>
         </div>
         <div style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end;flex-wrap:wrap;">
           <button class="btn-ghost" onclick="closeAIHelp()">SLUITEN</button>
@@ -877,6 +924,181 @@ function quickColorWord(idx) {
 // ════════════════════════════════════════════════
 let questions = [];
 
+// ════════════════════════════════════════════════
+//  QBANK — vragenbank: simpele vraag per letter,
+//  antwoord is altijd een woord dat met die letter begint
+// ════════════════════════════════════════════════
+const QBANK = {
+  A: [
+    {q:'Welk fruit is vaak rood of groen en houdt (volgens het gezegde) de dokter weg?', h:'Eén per dag is genoeg.', a:'Appel'},
+    {q:'Waarmee rijd je over de snelweg naar je werk of op vakantie?', h:'Heeft vier wielen en een stuur.', a:'Auto'},
+    {q:'Welk dier zwaait in de dierentuin graag van tak naar tak?', h:'Houdt van bananen.', a:'Aap'},
+    {q:'Welk lichaamsdeel gebruik je om iemand te omhelzen?', h:'Je hebt er twee, met een hand eraan.', a:'Arm'},
+  ],
+  B: [
+    {q:'Wat staat er vaak groen en groot in een park of bos?', h:'Heeft takken, bladeren en wortels.', a:'Boom'},
+    {q:'Waar trap je tegenaan tijdens een potje voetbal?', h:'Rond en meestal zwart-wit.', a:'Bal'},
+    {q:'Wat smeer je typisch met boter en beleg?', h:'Komt vers van de bakker.', a:'Brood'},
+    {q:'Wat beklim je als je een prachtig uitzicht over een vallei wilt?', h:'Hoger dan een heuvel.', a:'Berg'},
+  ],
+  C: [
+    {q:'Welk zuur, geel fruit gebruik je voor verse limonade?', h:'Perfect bij thee.', a:'Citroen'},
+    {q:'Welk apparaat gebruik je om te internetten of te werken?', h:'Heeft een toetsenbord en een scherm.', a:'Computer'},
+    {q:'Wat krijg je ingepakt met een strik erop op je verjaardag?', h:'Vaak een verrassing.', a:'Cadeau'},
+    {q:'Waar zie je clowns, jongleurs en acrobaten optreden?', h:'Vaak onder een grote tent.', a:'Circus'},
+  ],
+  D: [
+    {q:'Wat open en sluit je om een kamer binnen te gaan?', h:'Heeft meestal een klink.', a:'Deur'},
+    {q:'Welk fabeldier spuwt vuur in sprookjes?', h:'Heeft vleugels en schubben.', a:'Draak'},
+    {q:'Waaronder sta je om je lichaam te wassen met stromend water?', h:'Alternatief voor een bad.', a:'Douche'},
+    {q:'Welke kostbare, glinsterende steen zit vaak in een verlovingsring?', h:'Erg hard en duur.', a:'Diamant'},
+  ],
+  E: [
+    {q:'Wat leg je met Pasen te zoeken in de tuin?', h:'Komt van een kip.', a:'Ei'},
+    {q:'Waarmee haal je water uit een put of sloop je een zandkasteel op het strand?', h:'Heeft een handvat.', a:'Emmer'},
+    {q:'Wat is een stuk land dat volledig omringd wordt door water?', h:'Denk aan Terschelling.', a:'Eiland'},
+    {q:'Wat stop je in de brievenbus, met een postzegel erop?', h:'Zit er vaak een brief in.', a:'Envelop'},
+  ],
+  F: [
+    {q:'Waarmee trap je jezelf voort over straat, zonder motor?', h:'Twee wielen, een zadel en een stuur.', a:'Fiets'},
+    {q:'Wat maak je met een camera om een herinnering vast te leggen?', h:'Kun je in een album plakken.', a:'Foto'},
+    {q:'Wat spuit water omhoog op een plein of in een park?', h:'Mensen gooien er weleens muntjes in.', a:'Fontein'},
+    {q:'Welk muziekinstrument bespeel je door erin te blazen, met gaatjes voor je vingers?', h:'Klein en langwerpig.', a:'Fluit'},
+  ],
+  G: [
+    {q:'Welk dier heeft de langste nek van alle dieren?', h:'Eet bladeren van hoge bomen.', a:'Giraffe'},
+    {q:'Welk snaarinstrument bespeel je op een feestje rond het kampvuur?', h:'Heeft zes snaren.', a:'Gitaar'},
+    {q:'Wat hang je voor het raam om licht buiten te houden?', h:'Kun je open- en dichttrekken.', a:'Gordijn'},
+    {q:'Welk edelmetaal is geel en erg kostbaar?', h:'Medaillewinnaars krijgen het.', a:'Goud'},
+  ],
+  H: [
+    {q:'Waar woon je, met een dak en een voordeur?', h:'Kan een flat of een villa zijn.', a:'Huis'},
+    {q:'Welk trouwe huisdier blaft en kwispelt met zijn staart?', h:'Beste vriend van de mens.', a:'Hond'},
+    {q:'Welk orgaan in je lichaam pompt bloed rond?', h:'Klopt sneller als je verliefd bent.', a:'Hart'},
+    {q:'Welk gereedschap gebruik je om een spijker in de muur te slaan?', h:'Hoort bij een spijker.', a:'Hamer'},
+  ],
+  I: [
+    {q:'Wat is een sneeuwhut waar het erg koud in kan zijn?', h:'Typisch voor de poolgebieden.', a:'Iglo'},
+    {q:'Waarmee schrijf of print je met een vulpen of printer?', h:'Zwart of gekleurd vloeistof.', a:'Inkt'},
+    {q:'Wat is een klein kruipend of vliegend diertje met zes poten?', h:'Denk aan een mier of een vlinder.', a:'Insect'},
+    {q:'Welke kleurige bloem heeft dezelfde naam als het gekleurde deel van je oog?', h:'Bloeit vaak paars of geel.', a:'Iris'},
+  ],
+  J: [
+    {q:'Wat trek je aan als het koud of regenachtig is?', h:'Draag je over je trui.', a:'Jas'},
+    {q:'Wat smeer je op brood, gemaakt van gekookt fruit en suiker?', h:'Vaak van aardbei of framboos.', a:'Jam'},
+    {q:'Wat is een kostbare, glimmende sieraad, zoals een ring of ketting?', h:'Ligt vaak achter glas in een winkel.', a:'Juweel'},
+    {q:'Welk televisieprogramma bekijk je in de avond voor het laatste nieuws?', h:'Vaak om acht uur.', a:'Journaal'},
+  ],
+  K: [
+    {q:'Welk huisdier miauwt en vangt graag muizen?', h:'Spint als hij tevreden is.', a:'Kat'},
+    {q:'Welk zuivelproduct wordt van melk gemaakt en past op een cracker?', h:'Kan jong of oud (belegen) zijn.', a:'Kaas'},
+    {q:'Waar woonde vroeger een koning of ridder, met torens en een slotgracht?', h:'Vaak op een heuvel gebouwd.', a:'Kasteel'},
+    {q:'Wat draagt een koning(in) op zijn/haar hoofd?', h:'Vaak versierd met edelstenen.', a:'Kroon'},
+  ],
+  L: [
+    {q:'Welk dier wordt de koning van de jungle genoemd?', h:'Heeft een indrukwekkende manen.', a:'Leeuw'},
+    {q:'Wat zet je aan om licht te maken in een donkere kamer?', h:'Staat vaak op een bureau.', a:'Lamp'},
+    {q:'Welke koele drank maak je met citroen, water en suiker?', h:'Lekker op een warme dag.', a:'Limonade'},
+    {q:'Waarmee eet je soep of pudding?', h:'Bestek met een rond kommetje.', a:'Lepel'},
+  ],
+  M: [
+    {q:'Wat zie je in de nacht aan de hemel, soms rond en soms een sikkel?', h:'Draait om de aarde.', a:'Maan'},
+    {q:'Welk klein knaagdier is bang voor katten en houdt van kaas?', h:'Heeft een lang staartje.', a:'Muis'},
+    {q:'Welk bouwwerk met wieken maalt graan tot meel?', h:'Typisch Nederlands, draait op de wind.', a:'Molen'},
+    {q:'Waarin doe je boodschappen als je gaat picknicken?', h:'Heeft vaak een handvat, gevlochten.', a:'Mand'},
+  ],
+  N: [
+    {q:'Welk lichaamsdeel gebruik je om te ruiken?', h:'Zit midden in je gezicht.', a:'Neus'},
+    {q:'Waar legt een vogel haar eitjes in, hoog in een boom?', h:'Gemaakt van takjes.', a:'Nest'},
+    {q:'Wat moet een eekhoorn kraken om erin te kunnen eten?', h:'Zit vaak in een harde schil.', a:'Noot'},
+    {q:'Waarmee naai je een knoop aan een overhemd?', h:'Klein, scherp en met een oog erin.', a:'Naald'},
+  ],
+  O: [
+    {q:'Welk dier heeft de grootste oren en een lange slurf?', h:'Zwaar en grijs, leeft in Afrika of Azië.', a:'Olifant'},
+    {q:'Welk lichaamsdeel gebruik je om muziek te horen?', h:'Je hebt er twee, aan de zijkant van je hoofd.', a:'Oor'},
+    {q:'Waarin bak je een taart of pizza op hoge temperatuur?', h:'Staat meestal in de keuken.', a:'Oven'},
+    {q:'Welk enorm, zout water scheidt de continenten van elkaar?', h:'Groter dan een zee.', a:'Oceaan'},
+  ],
+  P: [
+    {q:'Welk dier berijd je met een zadel en teugels?', h:'Hinnikt en galoppeert.', a:'Paard'},
+    {q:'Waarmee schrijf je een briefje op papier?', h:'Heeft inkt of een balpuntje.', a:'Pen'},
+    {q:'Welk groot muziekinstrument bespeel je met zwarte en witte toetsen?', h:'Staat vaak in de woonkamer of concertzaal.', a:'Piano'},
+    {q:'Welk spel bestaat uit stukjes die je in elkaar moet passen?', h:'Legt een plaatje in duizend stukjes.', a:'Puzzel'},
+  ],
+  Q: [
+    {q:'Welk woord beschrijft precies dit soort spel, met vragen en antwoorden?', h:'Daar ben je nu middenin bezig.', a:'Quiz'},
+    {q:'Welk buideldier uit Australië staat bekend om zijn vrolijke glimlach?', h:'Wordt weleens het gelukkigste dier ter wereld genoemd.', a:'Quokka'},
+  ],
+  R: [
+    {q:'Welk kleurrijk boogje zie je aan de hemel na een regenbui?', h:'Heeft alle kleuren van het spectrum.', a:'Regenboog'},
+    {q:'Welke metalen machine kan taken uitvoeren als een mens?', h:'Kan geprogrammeerd worden.', a:'Robot'},
+    {q:'Wat stroomt van de bron naar de zee, met oevers aan weerszijden?', h:'Denk aan de Rijn.', a:'Rivier'},
+    {q:'Wie droeg vroeger een harnas en vocht te paard voor zijn koning?', h:'Woonde vaak op een kasteel.', a:'Ridder'},
+  ],
+  S: [
+    {q:'Wat schittert er in de nacht met duizenden aan de hemel?', h:'Je kunt er eentje wensen bij een vallende.', a:'Ster'},
+    {q:'Welk dier geeft wol en zegt "boe"?', h:'Wolharig en witte vacht.', a:'Schaap'},
+    {q:'Wat draag je aan je voeten om te kunnen lopen?', h:'Kom in paren, met veters.', a:'Schoen'},
+    {q:'Waarin bekijk je jezelf in de ochtend voor je de deur uitgaat?', h:'Reflecteert je gezicht.', a:'Spiegel'},
+  ],
+  T: [
+    {q:'Waaraan eet je in de avond met je gezin, met stoelen eromheen?', h:'Heeft vier poten en een blad.', a:'Tafel'},
+    {q:'Welk gestreept roofdier uit de jungle is familie van de kat?', h:'Oranje met zwarte strepen.', a:'Tijger'},
+    {q:'Waarmee reis je over rails van stad naar stad?', h:'Stopt op een station.', a:'Trein'},
+    {q:'Welk hoog, smal bouwwerk zie je vaak bij een kasteel of kerk?', h:'Je kunt er soms de trap in op.', a:'Toren'},
+  ],
+  U: [
+    {q:'Welke vogel is wijs, heeft grote ogen en jaagt in de nacht?', h:'Roept "oehoe".', a:'Uil'},
+    {q:'Welke groente doet je huilen als je hem snijdt?', h:'Rood of wit, met laagjes.', a:'Ui'},
+    {q:'Hoeveel minuten zitten er in een... nou ja, in deze tijdseenheid zelf?', h:'Zestig minuten.', a:'Uur'},
+    {q:'Wat draagt een soldaat of stewardess, vaak met knopen en een pet erbij?', h:'Iedereen in dezelfde outfit.', a:'Uniform'},
+  ],
+  V: [
+    {q:'Welk fladderend insect komt uit een cocon en heeft kleurige vleugels?', h:'Was eerst een rups.', a:'Vlinder'},
+    {q:'Welk dier zwemt met kieuwen door het water?', h:'Je vangt hem met een hengel.', a:'Vis'},
+    {q:'Welke berg spuwt af en toe gloeiende lava?', h:'Kan uitbarsten.', a:'Vulkaan'},
+    {q:'Welk snaarinstrument klink je onder je kin, bespeeld met een strijkstok?', h:'Kleiner dan een cello.', a:'Viool'},
+  ],
+  W: [
+    {q:'Wat drijft wit en pluizig aan de hemel, voordat het gaat regenen?', h:'Bestaat uit waterdruppeltjes.', a:'Wolk'},
+    {q:'Wat drink je als je dorst hebt, helder en zonder kleur?', h:'H2O.', a:'Water'},
+    {q:'Welke oranje groente eet het konijn het liefst?', h:'Goed voor je ogen, zeggen ze.', a:'Wortel'},
+    {q:'Wat is rond en zorgt ervoor dat een fiets of auto kan rijden?', h:'Zit er meestal vier onder een auto.', a:'Wiel'},
+  ],
+  X: [
+    {q:'Welk slaginstrument bespeel je met stokjes op houten of metalen staafjes?', h:'Klinkt een beetje als een marimba.', a:'Xylofoon'},
+    {q:'Welk instrument met staafjes begint met dezelfde bijzondere letter als deze vraag?', h:'Populair bij muziekles op de basisschool.', a:'Xylofoon'},
+  ],
+  Y: [
+    {q:'Welk zuivelproduct eet je vaak met muesli of fruit als ontbijt?', h:'Wordt gemaakt door melk te laten fermenteren.', a:'Yoghurt'},
+    {q:'Welk romig, licht zuur zuivelproduct staat vaak in kleine bekertjes in de koelkast?', h:'Lekker met een lepel honing erdoor.', a:'Yoghurt'},
+  ],
+  Z: [
+    {q:'Welke gele bol aan de hemel geeft ons licht en warmte overdag?', h:'Komt op in het oosten.', a:'Zon'},
+    {q:'Welk groot zout water kun je bezoeken om te zwemmen en zandkastelen te bouwen?', h:'Ligt vaak naast het strand.', a:'Zee'},
+    {q:'Welk gestreept dier uit Afrika lijkt op een paard in pyjama?', h:'Zwart-wit gestreept.', a:'Zebra'},
+    {q:'Waarmee was je je handen om ze schoon te krijgen?', h:'Schuimt lekker met water.', a:'Zeep'},
+  ],
+};
+
+let qbankCursor = {};
+function fillFromQBank() {
+  const letters = lettersFromPhrase(document.getElementById('p_phrase').value);
+  if (!letters.length) { toast('Vul eerst de geheime zin of het woord in!', true); return; }
+  if (questions.some(q => q.q && q.q.trim()) && !confirm('Dit vervangt de huidige vraagteksten door vragen uit de vragenbank. Doorgaan?')) return;
+  qbankCursor = {};
+  questions = letters.map(l => {
+    const bank = QBANK[l];
+    if (!bank || !bank.length) return { letter: l, q: '', intel: '', answer: '', id: Date.now()+Math.random() };
+    const idx = (qbankCursor[l] || 0) % bank.length;
+    qbankCursor[l] = idx + 1;
+    const item = bank[idx];
+    return { letter: l, q: item.q, intel: item.h, answer: item.a, id: Date.now()+Math.random() };
+  });
+  renderQList();
+  toast('Vragenbank toegepast — ' + questions.length + ' vragen ingevuld');
+}
+
 function syncQuestionsToPhrase(letters, forceOverwrite) {
   if (forceOverwrite) {
     // Full reset — used only by loadDemo
@@ -996,7 +1218,7 @@ function updateWCT() {
   const words = wordsFromPhrase(phrase);
   const wct = document.getElementById('wct');
   if (words.length === 0) {
-    wct.innerHTML = '<div class="wct-empty">Vul eerst de geheime zin in op het INHOUD-tabblad.</div>';
+    wct.innerHTML = '<div class="wct-empty">Vul eerst de geheime zin of het woord in op het INHOUD-tabblad.</div>';
     return;
   }
   ensureWordColors(words);
@@ -1359,7 +1581,7 @@ function refreshPreview() {
 
   const phraseHTML = words.length > 0
     ? words.map((w,i) => `<span style="color:${wColors[i]||'#ffffff'};display:inline-block;margin:0 4px;">${w}</span>`).join(' ')
-    : '<span style="color:#444">— voer een geheime zin in —</span>';
+    : '<span style="color:#444">— voer een geheime zin of woord in —</span>';
 
   const a1d = hexAlpha(g.a1, 0.13);
 
@@ -1503,7 +1725,7 @@ function generate() {
 
   // FIX #10: validation before generating
   const errors = [];
-  if (!phrase || words.length === 0) errors.push('Vul een geheime zin in op het INHOUD-tabblad.');
+  if (!phrase || words.length === 0) errors.push('Vul een geheime zin of woord in op het INHOUD-tabblad.');
   if (questions.length === 0) errors.push('Voeg vragen toe in de VRAGEN-tab.');
   if (letters.length > 0 && questions.length !== letters.length) errors.push(`Zin heeft ${letters.length} letters maar er zijn ${questions.length} vragen. Ze moeten overeenkomen.`);
   if (questions.some(q => !q.q.trim())) errors.push('Sommige vragen zijn nog leeg. Vul alle vraagteksten in.');
@@ -1570,7 +1792,7 @@ function generate() {
 // ════════════════════════════════════════════════
 function openAIHelp() {
   const phrase = document.getElementById('p_phrase').value.trim().toUpperCase();
-  if (!phrase) { toast('Vul eerst de geheime zin in op het INHOUD-tabblad!', true); return; }
+  if (!phrase) { toast('Vul eerst de geheime zin of het woord in op het INHOUD-tabblad!', true); return; }
   buildAIPrompt(phrase);
   document.getElementById('aiHelpModal').classList.add('open');
 }
@@ -1703,7 +1925,7 @@ function copyAIPrompt() {
 // ── OpenAI API call ──
 async function callOpenAI() {
   const phrase = document.getElementById('p_phrase').value.trim().toUpperCase();
-  if (!phrase) { toast('Vul eerst de geheime zin in!', true); return; }
+  if (!phrase) { toast('Vul eerst de geheime zin of het woord in!', true); return; }
 
   let apiKey = document.getElementById('ai_apikey').value.trim();
   if (!apiKey) { toast('Vul een OpenAI API key in', true); return; }
@@ -2223,6 +2445,7 @@ function renderQ(){
     const hb=document.getElementById('hb');
     if(!hb.classList.contains('on')){hintUsed++;updPenalty();} // -2 pts
     hb.classList.toggle('on');
+    const atogEl=document.getElementById('atog');if(atogEl)atogEl.style.display=''; // hint bekeken -> antwoord-knop ook beschikbaar
   });
   hrow.appendChild(htog);
 
