@@ -18,7 +18,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.5;min-height:100vh;}
+body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:15px;line-height:1.5;min-height:100vh;}
 ::-webkit-scrollbar{width:5px;height:5px;}
 ::-webkit-scrollbar-track{background:var(--bg);}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
@@ -28,26 +28,26 @@ body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-ser
 .nav-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:var(--green2);margin-right:32px;white-space:nowrap;}
 .nav-logo em{color:var(--amber2);font-style:normal;}
 .nav-tabs{display:flex;flex:1;}
-.ntab{height:54px;padding:0 20px;background:none;border:none;border-bottom:2px solid transparent;color:var(--mid);font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;cursor:pointer;transition:all .18s;white-space:nowrap;}
+.ntab{height:54px;padding:0 20px;background:none;border:none;border-bottom:2px solid transparent;color:var(--mid);font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:3px;cursor:pointer;transition:all .18s;white-space:nowrap;}
 .ntab:hover{color:var(--text);}
 .ntab.active{color:var(--green2);border-bottom-color:var(--green2);}
 .nav-right{display:flex;gap:8px;margin-left:auto;}
 
-.btn-primary{background:var(--green);color:#000;border:none;padding:8px 22px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.btn-primary{background:var(--green);color:#000;border:none;padding:8px 22px;font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:3px;cursor:pointer;transition:all .15s;white-space:nowrap;}
 .btn-primary:hover{background:var(--green2);transform:translateY(-1px);}
-.btn-ghost{background:none;border:1px solid var(--border2);color:var(--mid);padding:8px 16px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;cursor:pointer;transition:all .15s;}
+.btn-ghost{background:none;border:1px solid var(--border2);color:var(--mid);padding:8px 16px;font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:2px;cursor:pointer;transition:all .15s;}
 .btn-ghost:hover{border-color:var(--amber2);color:var(--amber2);}
 
 .app{display:flex;min-height:calc(100vh - 54px);}
 
 .sidebar{width:210px;flex-shrink:0;background:var(--panel);border-right:1px solid var(--border);padding:16px 0;position:sticky;top:54px;height:calc(100vh - 54px);overflow-y:auto;}
 .sb-group{margin-bottom:20px;}
-.sb-label{display:block;padding:0 14px;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:4px;color:var(--dim);margin-bottom:4px;text-transform:uppercase;}
-.sb-link{display:block;padding:9px 14px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--faint);cursor:pointer;transition:all .15s;border-left:2px solid transparent;text-decoration:none;}
+.sb-label{display:block;padding:0 14px;font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:4px;color:var(--dim);margin-bottom:4px;text-transform:uppercase;}
+.sb-link{display:block;padding:9px 14px;font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:2px;color:var(--faint);cursor:pointer;transition:all .15s;border-left:2px solid transparent;text-decoration:none;}
 .sb-link:hover{color:var(--text);background:var(--panel2);}
 .sb-link.active{color:var(--green2);border-left-color:var(--green2);background:rgba(0,232,122,.04);}
-.sb-stat{padding:8px 14px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--amber2);line-height:1.6;}
-.sb-phrase{padding:4px 14px 12px;font-family:'Bebas Neue',sans-serif;font-size:13px;color:var(--green3);letter-spacing:2px;word-break:break-all;line-height:1.4;}
+.sb-stat{padding:8px 14px;font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--amber2);line-height:1.6;}
+.sb-phrase{padding:4px 14px 12px;font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--green3);letter-spacing:2px;word-break:break-all;line-height:1.4;}
 
 .main{flex:1;padding:28px 36px;overflow-y:auto;max-width:940px;}
 .tpanel{display:none;} .tpanel.active{display:block;}
@@ -58,10 +58,10 @@ body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-ser
 
 .card{background:var(--panel);border:1px solid var(--border);margin-bottom:22px;}
 .card-head{padding:12px 18px;background:var(--panel2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;}
-.card-title{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:4px;color:var(--amber2);}
+.card-title{font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:4px;color:var(--amber2);}
 .card-body{padding:18px;}
 
-.badge{padding:2px 8px;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;border:1px solid;}
+.badge{padding:2px 8px;font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px;border:1px solid;}
 .badge-green{border-color:var(--green);color:var(--green2);background:rgba(0,184,106,.08);}
 .badge-amber{border-color:var(--amber);color:var(--amber2);background:rgba(204,136,0,.08);}
 .badge-red{border-color:var(--red);color:var(--red2);background:rgba(204,34,0,.08);}
@@ -71,11 +71,11 @@ body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-ser
 .fg{display:flex;flex-direction:column;flex:1;min-width:180px;}
 .fg.full{flex:100%;min-width:100%;}
 .fg.half{flex:0 0 calc(50% - 7px);min-width:160px;}
-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--mid);margin-bottom:5px;text-transform:uppercase;}
-.hint{font-size:12px;color:var(--dim);margin-top:5px;line-height:1.6;}
+label{font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:3px;color:var(--mid);margin-bottom:5px;text-transform:uppercase;}
+.hint{font-size:13px;color:var(--dim);margin-top:5px;line-height:1.6;}
 .hint strong{color:var(--cream);}
 
-input[type="text"],input[type="number"],textarea,select{background:#fafcfa;border:1px solid #c8d2c8;color:#1a221a;padding:9px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;outline:none;transition:border-color .18s,box-shadow .18s;width:100%;border-radius:4px;}
+input[type="text"],input[type="number"],textarea,select{background:#fafcfa;border:1px solid #c8d2c8;color:#1a221a;padding:9px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;outline:none;transition:border-color .18s,box-shadow .18s;width:100%;border-radius:4px;}
 input[type="text"]:focus,input[type="number"]:focus,textarea:focus,select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,184,106,.15);}
 input[type="text"]::placeholder,textarea::placeholder{color:#8a968a;}
 input:focus,textarea:focus,select:focus{border-color:var(--green);box-shadow:0 0 0 2px rgba(0,184,106,.12);}
@@ -91,19 +91,19 @@ input[type="color"]:focus{border-color:var(--green);}
 .phrase-input-row{display:flex;gap:10px;align-items:flex-end;}
 .phrase-input-row input{flex:1;font-size:16px!important;letter-spacing:2px;padding:12px 14px!important;border-color:var(--green)!important;color:#161618!important;font-weight:600;}
 .phrase-stats{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:4px;}
-.stat-pill{background:rgba(0,184,106,.1);border:1px solid var(--green);padding:3px 10px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--green2);letter-spacing:2px;}
-.stat-warn{background:rgba(204,136,0,.1);border:1px solid var(--amber);padding:3px 10px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--amber2);letter-spacing:2px;}
+.stat-pill{background:rgba(0,184,106,.1);border:1px solid var(--green);padding:3px 10px;font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--green2);letter-spacing:2px;}
+.stat-warn{background:rgba(204,136,0,.1);border:1px solid var(--amber);padding:3px 10px;font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--amber2);letter-spacing:2px;}
 .phrase-words{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
 .phrase-word-chip{display:flex;align-items:center;gap:6px;background:var(--panel3);border:1px solid var(--border2);padding:4px 10px 4px 8px;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;color:var(--text);}
 .chip-swatch{width:16px;height:16px;border-radius:2px;border:1px solid rgba(255,255,255,.2);cursor:pointer;flex-shrink:0;}
-.chip-len{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);margin-left:2px;}
+.chip-len{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--dim);margin-left:2px;}
 
 /* word color table */
 .wct{display:flex;flex-direction:column;gap:6px;}
 .wct-row{display:flex;align-items:center;gap:10px;background:var(--panel3);border:1px solid var(--border);padding:8px 12px;}
 .wct-word{font-family:'Bebas Neue',sans-serif;font-size:20px;min-width:140px;}
-.wct-len{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim);}
-.wct-empty{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);padding:12px 0;}
+.wct-len{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--dim);}
+.wct-empty{font-family:'Share Tech Mono',monospace;font-size:13px;color:var(--dim);padding:12px 0;}
 
 /* emoji picker */
 .emoji-area{border:1px solid var(--border2);background:var(--panel3);padding:12px;min-height:48px;cursor:text;font-size:24px;line-height:1.5;letter-spacing:3px;outline:none;}
@@ -112,12 +112,12 @@ input[type="color"]:focus{border-color:var(--green);}
 .emoji-btn{background:var(--panel3);border:1px solid var(--border);font-size:20px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .12s;border-radius:2px;}
 .emoji-btn:hover{background:var(--panel2);border-color:var(--green);transform:scale(1.15);}
 .emoji-cats{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;}
-.emoji-cat-btn{background:none;border:1px solid var(--border2);color:var(--mid);padding:4px 10px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;cursor:pointer;transition:all .15s;}
+.emoji-cat-btn{background:none;border:1px solid var(--border2);color:var(--mid);padding:4px 10px;font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px;cursor:pointer;transition:all .15s;}
 .emoji-cat-btn:hover,.emoji-cat-btn.active{border-color:var(--amber2);color:var(--amber2);background:rgba(255,170,0,.06);}
 
 /* question editor */
 .qe-controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
-.qe-header{display:grid;grid-template-columns:18px 32px 1fr 1fr 1fr 32px 28px;gap:6px;padding:4px 0;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--dim);}
+.qe-header{display:grid;grid-template-columns:18px 32px 1fr 1fr 1fr 32px 28px;gap:6px;padding:4px 0;font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:3px;color:var(--dim);}
 .q-list{display:flex;flex-direction:column;gap:6px;}
 .q-row{display:grid;grid-template-columns:18px 32px 1fr 1fr 1fr 32px 28px;gap:6px;align-items:start;background:var(--panel3);border:1px solid var(--border);padding:8px 10px;transition:border-color .15s,opacity .15s,transform .15s;cursor:default;}
 .q-row:hover{border-color:var(--border2);}
@@ -129,22 +129,22 @@ input[type="color"]:focus{border-color:var(--green);}
 .q-drag-handle span{display:block;width:14px;height:2px;background:var(--green2);}
 .q-num{font-family:'Bebas Neue',sans-serif;font-size:17px;color:var(--dim);text-align:center;padding-top:6px;}
 .q-letter-box{width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:22px;border:1px solid var(--border2);color:var(--green3);background:rgba(0,255,65,.06);flex-shrink:0;margin-top:2px;}
-.q-row input,.q-row textarea{background:#fafcfa;border:1px solid #c8d2c8;color:#1a221a;padding:8px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;line-height:1.5;outline:none;width:100%;border-radius:4px;transition:border-color .15s,box-shadow .15s;}
+.q-row input,.q-row textarea{background:#fafcfa;border:1px solid #c8d2c8;color:#1a221a;padding:8px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.5;outline:none;width:100%;border-radius:4px;transition:border-color .15s,box-shadow .15s;}
 .q-row input:focus,.q-row textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,184,106,.15);}
 .q-row textarea::placeholder{color:#8a968a;}
 .q-row input{height:32px;}
 .q-row input:focus,.q-row textarea:focus{border-color:var(--green);}
-.btn-del{background:none;border:1px solid #1a0808;color:#441818;width:26px;height:26px;font-size:13px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;margin-top:3px;flex-shrink:0;}
+.btn-del{background:none;border:1px solid #1a0808;color:#441818;width:26px;height:26px;font-size:14px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;margin-top:3px;flex-shrink:0;}
 .btn-del:hover{border-color:var(--red2);color:var(--red2);background:#1a0000;}
 
 .color-grid{display:flex;gap:10px;flex-wrap:wrap;}
-.color-chip{display:flex;flex-direction:column;align-items:center;gap:5px;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--dim);white-space:nowrap;}
+.color-chip{display:flex;flex-direction:column;align-items:center;gap:5px;font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:1px;color:var(--dim);white-space:nowrap;}
 
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:2000;align-items:center;justify-content:center;padding:20px;}
 .modal-bg.open{display:flex;}
 .modal-box{background:var(--panel);border:1px solid var(--green);max-width:640px;width:100%;}
 .modal-head{background:var(--panel2);border-bottom:1px solid var(--border);padding:12px 18px;display:flex;align-items:center;justify-content:space-between;}
-.modal-title{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:4px;color:var(--green2);}
+.modal-title{font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:4px;color:var(--green2);}
 .modal-close{background:none;border:none;color:var(--dim);font-size:22px;cursor:pointer;}
 .modal-close:hover{color:var(--text);}
 .modal-body{padding:18px;}
@@ -154,24 +154,24 @@ input[type="color"]:focus{border-color:var(--green);}
 .confirm-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:3000;align-items:center;justify-content:center;padding:20px;}
 .confirm-bg.open{display:flex;}
 .confirm-box{background:var(--panel);border:1px solid var(--amber);max-width:420px;width:100%;padding:24px;}
-.confirm-title{font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:3px;color:var(--amber2);margin-bottom:12px;}
-.confirm-msg{font-size:14px;color:var(--cream);line-height:1.7;margin-bottom:20px;}
+.confirm-title{font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:3px;color:var(--amber2);margin-bottom:12px;}
+.confirm-msg{font-size:15px;color:var(--cream);line-height:1.7;margin-bottom:20px;}
 .confirm-btns{display:flex;gap:10px;justify-content:flex-end;}
 
-.toast{position:fixed;bottom:20px;right:20px;z-index:4000;background:var(--green);color:#000;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;padding:10px 18px;transform:translateY(70px);opacity:0;transition:all .3s cubic-bezier(.175,.885,.32,1.275);pointer-events:none;}
+.toast{position:fixed;bottom:20px;right:20px;z-index:4000;background:var(--green);color:#000;font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:3px;padding:10px 18px;transform:translateY(70px);opacity:0;transition:all .3s cubic-bezier(.175,.885,.32,1.275);pointer-events:none;}
 .toast.show{transform:translateY(0);opacity:1;}
 .toast.err{background:var(--red2);color:#fff;}
 
 .preset-strip{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
-.preset-btn{background:var(--panel3);border:1px solid var(--border2);color:var(--faint);padding:6px 12px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;cursor:pointer;transition:all .15s;}
+.preset-btn{background:var(--panel3);border:1px solid var(--border2);color:var(--faint);padding:6px 12px;font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px;cursor:pointer;transition:all .15s;}
 .preset-btn:hover,.preset-btn.active{border-color:var(--amber2);color:var(--amber2);background:rgba(255,170,0,.06);}
 
 /* validation banner */
-.val-banner{background:rgba(204,34,0,.1);border:1px solid var(--red);padding:10px 14px;margin-bottom:14px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--red2);line-height:1.7;display:none;}
+.val-banner{background:rgba(204,34,0,.1);border:1px solid var(--red);padding:10px 14px;margin-bottom:14px;font-family:'Share Tech Mono',monospace;font-size:13px;color:var(--red2);line-height:1.7;display:none;}
 .val-banner.show{display:block;}
 
 /* ── AI modal tabs ── */
-.ai-tab{background:none;border:none;border-bottom:2px solid transparent;color:var(--mid);font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;padding:8px 16px;cursor:pointer;transition:all .15s;}
+.ai-tab{background:none;border:none;border-bottom:2px solid transparent;color:var(--mid);font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:3px;padding:8px 16px;cursor:pointer;transition:all .15s;}
 .ai-tab:hover{color:var(--text);}
 .ai-tab.active{color:var(--amber2);border-bottom-color:var(--amber2);}
 
@@ -179,10 +179,10 @@ input[type="color"]:focus{border-color:var(--green);}
 .rt-wrap{position:relative;display:flex;flex-direction:column;gap:0;width:100%;}
 .rt-toolbar{display:flex;align-items:center;gap:3px;background:var(--panel2);border:1px solid var(--border2);border-bottom:none;padding:4px 6px;flex-wrap:wrap;opacity:0;pointer-events:none;transition:opacity .15s;}
 .rt-wrap:focus-within .rt-toolbar{opacity:1;pointer-events:all;}
-.rt-toolbar button,.rt-toolbar select{background:none;border:1px solid transparent;color:var(--mid);font-family:'Share Tech Mono',monospace;font-size:10px;padding:2px 6px;cursor:pointer;transition:all .12s;height:22px;line-height:1;}
+.rt-toolbar button,.rt-toolbar select{background:none;border:1px solid transparent;color:var(--mid);font-family:'Share Tech Mono',monospace;font-size:12px;padding:2px 6px;cursor:pointer;transition:all .12s;height:22px;line-height:1;}
 .rt-toolbar button:hover{border-color:var(--border2);color:var(--text);background:var(--panel3);}
 .rt-toolbar button.rt-active{border-color:var(--green);color:var(--green2);background:rgba(0,184,106,.1);}
-.rt-toolbar select{padding:1px 4px;font-size:10px;height:22px;color:var(--mid);}
+.rt-toolbar select{padding:1px 4px;font-size:12px;height:22px;color:var(--mid);}
 .rt-toolbar select:focus{border-color:var(--green);}
 .rt-sep{width:1px;height:16px;background:var(--border);margin:0 3px;flex-shrink:0;}
 .rt-colorpop{position:absolute;top:calc(100% + 4px);left:0;z-index:500;background:var(--panel2);border:1px solid var(--border2);padding:8px;display:none;flex-wrap:wrap;gap:4px;width:200px;box-shadow:0 4px 16px rgba(0,0,0,.6);}
@@ -201,9 +201,9 @@ input[type="color"]:focus{border-color:var(--green);}
   .nav-logo{font-size:17px;margin-right:12px;}
   .nav-tabs{flex:1 1 100%;order:3;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-top:1px solid var(--border);}
   .nav-tabs::-webkit-scrollbar{display:none;}
-  .ntab{height:42px;padding:0 13px;font-size:10px;flex-shrink:0;}
+  .ntab{height:42px;padding:0 13px;font-size:12px;flex-shrink:0;}
   .nav-right{gap:6px;margin-left:auto;}
-  .nav-right .btn-ghost, .nav-right .btn-primary{padding:7px 12px;font-size:10px;}
+  .nav-right .btn-ghost, .nav-right .btn-primary{padding:7px 12px;font-size:12px;}
 
   .app{flex-direction:column;min-height:auto;}
 
@@ -459,27 +459,27 @@ input[type="color"]:focus{border-color:var(--green);}
         <div class="card-head">
           <div class="card-title">// LIVE PREVIEW</div>
           <div style="display:flex;gap:8px;">
-            <button class="btn-ghost" style="font-size:10px;padding:4px 10px;" onclick="document.getElementById('spPrevBoot').style.display='flex';document.getElementById('spPrevIntro').style.display='none';">BOOT</button>
-            <button class="btn-ghost" style="font-size:10px;padding:4px 10px;" onclick="document.getElementById('spPrevBoot').style.display='none';document.getElementById('spPrevIntro').style.display='flex';">INTRO</button>
+            <button class="btn-ghost" style="font-size:12px;padding:4px 10px;" onclick="document.getElementById('spPrevBoot').style.display='flex';document.getElementById('spPrevIntro').style.display='none';">BOOT</button>
+            <button class="btn-ghost" style="font-size:12px;padding:4px 10px;" onclick="document.getElementById('spPrevBoot').style.display='none';document.getElementById('spPrevIntro').style.display='flex';">INTRO</button>
           </div>
         </div>
         <div class="card-body" style="padding:0;overflow:hidden;">
           <div id="startPreviewWrap" style="background:#030803;min-height:500px;font-family:'Share Tech Mono',monospace;position:relative;">
             <!-- BOOT preview -->
             <div id="spPrevBoot" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px;padding:28px 20px;text-align:center;">
-              <div id="spBootLines" style="font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px;margin-bottom:20px;width:100%;max-width:360px;text-align:left;"></div>
+              <div id="spBootLines" style="font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:2px;margin-bottom:20px;width:100%;max-width:360px;text-align:left;"></div>
               <div style="width:60%;height:1px;background:#1a2a1a;margin:16px auto;"></div>
-              <div id="spBriefBlock" style="border:1px solid #1e2e1e;background:#050805;padding:14px 16px;margin-bottom:18px;font-size:11px;color:#888;line-height:1.9;max-width:360px;text-align:left;"></div>
+              <div id="spBriefBlock" style="border:1px solid #1e2e1e;background:#050805;padding:14px 16px;margin-bottom:18px;font-size:13px;color:#888;line-height:1.9;max-width:360px;text-align:left;"></div>
               <div id="spStampWrap" style="margin-bottom:14px;"></div>
-              <button id="spBootBtn" style="background:transparent;border:1px solid #00ff41;color:#00ff41;padding:12px 36px;font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:4px;cursor:pointer;">▶ &nbsp; INITIALISEER</button>
+              <button id="spBootBtn" style="background:transparent;border:1px solid #00ff41;color:#00ff41;padding:12px 36px;font-family:'Share Tech Mono',monospace;font-size:14px;letter-spacing:4px;cursor:pointer;">▶ &nbsp; INITIALISEER</button>
             </div>
             <!-- INTRO preview -->
             <div id="spPrevIntro" style="display:none;flex-direction:column;align-items:center;justify-content:center;min-height:500px;padding:28px 20px;text-align:center;">
               <div id="spIStampWrap" style="margin-bottom:12px;"></div>
               <div id="spIBig" style="font-size:clamp(28px,5vw,54px);line-height:1.05;letter-spacing:2px;margin-bottom:10px;"></div>
-              <div id="spIName" style="font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:4px;color:#888;margin-bottom:18px;"></div>
-              <div id="spIDesc" style="max-width:360px;font-family:'Share Tech Mono',monospace;font-size:12px;color:#666;line-height:1.8;margin-bottom:20px;white-space:pre-line;"></div>
-              <button id="spIBtn" style="background:#00ff41;color:#000;border:none;padding:12px 36px;font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:4px;cursor:pointer;">▶ START DE QUIZ</button>
+              <div id="spIName" style="font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:4px;color:#888;margin-bottom:18px;"></div>
+              <div id="spIDesc" style="max-width:360px;font-family:'Share Tech Mono',monospace;font-size:13px;color:#666;line-height:1.8;margin-bottom:20px;white-space:pre-line;"></div>
+              <button id="spIBtn" style="background:#00ff41;color:#000;border:none;padding:12px 36px;font-family:'Share Tech Mono',monospace;font-size:14px;letter-spacing:4px;cursor:pointer;">▶ START DE QUIZ</button>
             </div>
           </div>
         </div>
@@ -573,7 +573,7 @@ input[type="color"]:focus{border-color:var(--green);}
         <button class="btn-ghost" style="border-color:var(--a2);color:var(--a2)" onclick="fillFromQBank()">📚 VUL MET VRAGENBANK</button>
         <button class="btn-ghost" style="border-color:var(--green);color:var(--green2)" onclick="openAIHelp()">✨ AI HULP — GENEREER VRAGEN</button>
       </div>
-      <div class="hint" style="margin:-4px 0 12px;">De vragenbank vult automatisch een simpele vraag per letter in (bijv. "welk fruit begint met een A?" → antwoord Appel), gebaseerd op de letters van je geheime zin/woord.</div>
+      <div class="hint" style="margin:-4px 0 12px;">Nieuwe letters worden automatisch gevuld met een simpele vraag uit de vragenbank (bijv. "welk fruit begint met een A?" → antwoord Appel). Eigen aanpassingen worden nooit overschreven. Gebruik de knop hierboven om alles opnieuw willekeurig te vullen.</div>
       <div class="qe-header">
         <div></div><div>#</div><div>VRAAG</div><div>HINT</div><div>ANTWOORD</div><div style="text-align:center">LTR</div><div></div>
       </div>
@@ -636,8 +636,8 @@ input[type="color"]:focus{border-color:var(--green);}
       <!-- Shared controls: category + difficulty (used by both tabs) -->
       <div class="grid-resp grid-resp-3" style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border);">
         <div>
-          <label style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:4px;">SELECTEER DE CATEGORIE</label>
-          <select id="ai_theme_sel" onchange="syncAITheme();autoRefreshPrompt()" style="width:100%;background:#fafcfa;border:1px solid #c8d2c8;color:#1a221a;padding:7px 9px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;border-radius:4px;">
+          <label style="font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:4px;">SELECTEER DE CATEGORIE</label>
+          <select id="ai_theme_sel" onchange="syncAITheme();autoRefreshPrompt()" style="width:100%;background:#fafcfa;border:1px solid #c8d2c8;color:#1a221a;padding:7px 9px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;border-radius:4px;">
             <option value="">Alles (Random)</option>
             <option value="Voetbal en Sport">Voetbal en Sport</option>
             <option value="Algemene Kennis">Algemene Kennis</option>
@@ -649,14 +649,14 @@ input[type="color"]:focus{border-color:var(--green);}
           </select>
         </div>
         <div>
-          <label style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:4px;">EIGEN THEMA</label>
+          <label style="font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:4px;">EIGEN THEMA</label>
           <input type="text" id="ai_theme" placeholder="bijv: 80s muziek, F1..."
             oninput="autoRefreshPrompt()"
-            style="width:100%;background:#fafcfa;border:1px solid #c8d2c8;color:#1a221a;padding:7px 9px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;border-radius:4px;">
+            style="width:100%;background:#fafcfa;border:1px solid #c8d2c8;color:#1a221a;padding:7px 9px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;border-radius:4px;">
         </div>
         <div>
-          <label style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:4px;">MOEILIJKHEIDSGRAAD</label>
-          <select id="ai_diff" onchange="autoRefreshPrompt()" style="width:100%;background:#fafcfa;border:1px solid #c8d2c8;color:#1a221a;padding:7px 9px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;border-radius:4px;">
+          <label style="font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:4px;">MOEILIJKHEIDSGRAAD</label>
+          <select id="ai_diff" onchange="autoRefreshPrompt()" style="width:100%;background:#fafcfa;border:1px solid #c8d2c8;color:#1a221a;padding:7px 9px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;border-radius:4px;">
             <option value="easy">Easy (Toegankelijk)</option>
             <option value="medium" selected>Medium (Uitdagend)</option>
             <option value="expert">Expert (Extreem Moeilijk)</option>
@@ -672,11 +672,11 @@ input[type="color"]:focus{border-color:var(--green);}
 
       <!-- Panel: Copy prompt -->
       <div id="aipanel-prompt">
-        <p style="font-size:12px;color:var(--cream);line-height:1.7;margin-bottom:10px;">
+        <p style="font-size:13px;color:var(--cream);line-height:1.7;margin-bottom:10px;">
           Kopieer de prompt en plak in <strong style="color:var(--amber2)">ChatGPT, Gemini of Claude</strong>.
           Kopieer het resultaat en gebruik <strong style="color:var(--green2)">Bulk Import</strong> om in te laden.
         </p>
-        <textarea id="aiPromptText" style="min-height:220px;width:100%;color:#1a221a;background:#fafcfa;border:1px solid #c8d2c8;font-size:12px;line-height:1.6;border-radius:4px;padding:10px;" readonly></textarea>
+        <textarea id="aiPromptText" style="min-height:220px;width:100%;color:#1a221a;background:#fafcfa;border:1px solid #c8d2c8;font-size:13px;line-height:1.6;border-radius:4px;padding:10px;" readonly></textarea>
         <div style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end;">
           <button class="btn-ghost" onclick="closeAIHelp()">SLUITEN</button>
           <button class="btn-ghost" style="border-color:var(--amber);color:var(--amber2);" onclick="buildAIPrompt(document.getElementById('p_phrase').value.trim().toUpperCase());toast('Prompt vernieuwd ✓')">↻ VERNIEUWEN</button>
@@ -688,14 +688,14 @@ input[type="color"]:focus{border-color:var(--green);}
       <div id="aipanel-api" style="display:none;">
         <div class="grid-resp grid-resp-2" style="margin-bottom:12px;">
           <div>
-            <label style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:5px;">OPENAI API KEY</label>
+            <label style="font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:5px;">OPENAI API KEY</label>
             <input type="password" id="ai_apikey" placeholder="sk-... (of uit .env bestand)"
-              style="width:100%;background:#fafcfa;border:1px solid #c8d2c8;color:#1a221a;padding:8px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;border-radius:4px;">
-            <div style="font-size:11px;color:var(--dim);margin-top:4px;">Key wordt alleen lokaal gebruikt, nooit opgeslagen of verzonden naar derden.</div>
+              style="width:100%;background:#fafcfa;border:1px solid #c8d2c8;color:#1a221a;padding:8px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;border-radius:4px;">
+            <div style="font-size:13px;color:var(--dim);margin-top:4px;">Key wordt alleen lokaal gebruikt, nooit opgeslagen of verzonden naar derden.</div>
           </div>
           <div>
-            <label style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:5px;">MODEL</label>
-            <select id="ai_model" style="width:100%;background:#fafcfa;border:1px solid #c8d2c8;color:#1a221a;padding:8px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;border-radius:4px;">
+            <label style="font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:5px;">MODEL</label>
+            <select id="ai_model" style="width:100%;background:#fafcfa;border:1px solid #c8d2c8;color:#1a221a;padding:8px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;border-radius:4px;">
               <option value="gpt-4o">GPT-4o (aanbevolen)</option>
               <option value="gpt-4o-mini">GPT-4o mini (snel)</option>
               <option value="gpt-4-turbo">GPT-4 Turbo</option>
@@ -703,10 +703,10 @@ input[type="color"]:focus{border-color:var(--green);}
             </select>
           </div>
         </div>
-        <div id="ai_status" style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);min-height:20px;margin-bottom:10px;"></div>
+        <div id="ai_status" style="font-family:'Share Tech Mono',monospace;font-size:13px;color:var(--dim);min-height:20px;margin-bottom:10px;"></div>
         <div id="ai_result_wrap" style="display:none;">
-          <label style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:5px;">GEGENEREERDE VRAGEN</label>
-          <textarea id="ai_result" style="min-height:180px;width:100%;color:#1a221a;background:#fafcfa;border:1px solid #c8d2c8;font-size:12px;line-height:1.6;border-radius:4px;padding:10px;"></textarea>
+          <label style="font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:5px;">GEGENEREERDE VRAGEN</label>
+          <textarea id="ai_result" style="min-height:180px;width:100%;color:#1a221a;background:#fafcfa;border:1px solid #c8d2c8;font-size:13px;line-height:1.6;border-radius:4px;padding:10px;"></textarea>
         </div>
         <div style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end;flex-wrap:wrap;">
           <button class="btn-ghost" onclick="closeAIHelp()">SLUITEN</button>
@@ -736,7 +736,7 @@ input[type="color"]:focus{border-color:var(--green);}
           </select>
         </div>
       </div>
-      <p style="font-size:12px;color:var(--cream);line-height:1.7;margin-bottom:12px;">
+      <p style="font-size:13px;color:var(--cream);line-height:1.7;margin-bottom:12px;">
         Formaat: <code style="color:var(--green2)">LETTER | Vraag | Hint | Antwoord</code> — één per regel. (3 kolommen ook OK)
       </p>
       <textarea id="importTxt" style="min-height:200px;width:100%" placeholder="H | Welke Noorse spits speelt bij Man City? Pak de eerste letter. | Zoon van Alf-Inge. | Haaland&#10;E | Welke Franse spits won in 2022 de Ballon d\'Or? Pak de 2e letter. | Speelde bij Real Madrid. | Benzema"></textarea>
@@ -857,11 +857,15 @@ function lettersFromPhrase(phrase) {
   return phrase.trim().toUpperCase().replace(/\s/g,'').split('');
 }
 
+let lastPhraseKey = '';
 function onPhraseCommit() {
   const phrase = document.getElementById('p_phrase').value;
   const words = wordsFromPhrase(phrase);
   const letters = lettersFromPhrase(phrase);
   const nL = letters.length, nW = words.length;
+  const phraseKey = letters.join('');
+  const phraseChanged = phraseKey !== lastPhraseKey;
+  lastPhraseKey = phraseKey;
 
   // Update stats
   const statsEl = document.getElementById('phraseStats');
@@ -898,7 +902,7 @@ function onPhraseCommit() {
   });
 
   // FIX #11: Only sync questions on commit, not on every keystroke
-  syncQuestionsToPhrase(letters, false);
+  syncQuestionsToPhrase(letters, false, phraseChanged);
   document.getElementById('qBadge').textContent = questions.length + ' VRAGEN';
 }
 
@@ -1083,36 +1087,62 @@ const QBANK = {
   ],
 };
 
-let qbankCursor = {};
 function fillFromQBank() {
   const letters = lettersFromPhrase(document.getElementById('p_phrase').value);
   if (!letters.length) { toast('Vul eerst de geheime zin of het woord in!', true); return; }
   if (questions.some(q => q.q && q.q.trim()) && !confirm('Dit vervangt de huidige vraagteksten door vragen uit de vragenbank. Doorgaan?')) return;
-  qbankCursor = {};
+  const usedTracker = {};
   questions = letters.map(l => {
-    const bank = QBANK[l];
-    if (!bank || !bank.length) return { letter: l, q: '', intel: '', answer: '', id: Date.now()+Math.random() };
-    const idx = (qbankCursor[l] || 0) % bank.length;
-    qbankCursor[l] = idx + 1;
-    const item = bank[idx];
-    return { letter: l, q: item.q, intel: item.h, answer: item.a, id: Date.now()+Math.random() };
+    const item = pickFromQBank(l, usedTracker);
+    return item
+      ? { letter: l, q: item.q, intel: item.h, answer: item.a, auto: true, id: Date.now()+Math.random() }
+      : { letter: l, q: '', intel: '', answer: '', auto: true, id: Date.now()+Math.random() };
   });
   renderQList();
   toast('Vragenbank toegepast — ' + questions.length + ' vragen ingevuld');
 }
 
-function syncQuestionsToPhrase(letters, forceOverwrite) {
+// Kiest een willekeurige, nog niet gebruikte QBANK-vraag voor deze letter binnen
+// deze vulronde (usedTracker). Voorkomt duplicaten bij herhaalde letters.
+function pickFromQBank(letter, usedTracker) {
+  const bank = QBANK[letter];
+  if (!bank || !bank.length) return null;
+  usedTracker[letter] = usedTracker[letter] || new Set();
+  let avail = bank.map((_, idx) => idx).filter(idx => !usedTracker[letter].has(idx));
+  if (avail.length === 0) { usedTracker[letter].clear(); avail = bank.map((_, idx) => idx); }
+  const pick = avail[Math.floor(Math.random() * avail.length)];
+  usedTracker[letter].add(pick);
+  return bank[pick];
+}
+
+function syncQuestionsToPhrase(letters, forceOverwrite, phraseChanged) {
+  const usedTracker = {};
   if (forceOverwrite) {
     // Full reset — used only by loadDemo
     questions = letters.map(l => ({ letter: l, q: '', intel: '', id: Date.now()+Math.random() }));
   } else {
-    // Grow or shrink, preserving existing question text
+    // Groeien: nieuwe rijen direct vullen vanuit de vragenbank
     while (questions.length < letters.length) {
-      questions.push({ letter: letters[questions.length], q: '', intel: '', id: Date.now()+Math.random() });
+      const l = letters[questions.length];
+      const item = pickFromQBank(l, usedTracker);
+      questions.push(item
+        ? { letter: l, q: item.q, intel: item.h, answer: item.a, auto: true, id: Date.now()+Math.random() }
+        : { letter: l, q: '', intel: '', answer: '', auto: true, id: Date.now()+Math.random() });
     }
     if (questions.length > letters.length) questions = questions.slice(0, letters.length);
-    // Only update letters — preserve q and intel
-    questions.forEach((q, i) => q.letter = letters[i]);
+    // Bij een echte wijziging van de zin/het woord: alle niet-handmatig-bewerkte
+    // rijen krijgen een verse vragenbank-vraag (ook als hun letter toevallig
+    // gelijk bleef). Handmatig bewerkte rijen (auto===false) blijven altijd staan.
+    questions.forEach((q, i) => {
+      const newLetter = letters[i];
+      const letterMismatch = q.letter !== newLetter;
+      if (q.auto !== false && (letterMismatch || phraseChanged)) {
+        const item = pickFromQBank(newLetter, usedTracker);
+        if (item) { q.q = item.q; q.intel = item.h; q.answer = item.a; q.auto = true; }
+        else { q.q = ''; q.intel = ''; q.answer = ''; q.auto = true; }
+      }
+      q.letter = newLetter;
+    });
   }
   renderQList();
 }
@@ -1133,13 +1163,13 @@ row.innerHTML = `
       <div class="q-drag-handle" title="Sleep om te herordenen"><span></span><span></span><span></span></div>
       <div class="q-num">${i+1}</div>
       <textarea placeholder="Typ hier de vraag..." 
-        oninput="questions[${i}].q=this.value" 
+        oninput="questions[${i}].q=this.value;questions[${i}].auto=false" 
         style="width:100%;min-height:90px;resize:vertical;">${esc(q.q)}</textarea>
       <textarea placeholder="Hint (zichtbaar na klik)..." 
-        oninput="questions[${i}].intel=this.value" 
+        oninput="questions[${i}].intel=this.value;questions[${i}].auto=false" 
         style="width:100%;min-height:90px;resize:vertical;">${esc(q.intel)}</textarea>
       <textarea placeholder="Antwoord (naam/woord)..." 
-        oninput="questions[${i}].answer=this.value" 
+        oninput="questions[${i}].answer=this.value;questions[${i}].auto=false" 
         style="width:100%;min-height:90px;resize:vertical;color:var(--amber2);">${esc(q.answer||'')}</textarea>
       <div class="q-letter-box">${q.letter}</div>
       <button class="btn-del" onclick="delQ(${i})" title="Verwijder">×</button>`;
@@ -1236,7 +1266,7 @@ function updateWCT() {
       <div style="flex:1"></div>
       <div class="color-chip">
         <input type="color" id="wcc_${i}" value="${col}" oninput="onWCCChange(${i},this.value)">
-        <span style="font-size:9px;letter-spacing:1px;color:var(--dim);font-family:'Share Tech Mono',monospace;">kleur</span>
+        <span style="font-size:12px;letter-spacing:1px;color:var(--dim);font-family:'Share Tech Mono',monospace;">kleur</span>
       </div>`;
     wct.appendChild(row);
   });
@@ -1492,14 +1522,14 @@ function refreshStartPreview() {
     `<span style="color:#4a6a4a;display:block;margin-bottom:4px;">${r2}</span>` +
     `<span style="font-family:${ft};font-size:22px;color:#${a1};display:block;margin:8px 0 4px;letter-spacing:4px;">${logo}</span>` +
 	`<span style="color:#${a1};display:block;margin-top:4px;letter-spacing:2px;">${totalLetters} VRAGEN GELADEN</span>` +
-    `<span style="font-size:10px;color:#${red};display:block;margin-bottom:4px;letter-spacing:3px;">GEHEIME OPDRACHT</span>` +
+    `<span style="font-size:12px;color:#${red};display:block;margin-bottom:4px;letter-spacing:3px;">GEHEIME OPDRACHT</span>` +
     `<span style="color:#${red};display:block;margin-top:6px;letter-spacing:3px;">${r3}</span>` +
     `<span style="color:#${a1};display:block;margin-top:4px;letter-spacing:2px;">${totalLetters} VRAGEN GELADEN</span>`;
 
   // Brief block
   const bb = document.getElementById('spBriefBlock');
   if (bb) {
-    bb.innerHTML = '<span style="color:#'+a1+';font-size:9px;letter-spacing:3px;display:block;margin-bottom:6px;">// BRIEFING //</span>'
+    bb.innerHTML = '<span style="color:#'+a1+';font-size:12px;letter-spacing:3px;display:block;margin-bottom:6px;">// BRIEFING //</span>'
       + brief.replace(/\n/g,'<br>').replace(/FOUT ANTWOORD/g,'<span style="color:#'+red+'">FOUT ANTWOORD</span>');
   }
 
@@ -1530,10 +1560,10 @@ function refreshStartPreview() {
   const isw = document.getElementById('spIStampWrap');
   if (isw) {
     if (!istamp || istampStyle === 'none') { isw.innerHTML = ''; }
-    else if (istampStyle === 'outline') isw.innerHTML = `<div style="border:1px solid #${red};color:#${red};font-size:10px;letter-spacing:4px;padding:3px 12px;display:inline-block;margin-bottom:4px;">${istamp}</div>`;
-    else if (istampStyle === 'filled') isw.innerHTML = `<div style="background:#${red};color:#fff;font-size:10px;letter-spacing:4px;padding:3px 12px;display:inline-block;margin-bottom:4px;">${istamp}</div>`;
-    else if (istampStyle === 'diagonal') isw.innerHTML = `<div style="border:1px solid #${red};color:#${red};font-size:10px;letter-spacing:4px;padding:3px 12px;display:inline-block;margin-bottom:4px;transform:rotate(-3deg);">${istamp}</div>`;
-    else isw.innerHTML = `<div style="color:#${red};font-size:10px;letter-spacing:4px;margin-bottom:4px;">${istamp}</div>`;
+    else if (istampStyle === 'outline') isw.innerHTML = `<div style="border:1px solid #${red};color:#${red};font-size:12px;letter-spacing:4px;padding:3px 12px;display:inline-block;margin-bottom:4px;">${istamp}</div>`;
+    else if (istampStyle === 'filled') isw.innerHTML = `<div style="background:#${red};color:#fff;font-size:12px;letter-spacing:4px;padding:3px 12px;display:inline-block;margin-bottom:4px;">${istamp}</div>`;
+    else if (istampStyle === 'diagonal') isw.innerHTML = `<div style="border:1px solid #${red};color:#${red};font-size:12px;letter-spacing:4px;padding:3px 12px;display:inline-block;margin-bottom:4px;transform:rotate(-3deg);">${istamp}</div>`;
+    else isw.innerHTML = `<div style="color:#${red};font-size:12px;letter-spacing:4px;margin-bottom:4px;">${istamp}</div>`;
   }
 
   const ibig = document.getElementById('spIBig');
@@ -1590,12 +1620,12 @@ function refreshPreview() {
   const html = `
     <div style="min-height:600px;background:${g.bg};display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;text-align:center;font-family:'Bebas Neue',sans-serif;position:relative;overflow:hidden;">
       <div style="font-size:48px;margin-bottom:14px;animation:pls 1.2s ease infinite alternate;">${g.eemoji}</div>
-      <div style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:5px;color:${g.a2};margin-bottom:18px;">${g.etag}</div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:5px;color:${g.a2};margin-bottom:18px;">${g.etag}</div>
       <div style="border:3px solid ${g.red};color:${g.red};font-family:${g.ft};font-size:clamp(16px,3.5vw,28px);letter-spacing:5px;padding:10px 28px;margin-bottom:20px;display:inline-block;transform:rotate(-2deg);">${g.estamp}</div>
       <div style="font-family:${g.ft};font-size:clamp(22px,4vw,52px);line-height:1.1;letter-spacing:2px;margin-bottom:22px;max-width:900px;">${phraseHTML}</div>
       <div style="width:48px;height:1px;background:#1e2e1e;margin:0 auto 18px;"></div>
-      <div style="max-width:480px;font-family:'Share Tech Mono',monospace;font-size:13px;line-height:2;color:#888;margin-bottom:10px;white-space:pre-line;">${g.ebody.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
-      <div style="color:#2a3a2a;font-size:12px;font-family:'Share Tech Mono',monospace;letter-spacing:1px;margin-top:10px;">${g.esig}</div>
+      <div style="max-width:480px;font-family:'Share Tech Mono',monospace;font-size:14px;line-height:2;color:#888;margin-bottom:10px;white-space:pre-line;">${g.ebody.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+      <div style="color:#2a3a2a;font-size:13px;font-family:'Share Tech Mono',monospace;letter-spacing:1px;margin-top:10px;">${g.esig}</div>
       <div style="border:2px solid ${g.a1};color:${g.a1};font-family:${g.ft};font-size:20px;letter-spacing:6px;padding:8px 22px;display:inline-block;margin-top:14px;transform:rotate(-3deg);">${g.efstamp}</div>
       <style>@keyframes pls{from{transform:scale(1)}to{transform:scale(1.08)}}</style>
     </div>`;
@@ -1701,7 +1731,7 @@ function loadDemo() {
 
   // Commit phrase first (sets letter slots), then inject demo questions in correct order
   onPhraseCommit();
-  questions = DEMO_Q.map((q,i)=>({...q,id:Date.now()+i}));
+  questions = DEMO_Q.map((q,i)=>({...q,auto:true,id:Date.now()+i}));
   renderQList();
   toast('Demo geladen ✓');
 }
