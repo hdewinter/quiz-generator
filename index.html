@@ -7,14 +7,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@500;700&family=Baloo+2:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  /* 60/30/10 palet — zwart (dominant) / grijs (secundair) / blauw + oranje (accent, 10%)
-     Var-namen (--green*) zijn historisch, staan nu voor het BLAUWE accent. */
-  --bg:#0a0a0b; --panel:#141416; --panel2:#1a1a1d; --panel3:#212124;
-  --border:#2e2e32; --border2:#42424a; --dim:#68686f; --mid:#8f8f97;
-  --text:#e9e9ec; --cream:#d6d6da; --faint:#9a9aa2;
-  --green:#2f6fed; --green2:#4c8dff; --green3:#7dabff;
-  --amber:#c2600a; --amber2:#ff8a1e; --red:#cc2200; --red2:#ff4422;
-  --blue:#2f6fed; --blue2:#4c8dff;
+  /* Stijl geïnspireerd op buut.com: donkere indigo/paarse achtergrond,
+     oranje als dominant accent, witte invoervelden/kaarten.
+     Var-namen (--green*) zijn historisch, staan nu voor het ORANJE accent. */
+  --bg:#120f24; --panel:#1a1633; --panel2:#211c3f; --panel3:#292350;
+  --border:#3a3260; --border2:#4d4380; --dim:#726a99; --mid:#9d95c0;
+  --text:#f0eef8; --cream:#dcd8ee; --faint:#a89fc9;
+  --green:#ff8a1e; --green2:#ffa64d; --green3:#ffc180;
+  --amber:#e0630a; --amber2:#ff7a1a; --red:#cc2200; --red2:#ff4422;
+  --blue:#4c6fed; --blue2:#7d9aff;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;color-scheme:light;}
@@ -62,7 +63,7 @@ body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-ser
 .card-body{padding:18px;}
 
 .badge{padding:2px 8px;font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px;border:1px solid;}
-.badge-green{border-color:var(--green);color:var(--green2);background:rgba(0,184,106,.08);}
+.badge-green{border-color:var(--green);color:var(--green2);background:rgba(255,138,30,.08);}
 .badge-amber{border-color:var(--amber);color:var(--amber2);background:rgba(204,136,0,.08);}
 .badge-red{border-color:var(--red);color:var(--red2);background:rgba(204,34,0,.08);}
 .badge-blue{border-color:var(--blue);color:var(--blue2);background:rgba(34,102,170,.08);}
@@ -76,9 +77,9 @@ label{font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:3px;
 .hint strong{color:var(--cream);}
 
 input[type="text"],input[type="number"],textarea,select{background:#fafcfa;border:1px solid #c8d2c8;color:#1a221a;padding:9px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;outline:none;transition:border-color .18s,box-shadow .18s;width:100%;border-radius:4px;}
-input[type="text"]:focus,input[type="number"]:focus,textarea:focus,select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,184,106,.15);}
+input[type="text"]:focus,input[type="number"]:focus,textarea:focus,select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(255,138,30,.15);}
 input[type="text"]::placeholder,textarea::placeholder{color:#8a968a;}
-input:focus,textarea:focus,select:focus{border-color:var(--green);box-shadow:0 0 0 2px rgba(0,184,106,.12);}
+input:focus,textarea:focus,select:focus{border-color:var(--green);box-shadow:0 0 0 2px rgba(255,138,30,.12);}
 textarea{resize:vertical;min-height:80px;line-height:1.6;}
 select{cursor:pointer;}
 select option{background:var(--panel2);}
@@ -91,7 +92,7 @@ input[type="color"]:focus{border-color:var(--green);}
 .phrase-input-row{display:flex;gap:10px;align-items:flex-end;}
 .phrase-input-row input{flex:1;font-size:16px!important;letter-spacing:2px;padding:12px 14px!important;border-color:var(--green)!important;color:#161618!important;font-weight:600;}
 .phrase-stats{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:4px;}
-.stat-pill{background:rgba(0,184,106,.1);border:1px solid var(--green);padding:3px 10px;font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--green2);letter-spacing:2px;}
+.stat-pill{background:rgba(255,138,30,.1);border:1px solid var(--green);padding:3px 10px;font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--green2);letter-spacing:2px;}
 .stat-warn{background:rgba(204,136,0,.1);border:1px solid var(--amber);padding:3px 10px;font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--amber2);letter-spacing:2px;}
 .phrase-words{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
 .phrase-word-chip{display:flex;align-items:center;gap:6px;background:var(--panel3);border:1px solid var(--border2);padding:4px 10px 4px 8px;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;color:var(--text);}
@@ -130,7 +131,7 @@ input[type="color"]:focus{border-color:var(--green);}
 .q-num{font-family:'Bebas Neue',sans-serif;font-size:17px;color:var(--dim);text-align:center;padding-top:6px;}
 .q-letter-box{width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:22px;border:1px solid var(--border2);color:var(--green3);background:rgba(0,255,65,.06);flex-shrink:0;margin-top:2px;}
 .q-row input,.q-row textarea{background:#fafcfa;border:1px solid #c8d2c8;color:#1a221a;padding:8px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.5;outline:none;width:100%;border-radius:4px;transition:border-color .15s,box-shadow .15s;}
-.q-row input:focus,.q-row textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,184,106,.15);}
+.q-row input:focus,.q-row textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(255,138,30,.15);}
 .q-row textarea::placeholder{color:#8a968a;}
 .q-row input{height:32px;}
 .q-row input:focus,.q-row textarea:focus{border-color:var(--green);}
@@ -181,7 +182,7 @@ input[type="color"]:focus{border-color:var(--green);}
 .rt-wrap:focus-within .rt-toolbar{opacity:1;pointer-events:all;}
 .rt-toolbar button,.rt-toolbar select{background:none;border:1px solid transparent;color:var(--mid);font-family:'Share Tech Mono',monospace;font-size:12px;padding:2px 6px;cursor:pointer;transition:all .12s;height:22px;line-height:1;}
 .rt-toolbar button:hover{border-color:var(--border2);color:var(--text);background:var(--panel3);}
-.rt-toolbar button.rt-active{border-color:var(--green);color:var(--green2);background:rgba(0,184,106,.1);}
+.rt-toolbar button.rt-active{border-color:var(--green);color:var(--green2);background:rgba(255,138,30,.1);}
 .rt-toolbar select{padding:1px 4px;font-size:12px;height:22px;color:var(--mid);}
 .rt-toolbar select:focus{border-color:var(--green);}
 .rt-sep{width:1px;height:16px;background:var(--border);margin:0 3px;flex-shrink:0;}
