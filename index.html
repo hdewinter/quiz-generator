@@ -2520,11 +2520,12 @@ function chkA(){
   if(val===q.letter){
     ans=true;inp.classList.add('ok');inp.disabled=true;document.getElementById('bok').disabled=true;
     addStrip(q.letter);
-    const parts=q.intel.split('\u2192');
+    const hasAnswer = q.answer && q.answer.trim();
+    const mainText = hasAnswer ? q.answer.trim() : (q.intel||'').split('\u2192')[0].trim();
     const fb=document.getElementById('fb');
     const tag=document.createElement('span');tag.className='fbtag';tag.textContent='// CORRECT //';fb.appendChild(tag);
-    const ans1=document.createElement('span');ans1.innerHTML='Antwoord: <strong style="color:var(--txt)">'+parts[0].trim()+'</strong>';fb.appendChild(ans1);
-    if(parts.length>1){const ans2=document.createElement('span');ans2.style.cssText='font-size:11px;color:#888;display:block;';ans2.textContent='\u2192 '+parts.slice(1).join('\u2192').trim();fb.appendChild(ans2);}
+    const ans1=document.createElement('span');ans1.innerHTML='Antwoord: <strong style="color:var(--txt)">'+mainText+'</strong>';fb.appendChild(ans1);
+    if(!hasAnswer){const parts=(q.intel||'').split('\u2192');if(parts.length>1){const ans2=document.createElement('span');ans2.style.cssText='font-size:11px;color:#888;display:block;';ans2.textContent='\u2192 '+parts.slice(1).join('\u2192').trim();fb.appendChild(ans2);}}
     const lbl=document.createElement('br');fb.appendChild(lbl);
     const badge=document.createElement('span');badge.className='fbl';badge.textContent=q.letter;fb.appendChild(badge);
     fb.classList.add('on');document.getElementById('bnxt').classList.add('on');
