@@ -223,6 +223,11 @@ input[type="color"]:focus{border-color:var(--green);}
   /* Vragen-editor: tabel wordt gestapelde kaartjes i.p.v. smalle kolommen */
   .qe-header{display:none;}
   .q-row{grid-template-columns:1fr;gap:6px;padding:12px 10px;}
+
+  /* Modal-knoppenrijen (AI-hulp, bulk import): verticaal stapelen zodat
+     geen enkele knop buiten beeld valt op een telefoon */
+  .modal-btn-row{flex-direction:column-reverse;align-items:stretch;}
+  .modal-btn-row button{width:100%;padding:12px;}
 }
 
 @media(max-width:420px){
@@ -678,7 +683,7 @@ input[type="color"]:focus{border-color:var(--green);}
           Kopieer het resultaat en gebruik <strong style="color:var(--green2)">Bulk Import</strong> om in te laden.
         </p>
         <textarea id="aiPromptText" style="min-height:220px;width:100%;color:#1a221a;background:#fafcfa;border:1px solid #c8d2c8;font-size:13px;line-height:1.6;border-radius:4px;padding:10px;" readonly></textarea>
-        <div style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end;">
+        <div class="modal-btn-row" style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end;">
           <button class="btn-ghost" onclick="closeAIHelp()">SLUITEN</button>
           <button class="btn-ghost" style="border-color:var(--green);color:var(--green2);" onclick="closeAIHelp();openImport()">↑ BULK IMPORT</button>
           <button class="btn-ghost" style="border-color:var(--amber);color:var(--amber2);" onclick="buildAIPrompt(document.getElementById('p_phrase').value.trim().toUpperCase());toast('Prompt vernieuwd ✓')">↻ VERNIEUWEN</button>
@@ -710,7 +715,7 @@ input[type="color"]:focus{border-color:var(--green);}
           <label style="font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:3px;color:var(--mid);display:block;margin-bottom:5px;">GEGENEREERDE VRAGEN</label>
           <textarea id="ai_result" style="min-height:180px;width:100%;color:#1a221a;background:#fafcfa;border:1px solid #c8d2c8;font-size:13px;line-height:1.6;border-radius:4px;padding:10px;"></textarea>
         </div>
-        <div style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end;flex-wrap:wrap;">
+        <div class="modal-btn-row" style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end;flex-wrap:wrap;">
           <button class="btn-ghost" onclick="closeAIHelp()">SLUITEN</button>
           <button class="btn-ghost" id="ai_import_btn" style="display:none;border-color:var(--green);color:var(--green2);" onclick="aiImportResult()">↓ IMPORTEER VRAGEN</button>
           <button class="btn-primary" style="background:var(--green);color:#000;min-width:160px;" onclick="callOpenAI()" id="ai_gen_btn">⚡ GENEREER VRAGEN</button>
